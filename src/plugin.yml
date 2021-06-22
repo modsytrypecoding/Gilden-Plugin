@@ -1,0 +1,8 @@
+name: Gilden-Plugin
+main: de.Initium.Gilden.Main.Main
+version: 0.1-SNAP
+api-version: 1.13
+commands:
+  gilde:
+    usage: /<command>
+    description: Main Command to the plugin
