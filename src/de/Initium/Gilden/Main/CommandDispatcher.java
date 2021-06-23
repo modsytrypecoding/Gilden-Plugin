@@ -36,8 +36,6 @@ public class CommandDispatcher extends JavaPlugin
             case "top":
                 gilde_top.execute(nr);
                 break;
-
-
             //case ...:
 
 
@@ -62,6 +60,8 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "deny":
                 break;
+            case "set":
+                _show.set(nr, args[1]);
         }
     }
 }

@@ -21,7 +21,7 @@ public class gilde_Main implements CommandExecutor
             return true;
         }
         Player pl = (Player) sender;
-        if(!(pl.hasPermission("gilde.CMD.main")) /* |-> /gilde| */)
+        if(!(pl.hasPermission("gilde.CMD.main")) /* /gilde */)
         {
             pl.sendMessage("Keine Perms");
             return true;

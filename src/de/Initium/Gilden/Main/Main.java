@@ -8,6 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Main extends JavaPlugin {
 	private static Main plugin;
@@ -46,7 +49,7 @@ public class Main extends JavaPlugin {
 		try {
 			savefileConfiguration.save(savesfile);
 		} catch (IOException e) {
-			throw new RuntimeException();
+			getPlugin().getLogger().info("Fehler beim Speichern der saves.yml: " + e);
 		}
 	}
 }
