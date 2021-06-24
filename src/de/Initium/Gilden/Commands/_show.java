@@ -51,7 +51,6 @@ public class _show extends JavaPlugin
     public static void set(Integer nr, String uuid)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        ToolBox.addPlayertoGilde("testUUID1", "test_gilde_3");
-        ToolBox.addPlayertoGilde("testUUID2", "test_gilde_4");
+        pl.sendMessage(ToolBox.getallPlayers(pl).toString());
     }
 }

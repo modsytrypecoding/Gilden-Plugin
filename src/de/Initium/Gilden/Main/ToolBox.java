@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ToolBox extends JavaPlugin
@@ -21,7 +22,7 @@ public class ToolBox extends JavaPlugin
     //ToDo:
     public static boolean checkGildeExists(String gildenname)
     {
-        return true;
+        return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
     //ToDo:
@@ -54,10 +55,29 @@ public class ToolBox extends JavaPlugin
     }
 
     //ToDo:
+    public static ArrayList<String> getallPlayers(Player pl)
+    {
+        ArrayList<String> allUUIDs = new ArrayList<>();
+        pl.sendMessage("Erste: " + allUUIDs.toString());
+        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
+        {
+            pl.sendMessage("Key: " + key);
+            if(key.contains("players"))
+            {
+                //gilden.test_gilde.players
+                allUUIDs.addAll(Main.getSaves().getStringList("gilden." + key));
+                pl.sendMessage("Key2: " + key);
+            }
+        }
+        pl.sendMessage("Letzte: " + allUUIDs.toString());
+        return allUUIDs;
+    }
+
+    //ToDo:
     public static ArrayList<String> getallPlayersinGilde(String gildenname)
     {
         //Only execute this method if checked:
         // - Gilde exists
-        return new ArrayList<>();
+        return new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".players"));
     }
 }
