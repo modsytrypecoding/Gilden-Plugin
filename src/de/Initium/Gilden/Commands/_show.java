@@ -48,9 +48,9 @@ public class _show extends JavaPlugin
         pl.sendMessage("Gilde " + gilde_name + ":\n" + ToolBox.parseAllUUIDsToPlayerNames(UUIDs));
     }
 
-    public static void set(Integer nr, String uuid)
+    public static void set(Integer nr, String arg)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        pl.sendMessage(ToolBox.getallPlayers(pl).toString());
+        pl.sendMessage(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(arg)));
     }
 }

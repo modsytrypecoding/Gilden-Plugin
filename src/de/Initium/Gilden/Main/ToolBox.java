@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,11 +27,22 @@ public class ToolBox extends JavaPlugin
     }
 
     //ToDo:
-    public static String getGildeNameOfPlayer(String playername)
+    public static String getGildeNameOfPlayer(Player pl)
     {
-        //If Player is in a Gilde -> return Gildenname;
-        //If Player is not in a Gilde -> return "";
-        return "";
+        String uuid = pl.getUniqueId().toString();
+        if(!(getallPlayers().contains(uuid))) return "";
+
+        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
+        {
+            if(!(key.contains("players"))) continue;
+
+            List<String> asd = Main.getSaves().getStringList("gilden." + key);
+            if(asd.contains(uuid))
+            {
+                return key.replace("players", "");
+            }
+        }
+        return "_";
     }
 
     //ToDo:
@@ -55,21 +67,17 @@ public class ToolBox extends JavaPlugin
     }
 
     //ToDo:
-    public static ArrayList<String> getallPlayers(Player pl)
+    public static ArrayList<String> getallPlayers()
     {
         ArrayList<String> allUUIDs = new ArrayList<>();
-        pl.sendMessage("Erste: " + allUUIDs.toString());
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            pl.sendMessage("Key: " + key);
             if(key.contains("players"))
             {
                 //gilden.test_gilde.players
                 allUUIDs.addAll(Main.getSaves().getStringList("gilden." + key));
-                pl.sendMessage("Key2: " + key);
             }
         }
-        pl.sendMessage("Letzte: " + allUUIDs.toString());
         return allUUIDs;
     }
 
