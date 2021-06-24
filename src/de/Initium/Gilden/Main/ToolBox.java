@@ -14,6 +14,8 @@ public class ToolBox extends JavaPlugin
 {
     public static ArrayList<String> parseAllUUIDsToPlayerNames(List<String> UUIDs)
     {
+        //Result: Returns an ArrayList within Playernames that were parsed from the given UUIDs
+
         ArrayList<String> playernames = new ArrayList<>();
         for(String UUID : UUIDs)
             playernames.add(Bukkit.getPlayer(UUID).getName());
@@ -23,12 +25,21 @@ public class ToolBox extends JavaPlugin
     //ToDo:
     public static boolean checkGildeExists(String gildenname)
     {
+        //Result:
+        //- true -> Gilde exists
+        //- false -> Gilde does not exist
+
         return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
     //ToDo:
     public static String getGildeNameOfPlayer(Player pl)
     {
+        //Result: Returns:
+        //- Gildenname (String), if given Player is in a gilde
+        //- Empty String, if given Player is not in a gilde
+        //- "_" only if there is an error
+
         String uuid = pl.getUniqueId().toString();
         if(!(getallPlayers().contains(uuid))) return "";
 
@@ -59,6 +70,7 @@ public class ToolBox extends JavaPlugin
         //Only execute this method if checked:
         // - Gilde exists
         // - Player is not in Gilde
+        //Result: Adds a Player to the gilde
 
         List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".players");
         newList.add(uuid);
@@ -69,6 +81,8 @@ public class ToolBox extends JavaPlugin
     //ToDo:
     public static ArrayList<String> getallPlayers()
     {
+        //Result: All Players that are in the config (in any gilde) inside of an ArrayList<String>
+
         ArrayList<String> allUUIDs = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
@@ -86,6 +100,8 @@ public class ToolBox extends JavaPlugin
     {
         //Only execute this method if checked:
         // - Gilde exists
+        //Result: ArrayList<String> within all Players that are in the given Gilde
+
         return new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".players"));
     }
 }

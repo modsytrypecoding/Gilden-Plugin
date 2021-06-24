@@ -7,17 +7,19 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class _show extends JavaPlugin
 {
     public static void execute(Integer nr)
     {
-        //Check if Player is in any Gilde
         Player pl = gilde_Main.getPlayer(nr);
+        if(!(ToolBox.getallPlayers().contains(pl.getUniqueId().toString())))
+        {
+            pl.sendMessage("Du kannst dir deine eigene Gilde nicht anzeigen, da du in keiner bist");
+            return;
+        }
 
         ArrayList<String> gilden = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
@@ -27,11 +29,10 @@ public class _show extends JavaPlugin
                 Main.getSaves().get("gilden." + key + ".players");
             }
         }
+        Object GildeInformations = ToolBox.getGildeOfGildeName(ToolBox.getGildeNameOfPlayer(pl));
 
-
-
-
-        //Zeige eigene Gilde an
+        //ToDo: ToolBox.getGildeOfGildeName()
+        //ToDo: Format GildeInformations
     }
 
     public static void execute(Integer nr, String gilde_name)
