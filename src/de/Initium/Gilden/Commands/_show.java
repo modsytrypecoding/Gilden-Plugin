@@ -1,6 +1,7 @@
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
+import de.Initium.Gilden.Main.ToolBox;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -44,25 +45,13 @@ public class _show extends JavaPlugin
             return;
         }
         List<String> UUIDs = Main.getSaves().getStringList("gilden." + gilde_name + ".players");
-        pl.sendMessage("Gilde " + gilde_name + ":\n" + parseAllUUIDsToPlayerNames(UUIDs));
+        pl.sendMessage("Gilde " + gilde_name + ":\n" + ToolBox.parseAllUUIDsToPlayerNames(UUIDs));
     }
 
     public static void set(Integer nr, String uuid)
     {
         Player pl = gilde_Main.getPlayer(nr);
-
-        String gildenname = "test_gilde";
-        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".players");
-        newList.add(uuid);
-        Main.getSaves().set("gilden." + gildenname + ".players", newList);
-        Main.saveSaves();
-    }
-
-    public static ArrayList<String> parseAllUUIDsToPlayerNames(List<String> UUIDs)
-    {
-        ArrayList<String> playernames = new ArrayList<>();
-        for(String UUID : UUIDs)
-            playernames.add(Bukkit.getPlayer(UUID).getName());
-        return playernames;
+        ToolBox.addPlayertoGilde("testUUID1", "test_gilde_3");
+        ToolBox.addPlayertoGilde("testUUID2", "test_gilde_4");
     }
 }
