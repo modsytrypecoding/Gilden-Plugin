@@ -97,7 +97,6 @@ public class ToolBox extends JavaPlugin
                 {
                     allUUIDs.addAll((Collection<String>) test);
                 }
-                p.sendMessage("Key \"" + key + "\":" + test.toString());
             }
         }
         return allUUIDs;
