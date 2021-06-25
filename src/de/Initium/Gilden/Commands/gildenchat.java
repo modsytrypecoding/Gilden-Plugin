@@ -1,6 +1,7 @@
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.ToolBox;
+import de.Initium.Gilden.Main.UUIDManipulation;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +32,7 @@ public class gildenchat implements CommandExecutor
                     pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                     for(String all : playersofGilde) {
                         if(!(pl.getUniqueId().toString().equals(all))) {
-                            Object temp = ToolBox.getOnlinePlayerByUUID(pl, all);
+                            Object temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                             if(temp instanceof Player)
                             {
                                 ((Player) temp).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);

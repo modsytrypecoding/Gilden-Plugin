@@ -1,58 +1,21 @@
 package de.Initium.Gilden.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class ToolBox extends JavaPlugin
 {
-    public static ArrayList<String> parseAllUUIDsToPlayerNames(List<String> UUIDs)
-    {
-        ArrayList<String> playernames = new ArrayList<>();
-        for(String UUID : UUIDs)
-            playernames.add(Bukkit.getPlayer(UUID).getName());
-        return playernames;
-    }
-
-    public static Object getOnlinePlayerByUUID(Player pl, String uuid)
-    {
-        for(Player p : Main.getPlugin().getServer().getOnlinePlayers())
-        {
-            pl.sendMessage("Zu testender Spieler: " + p.getName());
-            pl.sendMessage("UUID von " + p.getName() + ": " + p.getUniqueId());
-            pl.sendMessage("UUID die getestet wird: " + uuid);
-            if(p.getUniqueId().toString().equals(uuid))
-            {
-                return p;
-            }
-        }
-        return "";
-    }
-
-    //ToDo:
     public static boolean checkGildeExists(String gildenname)
     {
     	 return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
-    //ToDo:
-
-    //ToDo:
-    public static Object getGildeOfGildeName(String gildenname)
-    {
-        //Get all Information about a Gilde with its name.
-        //Check: checkGildeExists() or getGildeNameOfPlayer()
-    	return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
-    }
-
-    //ToDo:
     public static String getGildeNameOfPlayer(Player pl)
     {
         String uuid = pl.getUniqueId().toString();
-        if(!(getallPlayers(pl).contains(uuid))) return "";
+        if(!(getallPlayers().contains(uuid))) return "";
 
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
@@ -69,7 +32,6 @@ public class ToolBox extends JavaPlugin
         return "_";
     }
 
-    //ToDo:
     public static void addPlayertoGilde(String uuid, String gildenname)
     {
         //Only execute this method if checked:
@@ -81,21 +43,8 @@ public class ToolBox extends JavaPlugin
         Main.getSaves().set("gilden." + gildenname + ".players", newList);
         Main.saveSaves();
     }
+
     public static ArrayList<String> getallPlayers()
-    {
-    	ArrayList<String> allUUIDs = new ArrayList<>();
-        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true)) 
-        {
-            if(key.contains("players"))
-            {
-                //gilden.test_gilde.players
-                allUUIDs.addAll(Main.getSaves().getStringList("gilden." + key));
-            }
-        }
-        return allUUIDs;
-    }
-    
-    public static ArrayList<String> getallPlayers(Player p)
     {
     	ArrayList<String> allUUIDs = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true)) 
@@ -116,9 +65,32 @@ public class ToolBox extends JavaPlugin
         }
         return allUUIDs;
     }
-    //ToDo:
+
     public static ArrayList<String> getallPlayersinGilde(String gildenname)
     {
-        return new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".players"));
+        ArrayList<String> temp_return_list = new ArrayList<>();
+        Object temp = Main.getSaves().get("gilden." + gildenname + ".players");
+        if(temp instanceof List<?>) return new ArrayList<>((List<String>) temp);
+        temp_return_list.add(temp.toString());
+        return temp_return_list;
+    }
+
+    public static ArrayList<String> getAllGildennamen()
+    {
+        ArrayList<String> storage = new ArrayList<>();
+        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
+        {
+            if(key.contains("players")) continue;
+            storage.add(key.replace("gilden.", ""));
+        }
+        return storage;
+    }
+
+    //ToDo:
+    public static Object getGildeInformationsByName(String gildenname)
+    {
+        //Get all Information about a Gilde with its name.
+        //Check: checkGildeExists() or getGildeNameOfPlayer()
+        return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 }

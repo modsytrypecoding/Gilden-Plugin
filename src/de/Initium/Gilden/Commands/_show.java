@@ -2,7 +2,7 @@ package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
-import org.bukkit.Bukkit;
+import de.Initium.Gilden.Main.UUIDManipulation;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +29,7 @@ public class _show extends JavaPlugin
                 Main.getSaves().get("gilden." + key + ".players");
             }
         }
-        Object GildeInformations = ToolBox.getGildeOfGildeName(ToolBox.getGildeNameOfPlayer(pl));
+        Object GildeInformations = ToolBox.getGildeInformationsByName(ToolBox.getGildeNameOfPlayer(pl));
 
         //ToDo: ToolBox.getGildeOfGildeName()
         //ToDo: Format GildeInformations
@@ -46,13 +46,12 @@ public class _show extends JavaPlugin
             return;
         }
         List<String> UUIDs = Main.getSaves().getStringList("gilden." + gilde_name + ".players");
-        pl.sendMessage("Gilde " + gilde_name + ":\n" + ToolBox.parseAllUUIDsToPlayerNames(UUIDs));
+        pl.sendMessage("Gilde " + gilde_name + ":\n" + UUIDManipulation.getPlayernameByUUID(UUIDs));
     }
 
     public static void set(Integer nr, String arg)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        //pl.sendMessage(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(arg)));
-        pl.sendMessage(ToolBox.getGildeNameOfPlayer(pl));
+        pl.sendMessage("" + ToolBox.checkGildeExists(arg));
     }
 }
