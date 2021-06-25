@@ -52,6 +52,7 @@ public class _show extends JavaPlugin
     public static void set(Integer nr, String arg)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        pl.sendMessage(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(arg)));
+        //pl.sendMessage(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(arg)));
+        pl.sendMessage(ToolBox.getGildeNameOfPlayer(pl));
     }
 }

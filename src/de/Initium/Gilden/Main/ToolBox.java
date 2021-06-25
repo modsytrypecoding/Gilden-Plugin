@@ -17,6 +17,21 @@ public class ToolBox extends JavaPlugin
         return playernames;
     }
 
+    public static Object getOnlinePlayerByUUID(Player pl, String uuid)
+    {
+        for(Player p : Main.getPlugin().getServer().getOnlinePlayers())
+        {
+            pl.sendMessage("Zu testender Spieler: " + p.getName());
+            pl.sendMessage("UUID von " + p.getName() + ": " + p.getUniqueId());
+            pl.sendMessage("UUID die getestet wird: " + uuid);
+            if(p.getUniqueId().toString().equals(uuid))
+            {
+                return p;
+            }
+        }
+        return "";
+    }
+
     //ToDo:
     public static boolean checkGildeExists(String gildenname)
     {

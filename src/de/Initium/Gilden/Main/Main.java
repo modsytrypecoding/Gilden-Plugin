@@ -1,5 +1,6 @@
 package de.Initium.Gilden.Main;
 
+import de.Initium.Gilden.Commands.gildenchat;
 import de.Initium.Gilden.Commands.gilde_Main;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,9 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class Main extends JavaPlugin {
 	private static Main plugin;
@@ -23,6 +21,7 @@ public class Main extends JavaPlugin {
 		PluginManager pl = Bukkit.getPluginManager();
 
 		getCommand("gilde").setExecutor(new gilde_Main());
+		getCommand("gctest").setExecutor(new gildenchat());
 
 
 		//Creation of the saves.yml

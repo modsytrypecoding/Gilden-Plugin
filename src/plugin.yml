@@ -6,3 +6,6 @@ commands:
   gilde:
     usage: /<command>
     description: Main Command to the plugin
+  gctest:
+    usage: /<command>
+    description: Test-Gilde-Chat-CMD
