@@ -37,17 +37,18 @@ public class ToolBox extends JavaPlugin
     public static String getGildeNameOfPlayer(Player pl)
     {
         String uuid = pl.getUniqueId().toString();
-        pl.sendMessage(getallPlayers(pl).toString());
         if(!(getallPlayers(pl).contains(uuid))) return "";
 
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
             if(!(key.contains("players"))) continue;
 
-            List<String> asd = Main.getSaves().getStringList("gilden." + key);
+            String temp_key = key.replace("gilden.", "").replace(".players", "");
+            ArrayList<String> asd = getallPlayersinGilde(temp_key);
+
             if(asd.contains(uuid))
             {
-                return key.replace("players", "");
+                return temp_key;
             }
         }
         return "_";
