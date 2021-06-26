@@ -1,9 +1,9 @@
 package de.Initium.Gilden.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ToolBox extends JavaPlugin
 {
@@ -92,5 +92,27 @@ public class ToolBox extends JavaPlugin
         //Get all Information about a Gilde with its name.
         //Check: checkGildeExists() or getGildeNameOfPlayer()
         return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
+    }
+
+    public static Object parseIntOrNull(String value) {
+        try {
+            Integer temp =  Integer.parseInt(value);
+            if(temp > 0) return temp;
+            return null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static Map<String, Integer> sort(Map<String, Integer> unsortedMap)
+    {
+        return unsortedMap.entrySet().stream()
+                .sorted(Comparator.comparingInt(e -> -e.getValue()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> { throw new AssertionError(); },
+                        LinkedHashMap::new
+                ));
     }
 }

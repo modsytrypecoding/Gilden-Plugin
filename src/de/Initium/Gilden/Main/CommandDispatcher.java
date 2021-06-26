@@ -60,6 +60,9 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "deny":
                 break;
+            case "top":
+                gilde_top.execute(nr, args[1]);
+                break;
             case "set":
                 _show.set(nr, args[1]);
         }
