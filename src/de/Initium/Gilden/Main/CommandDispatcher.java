@@ -2,8 +2,8 @@ package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands._show;
 import de.Initium.Gilden.Commands.gilde_top;
-import de.Initium.Gilden.Commands.invite;
-import de.Initium.Gilden.Commands.temp_create;
+import de.Initium.Gilden.Commands.gilde_invite;
+import de.Initium.Gilden.Commands.gilde_create;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDispatcher extends JavaPlugin
@@ -51,10 +51,10 @@ public class CommandDispatcher extends JavaPlugin
         switch(args[0]) {
             //TEMP: Gilde Erstellen
             case "create":
-                temp_create.execute(nr, args[1]);
+                gilde_create.execute(nr, args[1]);
                 break;
             case "invite":
-                invite.execute(nr, args[1]);
+                gilde_invite.execute(nr, args[1]);
                 break;
             case "accept":
                 break;

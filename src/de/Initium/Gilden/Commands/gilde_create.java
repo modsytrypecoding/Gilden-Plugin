@@ -4,7 +4,7 @@ import de.Initium.Gilden.Main.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class temp_create extends JavaPlugin
+public class gilde_create extends JavaPlugin
 {
     public static void execute(Integer nr, String temp_gilden_name)
     {

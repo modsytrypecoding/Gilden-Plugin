@@ -30,31 +30,37 @@ public class UUIDManipulation extends JavaPlugin
         return getOfflinePlayerByUUID(UUID).toString();
     }
 
-    public static Object getPlayernameByUUID(List<String> UUIDs)
+    public static ArrayList<String> getPlayernameByUUID(List<String> UUIDs)
     {
         ArrayList<String> playernames = new ArrayList<>();
         for(String UUID : UUIDs)
         {
+            boolean found = false;
             for(Player onlinePlayer : Bukkit.getOnlinePlayers())
             {
                 if(onlinePlayer.getUniqueId().toString().equals(UUID))
                 {
                     playernames.add(getOnlinePlayerByUUID(UUID).toString());
+                    found = true;
                 }
             }
-            playernames.add(getOfflinePlayerByUUID(UUID).toString());
+
+            if(!found)
+            {
+                playernames.add(getOfflinePlayerByUUID(UUID).toString());
+            }
         }
         return playernames;
     }
 
-    public static Object getOnlinePlayerByUUID(String UUID)
+    public static String getOnlinePlayerByUUID(String UUID)
     {
         for(Player p : Main.getPlugin().getServer().getOnlinePlayers())
-            if(p.getUniqueId().toString().equals(UUID)) return p;
+            if(p.getUniqueId().toString().equals(UUID)) return p.getName();
         return "";
     }
 
-    public static Object getOfflinePlayerByUUID(String UUID)
+    public static String getOfflinePlayerByUUID(String UUID)
     {
          try {
             URL myURL = new URL("https://api.mojang.com/user/profiles/"+UUID+"/names");
@@ -68,6 +74,6 @@ public class UUIDManipulation extends JavaPlugin
          {
              e.printStackTrace();
          }
-         return new HashMap<>();
+         return "";
     }
 }

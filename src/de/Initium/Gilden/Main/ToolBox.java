@@ -22,9 +22,9 @@ public class ToolBox extends JavaPlugin
             if(!(key.contains("players"))) continue;
 
             String temp_key = key.replace("gilden.", "").replace(".players", "");
-            ArrayList<String> asd = getallPlayersinGilde(temp_key);
+            ArrayList<String> temp = getallPlayersinGilde(temp_key);
 
-            if(asd.contains(uuid))
+            if(temp.contains(uuid))
             {
                 return temp_key;
             }

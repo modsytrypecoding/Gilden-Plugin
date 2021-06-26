@@ -24,15 +24,11 @@ public class _show extends JavaPlugin
         ArrayList<String> gilden = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            if(!(key.contains("players")))
-            {
-                Main.getSaves().get("gilden." + key + ".players");
-            }
+            if(key.contains("players")) continue;
+            if(!(ToolBox.getallPlayersinGilde(key).contains(pl.getUniqueId().toString()))) continue;
+            execute(nr, key);
+            return;
         }
-        Object GildeInformations = ToolBox.getGildeInformationsByName(ToolBox.getGildeNameOfPlayer(pl));
-
-        //ToDo: ToolBox.getGildeOfGildeName()
-        //ToDo: Format GildeInformations
     }
 
     public static void execute(Integer nr, String gilde_name)
@@ -45,8 +41,23 @@ public class _show extends JavaPlugin
             pl.sendMessage("Die Gilde " + gilde_name + " existiert nicht");
             return;
         }
-        List<String> UUIDs = Main.getSaves().getStringList("gilden." + gilde_name + ".players");
-        pl.sendMessage("Gilde " + gilde_name + ":\n" + UUIDManipulation.getPlayernameByUUID(UUIDs));
+
+        ArrayList<String> UUIDs = ToolBox.getallPlayersinGilde(gilde_name);
+        String MSG = "Gilde " + gilde_name + ":";
+        for(String playername : UUIDManipulation.getPlayernameByUUID(UUIDs))
+        {
+            MSG += "\n- " + playername;
+        }
+        pl.sendMessage(MSG);
+
+        /*
+        *
+        Object GildeInformations = ToolBox.getGildeInformationsByName(ToolBox.getGildeNameOfPlayer(pl));
+
+        //ToDo: ToolBox.getGildeOfGildeName()
+        //ToDo: Format GildeInformations
+        *
+        * */
     }
 
     public static void set(Integer nr, String arg)
