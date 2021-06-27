@@ -1,20 +1,20 @@
 package de.Initium.Gilden.Main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TimerTask;
+import java.util.Map;
 
 public class Timer extends JavaPlugin
 {
     static HashMap<Integer, Player> gildentimer = new HashMap<>();
     static HashMap<Player, Player> exTar_Mapping = new HashMap<>();
+    static HashMap<String, Player> gilde_invitation_Mapping = new HashMap<>();
 
     public static void setTimer(Player executor, Player target)
     {
@@ -28,8 +28,8 @@ public class Timer extends JavaPlugin
                 {
                     Player exe = gildentimer.get(this.getTaskId());
                     Player tar = exTar_Mapping.get(gildentimer.get(this.getTaskId()));
-                    exe.sendMessage("Deine Gildenanfrage an " + tar.getName() + " ist ausgelaufen.");
-                    tar.sendMessage("Die Gildenanfrage von " + ToolBox.getGildeNameOfPlayer(exe) + " ist ausgelaufen.");
+                    if(exe.isOnline()) exe.sendMessage("Deine Gildenanfrage an " + tar.getName() + " ist ausgelaufen.");
+                    if(tar.isOnline()) tar.sendMessage("Die Gildenanfrage von " + ToolBox.getGildeNameOfPlayer(exe) + " ist ausgelaufen.");
                     Timer.remove(this.getTaskId());
                 }
                 restzeit -= 20;
@@ -48,5 +48,39 @@ public class Timer extends JavaPlugin
     public static HashMap<Integer, Player> getGildenTimer()
     {
         return gildentimer;
+    }
+
+    public static HashMap<Player, Player> getExTar_Mapping()
+    {
+        return exTar_Mapping;
+    }
+
+    public static HashMap<String, Player> getGilde_invitation_Mapping()
+    {
+        return gilde_invitation_Mapping;
+    }
+
+    public static Integer getTaskByPlayer(Player pl)
+    {
+        for(Map.Entry<Integer, Player> entry : gildentimer.entrySet())
+        {
+            if(entry.getValue() == pl)
+            {
+                return entry.getKey();
+            }
+        }
+        return -1;
+    }
+
+    public static Object getExecByTarget(Player pl)
+    {
+        for(Map.Entry<Player, Player> entry : exTar_Mapping.entrySet())
+        {
+            if(entry.getValue() == pl)
+            {
+                return entry.getKey();
+            }
+        }
+        return "";
     }
 }

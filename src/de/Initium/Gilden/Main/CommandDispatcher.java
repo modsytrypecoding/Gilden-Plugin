@@ -1,9 +1,6 @@
 package de.Initium.Gilden.Main;
 
-import de.Initium.Gilden.Commands._show;
-import de.Initium.Gilden.Commands.gilde_top;
-import de.Initium.Gilden.Commands.gilde_invite;
-import de.Initium.Gilden.Commands.gilde_create;
+import de.Initium.Gilden.Commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDispatcher extends JavaPlugin
@@ -57,8 +54,10 @@ public class CommandDispatcher extends JavaPlugin
                 gilde_invite.execute(nr, args[1]);
                 break;
             case "accept":
+                gilde_response.response(nr, args[0], args[1]);
                 break;
             case "deny":
+                gilde_response.response(nr, args[0], args[1]);
                 break;
             case "top":
                 gilde_top.execute(nr, args[1]);
