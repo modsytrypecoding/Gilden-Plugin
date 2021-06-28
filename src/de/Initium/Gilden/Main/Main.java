@@ -1,7 +1,7 @@
 package de.Initium.Gilden.Main;
 
-import de.Initium.Gilden.Commands.gildenchat;
 import de.Initium.Gilden.Commands.gilde_Main;
+import de.Initium.Gilden.Commands.Chat.gildenchat;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -22,7 +22,6 @@ public class Main extends JavaPlugin {
 
 		getCommand("gilde").setExecutor(new gilde_Main());
 		getCommand("gctest").setExecutor(new gildenchat());
-
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {

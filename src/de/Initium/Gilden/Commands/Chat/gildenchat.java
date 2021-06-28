@@ -1,4 +1,4 @@
-package de.Initium.Gilden.Commands;
+package de.Initium.Gilden.Commands.Chat;
 
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;

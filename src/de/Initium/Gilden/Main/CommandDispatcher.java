@@ -1,6 +1,8 @@
 package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.*;
+import de.Initium.Gilden.Commands.Chat.gilde_chat_join;
+import de.Initium.Gilden.Commands.Chat.gilden_chat;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDispatcher extends JavaPlugin
