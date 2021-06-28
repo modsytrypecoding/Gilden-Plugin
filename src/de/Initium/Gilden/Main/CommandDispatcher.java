@@ -50,6 +50,12 @@ public class CommandDispatcher extends JavaPlugin
             case "create":
                 gilde_create.execute(nr, args[1]);
                 break;
+            case "chat":
+            	gilden_chat.execute(nr, args);
+            	break;
+            case "chat-join":
+            	gilde_chat_join.execute(nr, args);
+            	break;
             case "invite":
                 gilde_invite.execute(nr, args[1]);
                 break;
