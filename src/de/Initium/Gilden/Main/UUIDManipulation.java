@@ -17,16 +17,16 @@ import java.util.List;
 
 public class UUIDManipulation extends JavaPlugin
 {
-    public static Object getPlayernameByUUID(String UUID)
+    public static String getPlayernameByUUID(String UUID)
     {
         for(Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
             if(onlinePlayer.getUniqueId().toString().equals(UUID))
             {
-                return getOnlinePlayerByUUID(UUID).toString();
+                return getOnlinePlayerByUUID(UUID);
             }
         }
-        return getOfflinePlayerByUUID(UUID).toString();
+        return getOfflinePlayerByUUID(UUID);
     }
 
     public static ArrayList<String> getPlayernameByUUID(List<String> UUIDs)

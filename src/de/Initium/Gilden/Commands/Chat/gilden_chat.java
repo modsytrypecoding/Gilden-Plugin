@@ -31,9 +31,9 @@ public class gilden_chat
                 pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                 for (String all : playersofGilde) {
                     if (!(pl.getUniqueId().toString().equals(all))) {
-                        Object temp = UUIDManipulation.getOnlinePlayerByUUID(all);
-                        if (temp instanceof Player) {
-                            ((Player) temp).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
+                        String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
+                        if (!(temp.equals(""))) {
+                            (Bukkit.getPlayerExact(temp)).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                         }
                     }
                 }
