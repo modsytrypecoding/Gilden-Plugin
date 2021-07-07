@@ -1,3 +1,4 @@
+  
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
@@ -23,14 +24,14 @@ public class gilde_create extends JavaPlugin
         if(temp_gilden_name.equals("") || temp_gilden_name.matches("[0-9]") || temp_gilden_name.length() <= 2)
         {
             pl.sendMessage(
-                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungÃ¼ltig." +
-                    "Er muss folgende Kriterien erfÃ¼llen:\n" +
-                    "- LÃ¤nge: Mindestens 3 Buchstaben\n" +
-                    "- Nur folgender Character dÃ¼rfen enthalten sein: [A-Z], [a-z]");
+                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungültig." +
+                    "Er muss folgende Kriterien erfüllen:\n" +
+                    "- Länge: Mindestens 3 Buchstaben\n" +
+                    "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
             return;
         }
 
-        Main.getSaves().set("gilden." + temp_gilden_name + ".players", pl.getUniqueId().toString());
+        Main.getSaves().set("gilden." + temp_gilden_name + ".Leiter", pl.getUniqueId().toString());
         Main.saveSaves();
         pl.sendMessage("Die Gilde wurde erfolgreich erstellt. Du bist der Gildenleiter von " + temp_gilden_name);
     }

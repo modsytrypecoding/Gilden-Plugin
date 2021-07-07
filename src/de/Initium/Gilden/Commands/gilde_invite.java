@@ -72,11 +72,11 @@ public class gilde_invite extends JavaPlugin
         c2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Du lehnst diese Einladung ab")));
 
         String Target_MSG =
-                "Â§2Du wurdest von Â§6Â§l" + pl.getName() + "Â§rÂ§2 in die Gilde Â§6Â§l" + gildename_inv + "Â§rÂ§2 eingeladen.\n\n" +
-                        "Â§2Achtung! Deine persÃ¶nliche Insel wird beim Ã¼bernÃ¤chsten Serverrestart (um 5 Uhr) aufgegeben.\n" +
+                "§2Du wurdest von §6§l" + pl.getName() + "§r§2 in die Gilde §6§l" + gildename_inv + "§r§2 eingeladen.\n\n" +
+                        "§2Achtung! Deine persönliche Insel wird beim übernächsten Serverrestart (um 5 Uhr) aufgegeben.\n" +
                         "Sichere bis dahin deine Items, damit es nicht zu Verlusten kommt.\n" +
-                        "Du hast Â§4Â§n90 Â§rÂ§2Sekunden um diese Einladung anzunehmen. Danach wird sie automatisch Â§4Â§nabgelehnt\n" +
-                        "Â§rÂ§2Du kannst entweder per Click auf die folgenden Button annehmen, oder per /gilde accept|deny " + gildename_inv;
+                        "Du hast §4§n90 §r§2Sekunden um diese Einladung anzunehmen. Danach wird sie automatisch §4§nabgelehnt\n" +
+                        "§r§2Du kannst entweder per Click auf die folgenden Button annehmen, oder per /gilde accept|deny " + gildename_inv;
         target.sendMessage(Target_MSG);
         target.spigot().sendMessage(c);
         target.spigot().sendMessage(c2);

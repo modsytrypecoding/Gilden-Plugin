@@ -28,7 +28,7 @@ public class gilde_top extends JavaPlugin
         Object temp = ToolBox.parseIntOrNull(arg);
         if(temp == null)
         {
-            pl.sendMessage("Die eingegebene Seitenzahl muss eine Nummer Ã¼ber 0 sein");
+            pl.sendMessage("Die eingegebene Seitenzahl muss eine Nummer über 0 sein");
             return;
         }
         Integer arg_numb = (Integer) temp;

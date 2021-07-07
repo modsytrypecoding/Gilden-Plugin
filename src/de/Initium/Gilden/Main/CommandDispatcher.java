@@ -1,8 +1,6 @@
 package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.*;
-import de.Initium.Gilden.Commands.Chat.gilde_chat_join;
-import de.Initium.Gilden.Commands.Chat.gilden_chat;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDispatcher extends JavaPlugin
@@ -57,6 +55,12 @@ public class CommandDispatcher extends JavaPlugin
             	break;
             case "chat-join":
             	gilde_chat_join.execute(nr, args);
+            	break;
+            case "kick":
+            	gilde_kick.execute(nr, args);
+            	break;
+            case "rank":
+            	gilde_rank.execute(nr, args);
             	break;
             case "invite":
                 gilde_invite.execute(nr, args[1]);
