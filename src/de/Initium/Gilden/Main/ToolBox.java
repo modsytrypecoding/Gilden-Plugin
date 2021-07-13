@@ -38,13 +38,11 @@ public class ToolBox extends JavaPlugin
 
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            if(!(key.contains(".players"))) continue;
-            if(!(key.contains(".Leiter"))) continue;
-            if(!(key.contains(".Forsitzender"))) continue;
+            if(!(key.contains(".Rang"))) continue;
+            
 
-            String temp_key = key.replace("gilden.", "").replace(".players", "");
+            String temp_key = key.replace("gilden.", "");
             ArrayList<String> temp = getallPlayersinGilde(temp_key);
-
             if(temp.contains(uuid))
             {
                 return temp_key;
@@ -82,20 +80,23 @@ public class ToolBox extends JavaPlugin
     	ArrayList<String> allUUIDs = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true)) 
         {
-            if(key.contains("Leiter") || key.contains("Forsitzender") || key.contains("players"))
-           {
-                //gilden.test_gilde.players
-            	Object test = Main.getSaves().get("gilden." + key);
-            	if(test instanceof String)
-                {
-                    allUUIDs.add((String) test);
-                }
-            	else if(test instanceof Collection<?>)
-                {
-                    allUUIDs.addAll((Collection<String>) test);
-                }
+        	if(!key.contains(".players")) continue;
+        	key.replace(".Rang", "").replace(".Leiter", "").replace(".Forsitzender", "").replace(".Mitglieder", "");
+            
+            
+          //testgilde.players
+            System.out.println("key: "+key);
+        	Object test = Main.getSaves().get("gilden." + key);
+        	if(test instanceof String)
+            {
+                allUUIDs.add((String) test);
+            }
+        	else if(test instanceof Collection<?>)
+            {
+                allUUIDs.addAll((Collection<String>) test);
             }
         }
+        System.out.println("allUUIDs" + allUUIDs);
         return allUUIDs;
     }
 

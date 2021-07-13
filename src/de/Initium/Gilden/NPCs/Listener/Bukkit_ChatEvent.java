@@ -1,3 +1,4 @@
+  
 package de.Initium.Gilden.NPCs.Listener;
 
 import de.Initium.Gilden.NPCs.Main.Creation.InventoryInteraction;

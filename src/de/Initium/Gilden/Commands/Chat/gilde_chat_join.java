@@ -1,11 +1,13 @@
 package de.Initium.Gilden.Commands.Chat;
+
+
 import java.util.ArrayList;
 
-import de.Initium.Gilden.Commands.gilde_Main;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 
@@ -26,6 +28,7 @@ public class gilde_chat_join extends JavaPlugin{
 					pl.sendMessage("Du liest jetzt den Gilden-Chat der Gilde §6" + args[1] + " §rmit!");
 				}else {
 					watcher.remove(pl.getName());
+					ToolBox.removePlayerfromGilde(pl.getUniqueId().toString(), args[1]);
 					pl.sendMessage("§cWatcher deaktiviert!");
 				}
 				

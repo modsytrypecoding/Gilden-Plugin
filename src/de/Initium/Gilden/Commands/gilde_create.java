@@ -13,7 +13,8 @@ public class gilde_create extends JavaPlugin
 
         if(!(ToolBox.getGildeNameOfPlayer(pl).equals("")))
         {
-            pl.sendMessage("Du bist bereits in einer Gilde und kannst aufgrunddessen keine grÃ¼nden.");
+            pl.sendMessage("Du bist bereits in einer Gilde und kannst aufgrunddessen keine gründen.");
+            return;
         }
 
         //Check if Gilde already exists
@@ -27,14 +28,14 @@ public class gilde_create extends JavaPlugin
         if(ToolBox.validateGildeName(temp_gilden_name))
         {
             pl.sendMessage(
-                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungÃ¼ltig." +
-                    "Er muss folgende Kriterien erfÃ¼llen:\n" +
-                    "- LÃ¤nge: Mindestens 3 Buchstaben\n" +
-                    "- Nur folgender Character dÃ¼rfen enthalten sein: [A-Z], [a-z]");
+                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungültig." +
+                    "Er muss folgende Kriterien erfüllen:\n" +
+                    "- Länge: Mindestens 3 Buchstaben\n" +
+                    "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
             return;
         }
 
-        Main.getSaves().set("gilden." + temp_gilden_name + ".Leiter", pl.getUniqueId().toString());
+        Main.getSaves().set("gilden." + temp_gilden_name + ".players." + pl.getUniqueId().toString() + ".Rang", "Leiter");
         Main.saveSaves();
         pl.sendMessage("Die Gilde wurde erfolgreich erstellt. Du bist der Gildenleiter von " + temp_gilden_name);
     }

@@ -42,7 +42,7 @@ public class gilde_response extends JavaPlugin
             exe_MSG = "Du hast die Einladung von der Gilde " + involved_gilde + " erfolgreich angenommen.\n" +
                     "Du befindest dich nun in der Gilde " + involved_gilde + ".\n" +
                     "Deine Insel wird in " + "" + " Stunden resettet. Transferiere deswegen deine Items auf die Gildeninsel.\n" +
-                    "Der Countdown stoppt, wenn du die Gilde vor den restlichen " + "" + " Stunden wieder verlÃ¤sst.";
+                    "Der Countdown stoppt, wenn du die Gilde vor den restlichen " + "" + " Stunden wieder verlässt.";
             tar_MSG = "Der eingeladenen Spieler " +
                     executor.getName() +
                     " hat deine Einladung angenommen";
@@ -60,8 +60,8 @@ public class gilde_response extends JavaPlugin
         }
         else
         {
-            exe_MSG = "Â§4Du hast die Einladung von der Gilde Â§n" + involved_gilde + "Â§rÂ§4 erfolgreich abgelehnt";
-            tar_MSG = "Â§4Der eingeladenen Spieler Â§n" + executor.getName() + "Â§rÂ§4 hat die Einladung abgelehnt";
+            exe_MSG = "§4Du hast die Einladung von der Gilde §n" + involved_gilde + "§r§4 erfolgreich abgelehnt";
+            tar_MSG = "§4Der eingeladenen Spieler §n" + executor.getName() + "§r§4 hat die Einladung abgelehnt";
         }
 
         executor.sendMessage(exe_MSG);
