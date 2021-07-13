@@ -38,7 +38,9 @@ public class ToolBox extends JavaPlugin
 
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            if(!(key.contains("players"))) continue;
+            if(!(key.contains(".players"))) continue;
+            if(!(key.contains(".Leiter"))) continue;
+            if(!(key.contains(".Forsitzender"))) continue;
 
             String temp_key = key.replace("gilden.", "").replace(".players", "");
             ArrayList<String> temp = getallPlayersinGilde(temp_key);
@@ -80,8 +82,8 @@ public class ToolBox extends JavaPlugin
     	ArrayList<String> allUUIDs = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true)) 
         {
-            if(key.contains("players"))
-            {
+            if(key.contains("Leiter") || key.contains("Forsitzender") || key.contains("players"))
+           {
                 //gilden.test_gilde.players
             	Object test = Main.getSaves().get("gilden." + key);
             	if(test instanceof String)
@@ -100,9 +102,29 @@ public class ToolBox extends JavaPlugin
     public static ArrayList<String> getallPlayersinGilde(String gildenname)
     {
         ArrayList<String> temp_return_list = new ArrayList<>();
-        Object temp = Main.getSaves().get("gilden." + gildenname + ".players");
-        if(temp instanceof List<?>) return new ArrayList<>((List<String>) temp);
-        temp_return_list.add(temp.toString());
+        Object tempMember = Main.getSaves().get("gilden." + gildenname + ".players");
+        Object tempForsitzender = Main.getSaves().get("gilden." + gildenname + ".Forsitzender");
+        Object tempLeiter = Main.getSaves().get("gilden." + gildenname + ".Leiter");
+        System.out.println("Member" + tempMember);
+        System.out.println("Forsitzender" + tempForsitzender);
+        System.out.println("Leiter" + tempLeiter);
+        if(tempMember instanceof List<?>)  {
+        	return new ArrayList<>((List<String>) tempMember); 
+
+        }else if(tempMember instanceof String && !(tempMember.equals(""))){
+        	temp_return_list.add(tempMember.toString());
+        }
+        if(tempForsitzender instanceof List<?>) {
+        	return new ArrayList<>((List<String>) tempForsitzender);
+        }else if(tempForsitzender instanceof String && !(tempForsitzender.equals(""))) {
+        	temp_return_list.add(tempForsitzender.toString());
+        }
+        if(tempLeiter instanceof List<?>)  {
+        	return new ArrayList<>((List<String>) tempLeiter);
+        }else if(tempLeiter instanceof String && !(tempLeiter.equals(""))){
+        	temp_return_list.add(tempLeiter.toString());
+        }
+        
         return temp_return_list;
     }
 
@@ -158,5 +180,16 @@ public class ToolBox extends JavaPlugin
         //if(Rank == "Stellvertreter") return "Stellvertreter";
         //return "Mitglied";
         return "";
+    }
+    
+    public static void removePlayerfromGilde(String uuid, String gildenname) {
+    	//Only execute this method if checked:
+        // - Gilde exists
+        // - Player is not in Gilde
+    	
+    	List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".players");
+        newList.remove(uuid);
+        Main.getSaves().set("gilden." + gildenname + ".players", newList);
+        Main.saveSaves();
     }
 }

@@ -4,7 +4,9 @@ import de.Initium.Gilden.Main.ToolBox;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class gilde_top extends JavaPlugin
 {

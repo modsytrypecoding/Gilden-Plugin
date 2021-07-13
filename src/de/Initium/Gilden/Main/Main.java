@@ -1,5 +1,6 @@
 package de.Initium.Gilden.Main;
 
+import de.Initium.Gilden.Commands.Gc;
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.gildenchat;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
@@ -31,7 +32,7 @@ public class Main extends JavaPlugin {
 		pl.registerEvents(new Bukkit_JoinLeave(), this);
 
 		getCommand("gilde").setExecutor(new gilde_Main());
-		getCommand("gctest").setExecutor(new gildenchat());
+		getCommand("gctest").setExecutor(new Gc());
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {

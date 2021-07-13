@@ -1,3 +1,4 @@
+  
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
@@ -21,14 +22,7 @@ public class _show extends JavaPlugin
             return;
         }
 
-        ArrayList<String> gilden = new ArrayList<>();
-        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
-        {
-            if(key.contains("players")) continue;
-            if(!(ToolBox.getallPlayersinGilde(key).contains(pl.getUniqueId().toString()))) continue;
-            execute(nr, key);
-            return;
-        }
+        execute(nr, ToolBox.getGildeNameOfPlayer(pl));
     }
 
     public static void execute(Integer nr, String gilde_name)
@@ -53,7 +47,6 @@ public class _show extends JavaPlugin
         /*
         *
         Object GildeInformations = ToolBox.getGildeInformationsByName(ToolBox.getGildeNameOfPlayer(pl));
-
         //ToDo: ToolBox.getGildeOfGildeName()
         //ToDo: Format GildeInformations
         *
