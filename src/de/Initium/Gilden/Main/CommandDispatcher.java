@@ -3,6 +3,10 @@ package de.Initium.Gilden.Main;
 import de.Initium.Gilden.Commands.*;
 import de.Initium.Gilden.Commands.Chat.gilde_chat_join;
 import de.Initium.Gilden.Commands.Chat.gilden_chat;
+import de.Initium.Gilden.Commands.Invitation.gilde_invite;
+import de.Initium.Gilden.Commands.Invitation.gilde_response;
+import de.Initium.Gilden.NPCs.Commands.gilde_setnpc;
+import de.Initium.Gilden.NPCs.Main.Creation.CreationResponse;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDispatcher extends JavaPlugin
@@ -62,16 +66,22 @@ public class CommandDispatcher extends JavaPlugin
                 gilde_invite.execute(nr, args[1]);
                 break;
             case "accept":
-                gilde_response.response(nr, args[0], args[1]);
-                break;
             case "deny":
                 gilde_response.response(nr, args[0], args[1]);
                 break;
             case "top":
                 gilde_top.execute(nr, args[1]);
                 break;
+            case "setnpc":
+                gilde_setnpc.execute(nr, args[1]);
+                break;
+            case "create-confirm":
+            case "create-quit":
+                CreationResponse.execute(nr, args[0], args[1]);
+                break;
             case "set":
                 _show.set(nr, args[1]);
+                break;
         }
     }
 }

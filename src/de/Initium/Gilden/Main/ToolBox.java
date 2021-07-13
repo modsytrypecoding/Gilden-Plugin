@@ -12,6 +12,25 @@ public class ToolBox extends JavaPlugin
     	 return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
+    public static boolean validateGildeName(String gildenname)
+    {
+        if(gildenname.length() <= 2) return false;
+        if(gildenname.contains("_")) return false;
+        if(gildenname.contains("-")) return false;
+        if(gildenname.contains(".")) return false;
+        if(gildenname.contains("1")) return false;
+        if(gildenname.contains("2")) return false;
+        if(gildenname.contains("3")) return false;
+        if(gildenname.contains("4")) return false;
+        if(gildenname.contains("5")) return false;
+        if(gildenname.contains("6")) return false;
+        if(gildenname.contains("7")) return false;
+        if(gildenname.contains("8")) return false;
+        if(gildenname.contains("9")) return false;
+        if(gildenname.contains("0")) return false;
+        return true;
+    }
+
     public static String getGildeNameOfPlayer(Player pl)
     {
         String uuid = pl.getUniqueId().toString();
@@ -30,6 +49,18 @@ public class ToolBox extends JavaPlugin
             }
         }
         return "_";
+    }
+
+    public static void createGilde(String gildenname, String gruender_UUID)
+    {
+        //Only execute this method if checked:
+        // - Gildenname is not used yet
+        // - Player is not in any Gilde
+
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(gruender_UUID);
+        Main.getSaves().set("gilden." + gildenname + ".players", temp);
+        Main.saveSaves();
     }
 
     public static void addPlayertoGilde(String uuid, String gildenname)
@@ -94,7 +125,8 @@ public class ToolBox extends JavaPlugin
         return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
-    public static Object parseIntOrNull(String value) {
+    public static Object parseUIntOrNull(String value) {
+        //Return UINT if Parsable, return null if not
         try {
             Integer temp =  Integer.parseInt(value);
             if(temp > 0) return temp;
@@ -114,5 +146,17 @@ public class ToolBox extends JavaPlugin
                         (a, b) -> { throw new AssertionError(); },
                         LinkedHashMap::new
                 ));
+    }
+
+    public static String getGildeRankByPlayer(String gildenname, String UUID)
+    {
+        //Only execute this method if checked:
+        // - Gilde exists
+        // - Player is in Gilde
+
+        //if(Rank == "Leiter") return "Leiter";
+        //if(Rank == "Stellvertreter") return "Stellvertreter";
+        //return "Mitglied";
+        return "";
     }
 }

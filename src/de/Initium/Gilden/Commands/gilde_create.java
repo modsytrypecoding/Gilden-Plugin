@@ -1,6 +1,7 @@
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
+import de.Initium.Gilden.Main.ToolBox;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,17 +11,20 @@ public class gilde_create extends JavaPlugin
     {
         Player pl = gilde_Main.getPlayer(nr);
 
-        //ToDo: Check if Player is already in a Gilde
+        if(!(ToolBox.getGildeNameOfPlayer(pl).equals("")))
+        {
+            pl.sendMessage("Du bist bereits in einer Gilde und kannst aufgrunddessen keine gründen.");
+        }
 
         //Check if Gilde already exists
-        if(Main.getSaves().isConfigurationSection("gilden." + temp_gilden_name))
+        if(ToolBox.checkGildeExists(temp_gilden_name))
         {
             pl.sendMessage("Die Gilde mit dem Namen \"" + temp_gilden_name + "\" ist bereits vorhanden");
             return;
         }
 
         //Check if Gilde-Name is valid
-        if(temp_gilden_name.equals("") || temp_gilden_name.matches("[0-9]") || temp_gilden_name.length() <= 2)
+        if(ToolBox.validateGildeName(temp_gilden_name))
         {
             pl.sendMessage(
                     "Der Gildenname \"" + temp_gilden_name + "\" ist ungültig." +

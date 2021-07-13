@@ -1,13 +1,13 @@
-package de.Initium.Gilden.Commands;
+package de.Initium.Gilden.Commands.Invitation;
 
+import de.Initium.Gilden.Commands.Invitation.gilde_invite;
+import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Main.Timer;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Collection;
 
 public class gilde_response extends JavaPlugin
 {

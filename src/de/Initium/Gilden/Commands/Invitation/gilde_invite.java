@@ -1,5 +1,6 @@
-package de.Initium.Gilden.Commands;
+package de.Initium.Gilden.Commands.Invitation;
 
+import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Main.Timer;
 import de.Initium.Gilden.Main.ToolBox;
 import net.md_5.bungee.api.ChatColor;
@@ -13,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 public class gilde_invite extends JavaPlugin
 {
