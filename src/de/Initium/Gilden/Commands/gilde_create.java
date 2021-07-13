@@ -35,8 +35,7 @@ public class gilde_create extends JavaPlugin
             return;
         }
 
-        Main.getSaves().set("gilden." + temp_gilden_name + ".players." + pl.getUniqueId().toString() + ".Rang", "Leiter");
-        Main.saveSaves();
+        ToolBox.createGilde(temp_gilden_name, pl.getUniqueId().toString());
         pl.sendMessage("Die Gilde wurde erfolgreich erstellt. Du bist der Gildenleiter von " + temp_gilden_name);
     }
 }

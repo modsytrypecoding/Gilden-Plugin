@@ -1,7 +1,10 @@
 package de.Initium.Gilden.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,14 +41,18 @@ public class ToolBox extends JavaPlugin
 
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            if(!(key.contains(".Rang"))) continue;
-            
-
-            String temp_key = key.replace("gilden.", "");
-            ArrayList<String> temp = getallPlayersinGilde(temp_key);
-            if(temp.contains(uuid))
+            if(key.contains(".raenge.")) continue;
+            //key: <gildenname.>raenge.Leiter/Mitglieder/Fositzender
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "testkey: " + key);
+            ArrayList<ArrayList<String>> temp = getallPlayersinGilde(key);
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "temp: " + temp);
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "temp-c: " + temp.size());
+            for(ArrayList<String> temp_2 : temp)
             {
-                return temp_key;
+                if(temp_2.contains(uuid))
+                {
+                    return key;
+                }
             }
         }
         return "_";
@@ -59,19 +66,34 @@ public class ToolBox extends JavaPlugin
 
         ArrayList<String> temp = new ArrayList<>();
         temp.add(gruender_UUID);
-        Main.getSaves().set("gilden." + gildenname + ".players", temp);
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Forsitzender", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
         Main.saveSaves();
     }
 
-    public static void addPlayertoGilde(String uuid, String gildenname)
+    public static void addPlayertoGilde(String uuid, String gildenname, String rang)
     {
         //Only execute this method if checked:
         // - Gilde exists
         // - Player is not in Gilde
 
-        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".players");
+        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
         newList.add(uuid);
-        Main.getSaves().set("gilden." + gildenname + ".players", newList);
+        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+        Main.saveSaves();
+    }
+
+    public static void removePlayerfromGilde(String uuid, String gildenname)
+    {
+        //Only execute this method if checked:
+        // - Gilde exists
+        // - Player is not in Gilde
+
+        String rang = getGildeRankByPlayer(gildenname, uuid);
+        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
+        newList.remove(uuid);
+        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
         Main.saveSaves();
     }
 
@@ -80,64 +102,50 @@ public class ToolBox extends JavaPlugin
     	ArrayList<String> allUUIDs = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true)) 
         {
-        	if(!key.contains(".players")) continue;
-        	key.replace(".Rang", "").replace(".Leiter", "").replace(".Forsitzender", "").replace(".Mitglieder", "");
-            
-            
-          //testgilde.players
-            System.out.println("key: "+key);
-        	Object test = Main.getSaves().get("gilden." + key);
-        	if(test instanceof String)
-            {
-                allUUIDs.add((String) test);
-            }
-        	else if(test instanceof Collection<?>)
-            {
-                allUUIDs.addAll((Collection<String>) test);
-            }
+            if(!key.contains(".raenge.")) continue;
+
+            String temp = "gilden." + key;
+            //temp: gilden.gildenname.raenge.Leiter
+            //temp: gilden.gildenname.raenge.Forsitzender
+            //temp: gilden.gildenname.raenge.Mitglieder
+        	Object test = Main.getSaves().getStringList(temp);
+            allUUIDs.addAll((Collection<String>) test);
         }
-        System.out.println("allUUIDs" + allUUIDs);
         return allUUIDs;
     }
 
-    public static ArrayList<String> getallPlayersinGilde(String gildenname)
+    public static ArrayList<ArrayList<String>> getallPlayersinGilde(String gildenname)
     {
-        ArrayList<String> temp_return_list = new ArrayList<>();
-        Object tempMember = Main.getSaves().get("gilden." + gildenname + ".players");
-        Object tempForsitzender = Main.getSaves().get("gilden." + gildenname + ".Forsitzender");
-        Object tempLeiter = Main.getSaves().get("gilden." + gildenname + ".Leiter");
-        System.out.println("Member" + tempMember);
-        System.out.println("Forsitzender" + tempForsitzender);
-        System.out.println("Leiter" + tempLeiter);
-        if(tempMember instanceof List<?>)  {
-        	return new ArrayList<>((List<String>) tempMember); 
-
-        }else if(tempMember instanceof String && !(tempMember.equals(""))){
-        	temp_return_list.add(tempMember.toString());
-        }
-        if(tempForsitzender instanceof List<?>) {
-        	return new ArrayList<>((List<String>) tempForsitzender);
-        }else if(tempForsitzender instanceof String && !(tempForsitzender.equals(""))) {
-        	temp_return_list.add(tempForsitzender.toString());
-        }
-        if(tempLeiter instanceof List<?>)  {
-        	return new ArrayList<>((List<String>) tempLeiter);
-        }else if(tempLeiter instanceof String && !(tempLeiter.equals(""))){
-        	temp_return_list.add(tempLeiter.toString());
-        }
-        
+        ArrayList<ArrayList<String>> temp_return_list = new ArrayList<>();
+        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter")));
+        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Forsitzender")));
+        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Mitglieder")));
         return temp_return_list;
+    }
+
+    public static ArrayList<String> unserializeArrayList(ArrayList<ArrayList<String>> temp)
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for(ArrayList<String> inner_list : temp)
+        {
+            for(String result_string : inner_list)
+            {
+                result.add(result_string);
+            }
+        }
+        return result;
     }
 
     public static ArrayList<String> getAllGildennamen()
     {
-        ArrayList<String> storage = new ArrayList<>();
+        ArrayList<String> temp_storage = new ArrayList<>();
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
-            if(key.contains("players")) continue;
-            storage.add(key.replace("gilden.", ""));
+            if(key.contains("raenge")) continue;
+            Bukkit.getServer().getConsoleSender().sendMessage("DU MICH AUCH: " + key);
+            temp_storage.add(key.replace("gilden.", ""));
         }
-        return storage;
+        return temp_storage;
     }
 
     //ToDo:
@@ -177,20 +185,20 @@ public class ToolBox extends JavaPlugin
         // - Gilde exists
         // - Player is in Gilde
 
-        //if(Rank == "Leiter") return "Leiter";
-        //if(Rank == "Stellvertreter") return "Stellvertreter";
-        //return "Mitglied";
-        return "";
-    }
-    
-    public static void removePlayerfromGilde(String uuid, String gildenname) {
-    	//Only execute this method if checked:
-        // - Gilde exists
-        // - Player is not in Gilde
-    	
-    	List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".players");
-        newList.remove(uuid);
-        Main.getSaves().set("gilden." + gildenname + ".players", newList);
-        Main.saveSaves();
+        ArrayList<String> raenge = new ArrayList<>();
+        raenge.add("Leiter");
+        raenge.add("Forsitzender");
+        raenge.add("Mitglieder");
+        String rang_found = "";
+
+        for(String Rang : raenge)
+        {
+            if(Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + Rang).contains(UUID))
+            {
+                rang_found = Rang;
+                break;
+            }
+        }
+        return rang_found;
     }
 }

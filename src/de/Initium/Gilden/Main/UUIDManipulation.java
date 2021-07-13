@@ -29,7 +29,7 @@ public class UUIDManipulation extends JavaPlugin
         return getOfflinePlayerByUUID(UUID);
     }
 
-    public static ArrayList<String> getPlayernameByUUID(List<String> UUIDs)
+    public static ArrayList<String> getPlayernameByUUID_1(ArrayList<String> UUIDs)
     {
         ArrayList<String> playernames = new ArrayList<>();
         for(String UUID : UUIDs)
@@ -47,6 +47,32 @@ public class UUIDManipulation extends JavaPlugin
             if(!found)
             {
                 playernames.add(getOfflinePlayerByUUID(UUID).toString());
+            }
+        }
+        return playernames;
+    }
+
+    public static ArrayList<String> getPlayernameByUUID_2(ArrayList<ArrayList<String>> UUIDs)
+    {
+        ArrayList<String> playernames = new ArrayList<>();
+        for(List<String> asd : UUIDs)
+        {
+            for(String UUID : asd)
+            {
+                boolean found = false;
+                for(Player onlinePlayer : Bukkit.getOnlinePlayers())
+                {
+                    if(onlinePlayer.getUniqueId().toString().equals(UUID))
+                    {
+                        playernames.add(getOnlinePlayerByUUID(UUID).toString());
+                        found = true;
+                    }
+                }
+
+                if(!found)
+                {
+                    playernames.add(getOfflinePlayerByUUID(UUID).toString());
+                }
             }
         }
         return playernames;

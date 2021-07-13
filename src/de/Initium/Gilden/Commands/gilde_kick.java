@@ -22,7 +22,7 @@ public class gilde_kick extends JavaPlugin{
 			if(playersinlist.contains(p.getUniqueId().toString())) {
 				if(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(p)).contains(t.getUniqueId().toString())) {
 					ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-					ArrayList<String> playersofGilde = ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName())));
+					ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName()))));
 					p.sendMessage("Du hast den Spieler "+ t.getName() + " aus der Gilde entfernt!");
 					t.sendMessage("Du wurdest von dem Spieler " + p.getName() + " aus der Gilde entfernt!");
 					

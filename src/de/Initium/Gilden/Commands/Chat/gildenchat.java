@@ -19,7 +19,7 @@ public class gildenchat implements CommandExecutor
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
 
             if(command.getName().equalsIgnoreCase("gctest")) {
-                ArrayList<String> playersofGilde = ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())));
+                ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName()))));
 
                 if(playersinlist.contains(pl.getUniqueId().toString())) {
                     //Creation of the Message

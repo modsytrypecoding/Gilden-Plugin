@@ -21,7 +21,7 @@ public class gilden_chat
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
             
             if (playersinlist.contains(pl.getUniqueId().toString())) {
-            	ArrayList<String> playersofGilde = ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())));
+            	ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName()))));
                 //Creation of the Message
                 String message = "";
                 for (int i = 1; i != args.length; i++) {

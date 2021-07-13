@@ -38,7 +38,7 @@ public class gilde_response extends JavaPlugin
 
         if(arg1.equals("accept"))
         {
-            ToolBox.addPlayertoGilde(executor.getUniqueId().toString(), involved_gilde);
+            ToolBox.addPlayertoGilde(executor.getUniqueId().toString(), involved_gilde, "Mitglieder");
             exe_MSG = "Du hast die Einladung von der Gilde " + involved_gilde + " erfolgreich angenommen.\n" +
                     "Du befindest dich nun in der Gilde " + involved_gilde + ".\n" +
                     "Deine Insel wird in " + "" + " Stunden resettet. Transferiere deswegen deine Items auf die Gildeninsel.\n" +
@@ -48,7 +48,7 @@ public class gilde_response extends JavaPlugin
                     " hat deine Einladung angenommen";
 
             String in_gilde_MSG = "Der Spieler " + executor.getName() + " ist der Gilde beigetreten.";
-            for(String temp : UUIDManipulation.getPlayernameByUUID(ToolBox.getallPlayersinGilde(involved_gilde)))
+            for(String temp : UUIDManipulation.getPlayernameByUUID_2(ToolBox.getallPlayersinGilde(involved_gilde)))
             {
                 Player in_gilde = Bukkit.getPlayer(temp);
                 if(in_gilde == gilde_exponent) continue;
