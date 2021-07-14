@@ -5,6 +5,7 @@ import de.Initium.Gilden.Commands.Chat.gilde_chat_join;
 import de.Initium.Gilden.Commands.Chat.gilden_chat;
 import de.Initium.Gilden.Commands.Invitation.gilde_invite;
 import de.Initium.Gilden.Commands.Invitation.gilde_response;
+import de.Initium.Gilden.Commands.SignMethod.gilde_rename;
 import de.Initium.Gilden.NPCs.Commands.gilde_setnpc;
 import de.Initium.Gilden.NPCs.Main.Creation.CreationResponse;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +40,9 @@ public class CommandDispatcher extends JavaPlugin
             case "top":
                 gilde_top.execute(nr);
                 break;
+            case "setHome":
+            	gilde_SetHome.execute(nr);
+            	break;
             //case ...:
 
 
@@ -71,6 +75,9 @@ public class CommandDispatcher extends JavaPlugin
             case "invite":
                 gilde_invite.execute(nr, args[1]);
                 break;
+            case "rename":
+            	gilde_rename.execute(nr, args);
+            	break;
             case "accept":
             case "deny":
                 gilde_response.response(nr, args[0], args[1]);

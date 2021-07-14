@@ -2,6 +2,7 @@ package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.Gc;
+import de.Initium.Gilden.Commands.SignMethod.SignGUI;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;

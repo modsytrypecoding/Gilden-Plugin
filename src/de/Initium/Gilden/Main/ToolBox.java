@@ -1,6 +1,9 @@
 package de.Initium.Gilden.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,21 +20,21 @@ public class ToolBox extends JavaPlugin
 
     public static boolean validateGildeName(String gildenname)
     {
-        if(gildenname.length() <= 2) return false;
-        if(gildenname.contains("_")) return false;
-        if(gildenname.contains("-")) return false;
-        if(gildenname.contains(".")) return false;
-        if(gildenname.contains("1")) return false;
-        if(gildenname.contains("2")) return false;
-        if(gildenname.contains("3")) return false;
-        if(gildenname.contains("4")) return false;
-        if(gildenname.contains("5")) return false;
-        if(gildenname.contains("6")) return false;
-        if(gildenname.contains("7")) return false;
-        if(gildenname.contains("8")) return false;
-        if(gildenname.contains("9")) return false;
-        if(gildenname.contains("0")) return false;
-        return true;
+        if(gildenname.length() <= 2) return true;
+        if(gildenname.contains("_")) return true;
+        if(gildenname.contains("-")) return true;
+        if(gildenname.contains(".")) return true;
+        if(gildenname.contains("1")) return true;
+        if(gildenname.contains("2")) return true;
+        if(gildenname.contains("3")) return true;
+        if(gildenname.contains("4")) return true;
+        if(gildenname.contains("5")) return true;
+        if(gildenname.contains("6")) return true;
+        if(gildenname.contains("7")) return true;
+        if(gildenname.contains("8")) return true;
+        if(gildenname.contains("9")) return true;
+        if(gildenname.contains("0")) return true;
+        return false;
     }
 
     public static String getGildeNameOfPlayer(Player pl)
@@ -43,10 +46,7 @@ public class ToolBox extends JavaPlugin
         {
             if(key.contains(".raenge.")) continue;
             //key: <gildenname.>raenge.Leiter/Mitglieder/Fositzender
-            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "testkey: " + key);
             ArrayList<ArrayList<String>> temp = getallPlayersinGilde(key);
-            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "temp: " + temp);
-            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "temp-c: " + temp.size());
             for(ArrayList<String> temp_2 : temp)
             {
                 if(temp_2.contains(uuid))
@@ -69,6 +69,7 @@ public class ToolBox extends JavaPlugin
         Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
         Main.getSaves().set("gilden." + gildenname + ".raenge.Forsitzender", new ArrayList<String>());
         Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
         Main.saveSaves();
     }
 
@@ -200,5 +201,25 @@ public class ToolBox extends JavaPlugin
             }
         }
         return rang_found;
+    }
+    
+    public static Location getGildenHome(String gildenName) 
+    {
+    	//First check if Main.getSaves().getBoolean("gilden." + gildenName + ".Information." + "hasSetHome") == true
+
+    		
+    	
+    		FileConfiguration save = Main.getSaves();
+        	World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + " Location. " +"Home.World"));
+    		double x = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.X");
+    		double y = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Y");
+    		double z = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Z");
+    		float yaw = (float) save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Yaw");
+    		float pitch = (float) save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Pitch");
+    		Location location = new Location(world, x, y, z, yaw, pitch);
+    		return location;
+    		
+    	
+    	
     }
 }

@@ -1,3 +1,4 @@
+  
 package de.Initium.Gilden.Commands.Chat;
 
 
@@ -21,7 +22,7 @@ public class Gc implements CommandExecutor
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
             
             if (gilde_chat_join.watcher.contains(pl.getName())) {
-                pl.sendMessage("�cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
+                pl.sendMessage("§cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
             } else {
             	if(command.getName().equalsIgnoreCase("gctest")) {
                     
@@ -46,7 +47,7 @@ public class Gc implements CommandExecutor
                             }
                         }
                     }else {
-                        pl.sendMessage("�cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
+                        pl.sendMessage("§cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
                     }
                 }
             }

@@ -1,4 +1,3 @@
-  
 package de.Initium.Gilden.Commands;
 
 import de.Initium.Gilden.Main.Main;
