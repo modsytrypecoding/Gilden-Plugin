@@ -1,7 +1,7 @@
 package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.gilde_Main;
-import de.Initium.Gilden.Commands.Chat.Gc;
+import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
 import de.Initium.Gilden.Commands.SignMethod.SignGUI;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
@@ -23,7 +23,9 @@ public class Main extends JavaPlugin {
 	private static final YamlConfiguration configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
 
 	public void onEnable() {
+		SignGUI signGui;
 		plugin = this;
+		signGui = new SignGUI(this);
 		PluginManager pl = Bukkit.getPluginManager();
 
 		pl.registerEvents(new NPC_RightClick(), this);
@@ -32,7 +34,7 @@ public class Main extends JavaPlugin {
 		pl.registerEvents(new Bukkit_JoinLeave(), this);
 
 		getCommand("gilde").setExecutor(new gilde_Main());
-		getCommand("gctest").setExecutor(new Gc());
+		getCommand("gctest").setExecutor(new GildenChat_Short());
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {

@@ -1,13 +1,14 @@
 package de.Initium.Gilden.Main;
+import com.mysql.fabric.xmlrpc.base.Value;
+import de.Initium.Gilden.Commands.gilde_BankHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,14 @@ public class ToolBox extends JavaPlugin
     	 return Main.getSaves().getConfigurationSection("gilden." + gildenname) != null;
     }
 
+    public static boolean checkTagExists(String Tag)
+    {
+        return Main.getSaves().get("Tags." + "TagToGilde." + Tag) != null;
+    }
+
     public static boolean validateGildeName(String gildenname)
     {
-        if(gildenname.length() <= 2) return true;
+        if(gildenname.length() <= 3) return true;
         if(gildenname.contains("_")) return true;
         if(gildenname.contains("-")) return true;
         if(gildenname.contains(".")) return true;
@@ -35,6 +41,17 @@ public class ToolBox extends JavaPlugin
         if(gildenname.contains("9")) return true;
         if(gildenname.contains("0")) return true;
         return false;
+    }
+
+    public static boolean validateTagName(String TagName)
+    {
+        if(TagName.length() < 3) return true;
+        if(TagName.length() > 3) return true;
+        if(TagName.contains("_")) return true;
+        if(TagName.contains("-")) return true;
+        if(TagName.contains(".")) return true;
+        return false;
+
     }
 
     public static String getGildeNameOfPlayer(Player pl)
@@ -57,6 +74,29 @@ public class ToolBox extends JavaPlugin
         }
         return "_";
     }
+
+    public static String getgildebyTag(String Tag)
+    {
+        String key = Main.getSaves().get("Tags." + "TagToGilde." + Tag).toString();
+        return key;
+    }
+
+    public static String getTagbyGilde(String gilde)
+
+    {
+        String key = Main.getSaves().get("Tags." + "GildeToTag." +  gilde).toString();
+        return key;
+    }
+
+    public static String geTagName(String TagName)
+    {
+       if(Main.getSaves().getConfigurationSection("gilde.").contains(TagName)) {
+           String key = Main.getSaves().get("gilden." + TagName).toString();
+           return key;
+       }
+        return "!";
+    }
+
 
     public static void createGilde(String gildenname, String gruender_UUID)
     {
@@ -205,10 +245,8 @@ public class ToolBox extends JavaPlugin
     
     public static Location getGildenHome(String gildenName) 
     {
+        //Check if Gilde exists
     	//First check if Main.getSaves().getBoolean("gilden." + gildenName + ".Information." + "hasSetHome") == true
-
-    		
-    	
     		FileConfiguration save = Main.getSaves();
         	World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + " Location. " +"Home.World"));
     		double x = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.X");
@@ -221,5 +259,23 @@ public class ToolBox extends JavaPlugin
     		
     	
     	
+    }
+
+    public static void DelGilde(String GildenName) {
+        //Check if Player has Permission
+        //Check if GildenName exists
+        Main.getSaves().set("gilden." + GildenName, null);
+        Main.saveSaves();
+
+
+    }
+    public static void DelTag(String Tag) {
+
+        Main.getSaves().set("Tags." + "TagToGilde." + Tag, null);
+        Main.saveSaves();
+    }
+    public static void DelGildeToTag(String GildenName) {
+        Main.getSaves().set("Tags." + "GildeToTag." + GildenName, null);
+        Main.saveSaves();
     }
 }

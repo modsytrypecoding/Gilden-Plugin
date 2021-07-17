@@ -35,6 +35,7 @@ public class gilde_kick extends JavaPlugin{
 			                        String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
 			                        if (!(temp.equals(""))) {
 			                            (Bukkit.getPlayerExact(temp)).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName())) + "§r] §rDer Spieler §6" + p.getName() + " §rhat den Spieler §6" + t.getName() + " §raus der Gilde geworfen!");
+
 			                        }
 			                    }
 			                }
@@ -73,11 +74,12 @@ public class gilde_kick extends JavaPlugin{
 		}
 		if(args.length == 3) {
 			if(p.hasPermission("Gilde.Kick.team")) {
-				ConfigurationSection gilde = Main.getSaves().getConfigurationSection("gilden." + args[2]);
-				if(gilde != null) {
-					Player t2 = Bukkit.getPlayer(args[1]);
-					if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(args[2])).contains(t.getUniqueId().toString())) {
-						ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), args[2]);
+				if(ToolBox.checkGildeExists(args[0])) {
+					p.sendMessage("Test1");
+					Player t2 = Bukkit.getPlayer(args[2]);
+					if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(args[0])).contains(t.getUniqueId().toString())) {
+						p.sendMessage("Test2");
+						ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), args[0]);
 						p.sendMessage("§a Der Spieler §6" + args[1] + " §awurde erfolgreich aus der Gilde entfernt!");
 					}else {
 						p.sendMessage("§cDer Spieler ist nicht in der von dir angegebenen Gilde!");
@@ -85,7 +87,7 @@ public class gilde_kick extends JavaPlugin{
 					
 					
 				}else {
-					p.sendMessage("§cDie Gilde §6" + args[2] + " §cexistiert nicht!");
+					p.sendMessage("§cDie Gilde §6" + args[0] + " §cexistiert nicht!");
 				}
 				
 			}else {

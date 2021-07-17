@@ -7,6 +7,7 @@ authors:
   - Modstrype
 depend:
   - Citizens
+  - ProtocolLib
 website: https://initium-novum.net/
 commands:
   gilde:

@@ -3,9 +3,16 @@ package de.Initium.Gilden.Main;
 import de.Initium.Gilden.Commands.*;
 import de.Initium.Gilden.Commands.Chat.gilde_chat_join;
 import de.Initium.Gilden.Commands.Chat.gilden_chat;
+import de.Initium.Gilden.Commands.Home.gilde_SetHome;
+import de.Initium.Gilden.Commands.Home.gilde_delhome;
+import de.Initium.Gilden.Commands.Home.gilde_home;
+import de.Initium.Gilden.Commands.Home.gilde_homeTeam;
 import de.Initium.Gilden.Commands.Invitation.gilde_invite;
 import de.Initium.Gilden.Commands.Invitation.gilde_response;
-import de.Initium.Gilden.Commands.SignMethod.gilde_rename;
+import de.Initium.Gilden.Commands.Tag.gilde_delTag;
+import de.Initium.Gilden.Commands.Tag.gilde_delTagTeam;
+import de.Initium.Gilden.Commands.Tag.gilde_setTag;
+import de.Initium.Gilden.Commands.Tag.gilde_tag;
 import de.Initium.Gilden.NPCs.Commands.gilde_setnpc;
 import de.Initium.Gilden.NPCs.Main.Creation.CreationResponse;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,13 +50,37 @@ public class CommandDispatcher extends JavaPlugin
             case "setHome":
             	gilde_SetHome.execute(nr);
             	break;
+            case "home":
+                gilde_home.execute(nr);
+                break;
+            case "leave":
+                gilde_leave.execute(nr);
+                break;
+            case "delHome":
+                gilde_delhome.execute(nr);
+                break;
+            case "delTag":
+                gilde_delTag.execute(nr);
+                break;
+
+
+
+
             //case ...:
 
 
             //Fremde Gilde anzeigen
             default:
-                _show.execute(nr, arg);
+                if(arg.length() >= 4) {
+                    _show.execute(nr, arg);
+                }else if(arg.length() == 3) {
+                    gilde_tag.execute(nr, arg);
+                }
+
+
+
                 break;
+
         }
     }
 
@@ -69,15 +100,30 @@ public class CommandDispatcher extends JavaPlugin
             case "kick":
             	gilde_kick.execute(nr, args);
             	break;
+            case "delTag":
+                gilde_delTagTeam.execute(nr, args);
+                break;
+            case "test":
+                gilde_testforToolBox.execute(args);
+                break;
             case "rank":
             	gilde_rank.execute(nr, args);
             	break;
+            case "setTag":
+                gilde_setTag.execute(nr, args);
+                break;
             case "invite":
                 gilde_invite.execute(nr, args[1]);
                 break;
             case "rename":
-            	gilde_rename.execute(nr, args);
-            	break;
+                gilde_rename.execute(nr, args[1]);
+                break;
+            case "remove":
+                gilde_remove.execute(nr, args);
+                break;
+            case "home":
+                gilde_homeTeam.execute(nr, args);
+                break;
             case "accept":
             case "deny":
                 gilde_response.response(nr, args[0], args[1]);
@@ -92,9 +138,7 @@ public class CommandDispatcher extends JavaPlugin
             case "create-quit":
                 CreationResponse.execute(nr, args[0], args[1]);
                 break;
-            case "set":
-                _show.set(nr, args[1]);
-                break;
+
         }
     }
 }
