@@ -1,0 +1,19 @@
+
+name: Gilden-Plugin
+main: de.Initium.Gilden.Main.Main
+version: 0.1-SNAP
+api-version: 1.16
+authors:
+  - doppelkool
+  - Modstrype
+depend:
+  - Citizens
+  - ProtocolLib
+website: https://initium-novum.net/
+commands:
+  gilde:
+    usage: /<command> [top|chat|create|invite|accept|deny|setnpc|chat-join]
+    description: Main Command to the plugin
+  gctest:
+    usage: /<command>
+    description: Test-Gilde-Chat-CMD

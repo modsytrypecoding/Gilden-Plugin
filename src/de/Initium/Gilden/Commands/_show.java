@@ -26,6 +26,7 @@ public class _show extends JavaPlugin
     {
         Player pl = gilde_Main.getPlayer(nr);
 
+
         if(!ToolBox.checkGildeExists(gilde_name))
         {
             pl.sendMessage("Die Gilde " + gilde_name + " existiert nicht");
@@ -56,10 +57,4 @@ public class _show extends JavaPlugin
         * */
     }
 
-    public static void set(Integer nr, String arg)
-    {
-        Player pl = gilde_Main.getPlayer(nr);
-        String msg = MessageMapping.getMSG("Rank.Failed-IsLeader");
-        pl.sendMessage("TestMSG -> " + msg);
-    }
 }
