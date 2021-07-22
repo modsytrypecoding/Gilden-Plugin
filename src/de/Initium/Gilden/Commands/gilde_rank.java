@@ -37,7 +37,7 @@ public class gilde_rank extends JavaPlugin{
 								}else if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Forsitzender")){
 									p.sendMessage("Dieser Spieler ist bereits Forsitzender");
 								}else {
-									p.sendMessage("§cDieser Spieler ist ein Leiter! Du kannst seinen Rang nicht verändern");
+									p.sendMessage("§c Dieser Spieler ist ein Leiter! Du kannst seinen Rang nicht verändern");
 								}
 						}
 							
@@ -47,6 +47,11 @@ public class gilde_rank extends JavaPlugin{
 										ToolBox.addPlayertoGilde(t.getUniqueId().toString(), gilde, "Leiter");
 										p.sendMessage("§aDu hast den Rang des Spielers §6" + t.getName() + " §avon Forsitzender auf Leiter befördert!");
 										t.sendMessage("§aDein Rang wurde von §6Forsitzender §aauf Rang §6Leiter §abefördert!");
+									
+									
+									
+									
+									
 								}else if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
 									ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 									ToolBox.addPlayertoGilde(t.getUniqueId().toString(), gilde, "Leiter");
@@ -56,14 +61,18 @@ public class gilde_rank extends JavaPlugin{
 									p.sendMessage("§c Dieser Spieler ist ein Leiter! Du kannst seinen Rang nicht verändern");
 								}
 							}
-
-
+							
 						if(args[2].equalsIgnoreCase("Mitglied")) {
 							if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Forsitzender")) {
 								ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 									ToolBox.addPlayertoGilde(t.getUniqueId().toString(), gilde, "Mitglieder");
 									p.sendMessage("§aDu hast den Rang des Spielers §6" + t.getName() + " §avon Forsitzender auf Mitglied degradiert!");
 									t.sendMessage("§aDein Rang wurde von §6Forsitzender §aauf Rang §6Member §adegradiert!");
+								
+								
+								
+								
+								
 							}else if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
 								p.sendMessage("§cDieser Spieler ist bereits ein Mitglied!");
 							}else {

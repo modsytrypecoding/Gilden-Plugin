@@ -1,8 +1,12 @@
 package de.Initium.Gilden.Main;
 import com.mysql.fabric.xmlrpc.base.Value;
 import de.Initium.Gilden.Commands.gilde_BankHandler;
+import me.xanium.gemseconomy.GemsEconomy;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -104,13 +108,19 @@ public class ToolBox extends JavaPlugin
         // - Gildenname is not used yet
         // - Player is not in any Gilde
 
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add(gruender_UUID);
-        Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
-        Main.getSaves().set("gilden." + gildenname + ".raenge.Forsitzender", new ArrayList<String>());
-        Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
-        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
-        Main.saveSaves();
+
+            ArrayList<String> temp = new ArrayList<>();
+            temp.add(gruender_UUID);
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Forsitzender", new ArrayList<String>());
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
+            Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
+            Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
+            Main.saveSaves();
+
+
+
+
     }
 
     public static void addPlayertoGilde(String uuid, String gildenname, String rang)
@@ -248,17 +258,35 @@ public class ToolBox extends JavaPlugin
         //Check if Gilde exists
     	//First check if Main.getSaves().getBoolean("gilden." + gildenName + ".Information." + "hasSetHome") == true
     		FileConfiguration save = Main.getSaves();
-        	World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + " Location. " +"Home.World"));
-    		double x = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.X");
-    		double y = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Y");
-    		double z = save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Z");
-    		float yaw = (float) save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Yaw");
-    		float pitch = (float) save.getDouble("gilden." + gildenName + ".Information." + " Location. " +"Home.Pitch");
+        	World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.World"));
+    		double x = save.getDouble("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.X");
+    		double y = save.getDouble("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.Y");
+    		double z = save.getDouble("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.Z");
+    		float yaw = (float) save.getDouble("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.Yaw");
+    		float pitch = (float) save.getDouble("gilden." + gildenName + ".Information." + "HomeLocation." +"Home.Pitch");
     		Location location = new Location(world, x, y, z, yaw, pitch);
     		return location;
     		
     	
     	
+    }
+
+    public static Location getGildenSpawn(String gildenName)
+    {
+        //Check if Gilde exists
+        //First check if Main.getSaves().getBoolean("gilden." + gildenName + ".Information." + "hasSetSpawn") == true
+        FileConfiguration save = Main.getSaves();
+        World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.World"));
+        double x = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.X");
+        double y = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Y");
+        double z = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Z");
+        float yaw = (float) save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Yaw");
+        float pitch = (float) save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Pitch");
+        Location location = new Location(world, x, y, z, yaw, pitch);
+        return location;
+
+
+
     }
 
     public static void DelGilde(String GildenName) {

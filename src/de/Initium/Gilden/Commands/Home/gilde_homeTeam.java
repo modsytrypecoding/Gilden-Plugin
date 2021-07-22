@@ -23,9 +23,9 @@ public class gilde_homeTeam extends JavaPlugin {
                             p.teleport(ToolBox.getGildenHome(gildeTeam));
                             p.sendMessage("§aDu wurdest erfolgreich teleportiert!");
                         }else {
-                            p.sendMessage("§cDu kannst dich nicht zu deinem Home teleportieren!");
+                            p.sendMessage("§cDu kannst dich nicht zu diesem Home teleportieren!");
                             p.sendMessage("Der Home Punkt scheint besetzt zu sein");
-                            p.sendMessage("Begebe dich in Creative oder Spectator Mode um dich trotzdem zu teleportieren!");
+                            p.sendMessage("Begebe dich in Creative oder Spectator Mode\num dich trotzdem zu teleportieren!");
                         }
                     }
                 }else {

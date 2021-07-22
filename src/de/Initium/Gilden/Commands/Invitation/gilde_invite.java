@@ -1,7 +1,7 @@
 package de.Initium.Gilden.Commands.Invitation;
 
 import de.Initium.Gilden.Commands.gilde_Main;
-import de.Initium.Gilden.Timer.Invitation_Response;
+import de.Initium.Gilden.Main.Timer;
 import de.Initium.Gilden.Main.ToolBox;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -23,10 +23,10 @@ public class gilde_invite extends JavaPlugin
     {
         Player pl = gilde_Main.getPlayer(nr);
 
-        if(Invitation_Response.getGildenTimer().containsKey(pl))
+        if(Timer.getGildenTimer().containsKey(pl))
         {
-            Object restzeit = Invitation_Response.getGildenTimer().get(pl);
-            pl.sendMessage("Du kannst erst wieder in " + restzeit + " Sekunden eine weitere Anfrage schicken");
+            Object restzeit = Timer.getGildenTimer().get(pl);
+            pl.sendMessage("Du kannst erst wieder in " + restzeit + " Sekunden eine weitere Anfragen schicken");
         }
 
         if(pl.getName().equals(target_name))
@@ -55,7 +55,7 @@ public class gilde_invite extends JavaPlugin
             return;
         }
 
-        Invitation_Response.setTimer(pl, target);
+        Timer.setTimer(pl, target);
 
         String gildename_inv = ToolBox.getGildeNameOfPlayer(pl);
 
@@ -82,7 +82,7 @@ public class gilde_invite extends JavaPlugin
         target.spigot().sendMessage(c2);
         pl.sendMessage("Du hast " + target.getName() + " in deine Gilde eingeladen");
 
-        Invitation_Response.getGilde_invitation_Mapping().put(gildename_inv, pl);
+        Timer.getGilde_invitation_Mapping().put(gildename_inv, pl);
         openResponses.add(target);
     }
 

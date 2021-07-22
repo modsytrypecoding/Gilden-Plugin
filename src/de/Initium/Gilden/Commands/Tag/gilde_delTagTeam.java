@@ -14,7 +14,7 @@ public class gilde_delTagTeam extends JavaPlugin {
         if(p.hasPermission("gilde.Tag.admin")) {
             String gildeTeam = args[1];
             if(ToolBox.checkGildeExists(gildeTeam)) {
-                if(Main.getSaves().get("Tags." + "GildeToTag." +  gildeTeam)== null) {
+                if(Main.getSaves().get("Tags." + "GildeToTag." +  gildeTeam)!= null) {
                     ToolBox.DelTag(ToolBox.getTagbyGilde(gildeTeam));
                     ToolBox.DelGildeToTag(gildeTeam);
                     p.sendMessage("§aDer Gilden-Tag wurde erfolgreich gelöscht!");

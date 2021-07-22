@@ -8,6 +8,8 @@ authors:
 depend:
   - Citizens
   - ProtocolLib
+  - Vault
+  - GemsEconomy
 website: https://initium-novum.net/
 commands:
   gilde:

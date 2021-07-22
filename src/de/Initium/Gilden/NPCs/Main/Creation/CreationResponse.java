@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CreationResponse extends JavaPlugin
 {
-    public static void execute(Integer nr, String[] args)
+    public static void execute(Integer nr, String arg_0, String arg_1)
     {
         Player pl = gilde_Main.getPlayer(nr);
 
@@ -19,7 +19,7 @@ public class CreationResponse extends JavaPlugin
         String gildenname = "";
         try
         {
-            String[] parts = args[1].split("_");
+            String[] parts = arg_1.split("_");
             playername = parts[0];
             gildenname = parts[1];
         }
@@ -42,7 +42,7 @@ public class CreationResponse extends JavaPlugin
             return;
         }
 
-        if(args[0].equals("create-confirm"))
+        if(arg_0.equals("create-confirm"))
         {
             ToolBox.createGilde(gildenname, pl.getUniqueId().toString());
             pl.sendMessage("TESTNACHRICHT. Erfolgreich Erstellt");

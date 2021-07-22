@@ -9,10 +9,9 @@ import de.Initium.Gilden.Commands.Home.gilde_home;
 import de.Initium.Gilden.Commands.Home.gilde_homeTeam;
 import de.Initium.Gilden.Commands.Invitation.gilde_invite;
 import de.Initium.Gilden.Commands.Invitation.gilde_response;
-import de.Initium.Gilden.Commands.Tag.gilde_delTag;
-import de.Initium.Gilden.Commands.Tag.gilde_delTagTeam;
-import de.Initium.Gilden.Commands.Tag.gilde_setTag;
-import de.Initium.Gilden.Commands.Tag.gilde_tag;
+import de.Initium.Gilden.Commands.Spawn.gilde_setspawn;
+import de.Initium.Gilden.Commands.Spawn.gilde_spawn;
+import de.Initium.Gilden.Commands.Tag.*;
 import de.Initium.Gilden.NPCs.Commands.gilde_setnpc;
 import de.Initium.Gilden.NPCs.Main.Creation.CreationResponse;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,11 +49,21 @@ public class CommandDispatcher extends JavaPlugin
             case "setHome":
             	gilde_SetHome.execute(nr);
             	break;
+            case "setspawn":
+                gilde_setspawn.execute(nr);
+                break;
             case "home":
                 gilde_home.execute(nr);
                 break;
+            case "spawn":
+                gilde_spawn.execute(nr);
+                break;
             case "leave":
                 gilde_leave.execute(nr);
+                break;
+            case "responsecancle":
+            case "responsedelet":
+                response.execute(nr, arg);
                 break;
             case "delHome":
                 gilde_delhome.execute(nr);
@@ -87,6 +96,7 @@ public class CommandDispatcher extends JavaPlugin
     public static void dispatch(Integer nr, String[] args)
     {
         switch(args[0]) {
+            //TEMP: Gilde Erstellen
             case "create":
                 gilde_create.execute(nr, args[1]);
                 break;
@@ -102,6 +112,10 @@ public class CommandDispatcher extends JavaPlugin
             case "delTag":
                 gilde_delTagTeam.execute(nr, args);
                 break;
+            case "reTag":
+            case "renameTag":
+                gilde_reTag.execute(nr, args);
+                break;
             case "test":
                 gilde_testforToolBox.execute(args);
                 break;
@@ -115,7 +129,7 @@ public class CommandDispatcher extends JavaPlugin
                 gilde_invite.execute(nr, args[1]);
                 break;
             case "rename":
-                gilde_rename.execute(nr, args[1]);
+                gilde_rename.execute(nr, args);
                 break;
             case "remove":
                 gilde_remove.execute(nr, args);
@@ -125,7 +139,7 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "accept":
             case "deny":
-                gilde_response.response(nr, args);
+                gilde_response.response(nr, args[0], args[1]);
                 break;
             case "top":
                 gilde_top.execute(nr, args[1]);
@@ -135,7 +149,7 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "create-confirm":
             case "create-quit":
-                CreationResponse.execute(nr, args);
+                CreationResponse.execute(nr, args[0], args[1]);
                 break;
 
         }

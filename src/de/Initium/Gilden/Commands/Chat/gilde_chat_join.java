@@ -31,9 +31,13 @@ public class gilde_chat_join extends JavaPlugin{
 					ToolBox.removePlayerfromGilde(pl.getUniqueId().toString(), args[1]);
 					pl.sendMessage("§cWatcher deaktiviert!");
 				}
+				
 			}
 		}else {
 			pl.sendMessage("§cDazu hast du keine Berechtigungen!");
 		}
+		
+		
 	}
+
 }
