@@ -24,6 +24,7 @@ public class Gc implements CommandExecutor
                 pl.sendMessage("�cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
             } else {
             	if(command.getName().equalsIgnoreCase("gctest")) {
+
                     
 
                     if(playersinlist.contains(pl.getUniqueId().toString())) {
