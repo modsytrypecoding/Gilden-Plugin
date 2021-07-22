@@ -29,18 +29,18 @@ public class gildenchat implements CommandExecutor
                     }
 
                     //Sending Message
-                    pl.sendMessage("[Â§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "Â§r] Â§6" + pl.getName() + "Â§r: " + message);
+                    pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                     for(String all : playersofGilde) {
                         if(!(pl.getUniqueId().toString().equals(all))) {
                             String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                             if(!(temp.equals("")))
                             {
-                                (Bukkit.getPlayerExact(temp)).sendMessage("[Â§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "Â§r] Â§6" + pl.getName() + "Â§r: " + message);
+                                (Bukkit.getPlayerExact(temp)).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                             }
                         }
                     }
                 }else {
-                    pl.sendMessage("Â§cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
+                    pl.sendMessage("§cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
                 }
             }
         }

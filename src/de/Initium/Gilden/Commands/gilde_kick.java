@@ -82,28 +82,13 @@ public class gilde_kick extends JavaPlugin{
 					}else {
 						p.sendMessage("§cDer Spieler ist nicht in der von dir angegebenen Gilde!");
 					}
-					
-					
 				}else {
 					p.sendMessage("§cDie Gilde §6" + args[2] + " §cexistiert nicht!");
 				}
-				
 			}else {
 				p.sendMessage("§cDu hast keine Rechte Spieler aus fremden Gilden zu kicken");
 			}
-			
-			
 		}
-		
-		
-						
-					
-				
-			
-		
-	
-			
-		
 	}
 }
 

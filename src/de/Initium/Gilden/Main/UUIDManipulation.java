@@ -39,14 +39,14 @@ public class UUIDManipulation extends JavaPlugin
             {
                 if(onlinePlayer.getUniqueId().toString().equals(UUID))
                 {
-                    playernames.add(getOnlinePlayerByUUID(UUID).toString());
+                    playernames.add(getOnlinePlayerByUUID(UUID));
                     found = true;
                 }
             }
 
             if(!found)
             {
-                playernames.add(getOfflinePlayerByUUID(UUID).toString());
+                playernames.add(getOfflinePlayerByUUID(UUID));
             }
         }
         return playernames;

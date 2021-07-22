@@ -1,10 +1,9 @@
 package de.Initium.Gilden.Commands;
 
-import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
+import de.Initium.Gilden.MessageControlling.MessageMapping;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,13 +14,11 @@ public class _show extends JavaPlugin
     public static void execute(Integer nr)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        Bukkit.getConsoleSender().sendMessage("AllPlayers: " + ToolBox.getallPlayers());
         if(!(ToolBox.getallPlayers().contains(pl.getUniqueId().toString())))
         {
             pl.sendMessage("Du kannst dir deine eigene Gilde nicht anzeigen, da du in keiner bist");
             return;
         }
-
         execute(nr, ToolBox.getGildeNameOfPlayer(pl));
     }
 
@@ -36,7 +33,7 @@ public class _show extends JavaPlugin
         }
 
         ArrayList<ArrayList<String>> UUIDs = ToolBox.getallPlayersinGilde(gilde_name);
-        String MSG = "Gilde " + gilde_name + ":";
+        String MSG = "====Gilde " + gilde_name + "====";
         for(int i = 0; i < 3; i++)
         {
             ArrayList<String> temp = UUIDManipulation.getPlayernameByUUID_1(UUIDs.get(i));
@@ -62,6 +59,7 @@ public class _show extends JavaPlugin
     public static void set(Integer nr, String arg)
     {
         Player pl = gilde_Main.getPlayer(nr);
-        pl.sendMessage("" + ToolBox.checkGildeExists(arg));
+        String msg = MessageMapping.getMSG("Rank.Failed-IsLeader");
+        pl.sendMessage("TestMSG -> " + msg);
     }
 }

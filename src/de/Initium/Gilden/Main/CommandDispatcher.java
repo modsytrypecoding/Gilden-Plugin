@@ -56,7 +56,6 @@ public class CommandDispatcher extends JavaPlugin
     public static void dispatch(Integer nr, String[] args)
     {
         switch(args[0]) {
-            //TEMP: Gilde Erstellen
             case "create":
                 gilde_create.execute(nr, args[1]);
                 break;
@@ -80,7 +79,7 @@ public class CommandDispatcher extends JavaPlugin
             	break;
             case "accept":
             case "deny":
-                gilde_response.response(nr, args[0], args[1]);
+                gilde_response.response(nr, args);
                 break;
             case "top":
                 gilde_top.execute(nr, args[1]);
@@ -90,7 +89,7 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "create-confirm":
             case "create-quit":
-                CreationResponse.execute(nr, args[0], args[1]);
+                CreationResponse.execute(nr, args);
                 break;
             case "set":
                 _show.set(nr, args[1]);

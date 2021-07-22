@@ -22,7 +22,7 @@ public class Gc implements CommandExecutor
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
             
             if (gilde_chat_join.watcher.contains(pl.getName())) {
-                pl.sendMessage("Â§cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
+                pl.sendMessage("§cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
             } else {
             	if(command.getName().equalsIgnoreCase("gctest")) {
                     
@@ -36,18 +36,18 @@ public class Gc implements CommandExecutor
                         }
 
                         //Sending Message
-                        pl.sendMessage("[ï¿½a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "ï¿½r] ï¿½6" + pl.getName() + "ï¿½r: " + message);
+                        pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                         for(String all : playersofGilde) {
                             if(!(pl.getUniqueId().toString().equals(all))) {
                                 String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                                 if(!(temp.equals("")))
                                 {
-                                    (Bukkit.getPlayerExact(temp)).sendMessage("[ï¿½a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "ï¿½r] ï¿½6" + pl.getName() + "ï¿½r: " + message);
+                                    (Bukkit.getPlayerExact(temp)).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                                 }
                             }
                         }
                     }else {
-                        pl.sendMessage("Â§cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
+                        pl.sendMessage("§cDu kannst diesen Befehl nicht beznutzen, da du in keiner Gilde bist!");
                     }
                 }
             }

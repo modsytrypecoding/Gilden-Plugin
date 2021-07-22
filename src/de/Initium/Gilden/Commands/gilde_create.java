@@ -1,7 +1,7 @@
 package de.Initium.Gilden.Commands;
 
-import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,5 +37,6 @@ public class gilde_create extends JavaPlugin
 
         ToolBox.createGilde(temp_gilden_name, pl.getUniqueId().toString());
         pl.sendMessage("Die Gilde wurde erfolgreich erstellt. Du bist der Gildenleiter von " + temp_gilden_name);
+        Bukkit.getServer().broadcastMessage("Die Gilde " + temp_gilden_name + " wurde erfolgreich von " + pl.getName() + " gegründet!");
     }
 }
