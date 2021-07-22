@@ -33,6 +33,7 @@ public class gilde_response extends JavaPlugin
         String exe_MSG = "";
         String tar_MSG = "";
 
+
         if(args[1].equals("accept"))
         {
             ToolBox.addPlayertoGilde(executor.getUniqueId().toString(), involved_gilde, "Mitglieder");
