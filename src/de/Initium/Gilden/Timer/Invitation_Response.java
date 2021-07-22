@@ -1,7 +1,8 @@
-package de.Initium.Gilden.Main;
+package de.Initium.Gilden.Timer;
 
+import de.Initium.Gilden.Main.Main;
+import de.Initium.Gilden.Main.ToolBox;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,7 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Timer extends JavaPlugin
+public class Invitation_Response extends JavaPlugin
 {
     static HashMap<Integer, Player> gildentimer = new HashMap<>();
     static HashMap<Player, Player> exTar_Mapping = new HashMap<>();
@@ -30,7 +31,7 @@ public class Timer extends JavaPlugin
                     Player tar = exTar_Mapping.get(gildentimer.get(this.getTaskId()));
                     if(exe.isOnline()) exe.sendMessage("Deine Gildenanfrage an " + tar.getName() + " ist ausgelaufen.");
                     if(tar.isOnline()) tar.sendMessage("Die Gildenanfrage von " + ToolBox.getGildeNameOfPlayer(exe) + " ist ausgelaufen.");
-                    Timer.remove(this.getTaskId());
+                    Invitation_Response.remove(this.getTaskId());
                 }
                 restzeit -= 20;
             }

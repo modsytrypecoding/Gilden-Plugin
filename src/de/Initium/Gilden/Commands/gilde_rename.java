@@ -26,17 +26,10 @@ public class gilde_rename extends JavaPlugin {
                      p.sendMessage("key " + s );
                      Main.saveSaves();
             }
-
-
                 p.sendMessage("§aDu hast deine Gilde erfolgreich umbenannt!");
 
         }else {
             p.sendMessage("§cDu kannst diesen Befehl nicht ausführen, da du in keiner Gilde bist!");
         }
     }
-
-
-
-
-
 }

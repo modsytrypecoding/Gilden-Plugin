@@ -2,6 +2,7 @@ package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
+import de.Initium.Gilden.MessageControlling.DefaultMessages;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;
@@ -22,6 +23,8 @@ public class Main extends JavaPlugin {
 	private static final YamlConfiguration savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
 	private static final File configfile = new File("plugins//Gilde-Plugin//config.yml");
 	private static final YamlConfiguration configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
+	private static final File messagefile = new File("plugins//Gilde-Plugin//messages.yml");
+	private static final YamlConfiguration messagefileConfiguration = YamlConfiguration.loadConfiguration(messagefile);
 
 	public static Economy eco = null;
 
@@ -37,10 +40,6 @@ public class Main extends JavaPlugin {
 
 		getCommand("gilde").setExecutor(new gilde_Main());
 		getCommand("gctest").setExecutor(new GildenChat_Short());
-
-
-
-
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {
@@ -63,13 +62,24 @@ public class Main extends JavaPlugin {
 				getLogger().info("Fehler beim Erstellen der config.yml: " + e);
 			}
 		}
+
+		//Creation of the messages.yml
+		if(!messagefile.exists() || !messagefileConfiguration.isSet("settings")) {
+			DefaultMessages.set(messagefileConfiguration);
+
+			try {
+				messagefileConfiguration.save(messagefile);
+				return;
+			} catch (IOException e) {
+				getLogger().info("Fehler beim Erstellen der messages.yml: " + e);
+			}
+		}
+
 		if(setupEconomy()) {
 			Bukkit.getConsoleSender().sendMessage("Vault wurde initialisiert!");
 		}else {
 			Bukkit.getConsoleSender().sendMessage("Vault nicht gefunden!");
 		}
-
-
 	}
 	
 	public static Main getPlugin() {
@@ -98,6 +108,16 @@ public class Main extends JavaPlugin {
 		}
 	}
 
+	public static YamlConfiguration getMessages() {
+		return messagefileConfiguration;
+	}
+	public static void saveMessages() {
+		try {
+			messagefileConfiguration.save(messagefile);
+		} catch (IOException e) {
+			getPlugin().getLogger().info("Fehler beim Speichern der messages.yml: " + e);
+		}
+	}
 
 	private boolean setupEconomy() {
 		if (getServer().getPluginManager().getPlugin("Vault") == null) {

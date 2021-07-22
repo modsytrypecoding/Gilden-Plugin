@@ -1,23 +1,20 @@
 package de.Initium.Gilden.Commands.Invitation;
 
-import de.Initium.Gilden.Commands.Invitation.gilde_invite;
 import de.Initium.Gilden.Commands.gilde_Main;
-import de.Initium.Gilden.Main.Timer;
+import de.Initium.Gilden.Timer.Invitation_Response;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
-
 public class gilde_response extends JavaPlugin
 {
-    public static void response(Integer nr, String arg1, String arg2)
+    public static void response(Integer nr, String[] args)
     {
         Player executor = gilde_Main.getPlayer(nr);
-        Object check1 = Timer.getExecByTarget(executor);
-        Object check2 = Timer.getGilde_invitation_Mapping().get(arg2);
+        Object check1 = Invitation_Response.getExecByTarget(executor);
+        Object check2 = Invitation_Response.getGilde_invitation_Mapping().get(args[0]);
 
         if(!checkInvitationExists(check1, check2))
         {
@@ -30,15 +27,21 @@ public class gilde_response extends JavaPlugin
             return;
         }
         Player gilde_exponent = (Player) check2;
-        Timer.remove(Timer.getTaskByPlayer(gilde_exponent));
+        Invitation_Response.remove(Invitation_Response.getTaskByPlayer(gilde_exponent));
         gilde_invite.getOpenResponses().remove(executor);
         String involved_gilde = ToolBox.getGildeNameOfPlayer(gilde_exponent);
         String exe_MSG = "";
         String tar_MSG = "";
 
-        if(arg1.equals("accept"))
+        if(args[1].equals("accept"))
         {
             ToolBox.addPlayertoGilde(executor.getUniqueId().toString(), involved_gilde, "Mitglieder");
+
+            //ToDo:
+            // if Player has own (kleine) Insel (CHANGE MESSAGE DOWN BELOW)
+            //  -> Connection with Insel-Plugin -> Start Reset of
+            // !-> -
+
             exe_MSG = "Du hast die Einladung von der Gilde " + involved_gilde + " erfolgreich angenommen.\n" +
                     "Du befindest dich nun in der Gilde " + involved_gilde + ".\n" +
                     "Deine Insel wird in " + "" + " Stunden resettet. Transferiere deswegen deine Items auf die Gildeninsel.\n" +

@@ -139,7 +139,7 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "accept":
             case "deny":
-                gilde_response.response(nr, args[0], args[1]);
+                gilde_response.response(nr, args);
                 break;
             case "top":
                 gilde_top.execute(nr, args[1]);
@@ -151,7 +151,6 @@ public class CommandDispatcher extends JavaPlugin
             case "create-quit":
                 CreationResponse.execute(nr, args[0], args[1]);
                 break;
-
         }
     }
 }
