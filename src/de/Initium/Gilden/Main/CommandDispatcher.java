@@ -106,6 +106,10 @@ public class CommandDispatcher extends JavaPlugin
             case "chat-join":
             	gilde_chat_join.execute(nr, args);
             	break;
+            case "pay":
+            case "take":
+                gilden_Bank.execute(nr, args);
+                break;
             case "kick":
             	gilde_kick.execute(nr, args);
             	break;
@@ -117,7 +121,7 @@ public class CommandDispatcher extends JavaPlugin
                 gilde_reTag.execute(nr, args);
                 break;
             case "test":
-                gilde_testforToolBox.execute(args);
+                gilde_testforToolBox.execute(nr, args);
                 break;
             case "rank":
             	gilde_rank.execute(nr, args);

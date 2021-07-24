@@ -11,9 +11,10 @@ public class gilde_delhome extends JavaPlugin {
     public static void execute(Integer nr) {
         Player p = gilde_Main.getPlayer(nr);
 
+        //check if Player is in Gilde
         if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
             String gilde = ToolBox.getGildeNameOfPlayer(p);
-
+            //check Rank
                 if(ToolBox.getGildeRankByPlayer(gilde, p.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde, p.getUniqueId().toString()).equalsIgnoreCase("Fositzender")) {
                     if(Main.getSaves().get("gilden." + gilde + ".Information." + "hasSetHome").equals(true)) {
                         Main.getSaves().set("gilden." + gilde + ".Information." + " Location", null);
@@ -23,7 +24,6 @@ public class gilde_delhome extends JavaPlugin {
                     }else {
                         p.sendMessage("§cDeine Gilde hat keinen Aktiven Home Punkt!");
                     }
-
                 } else {
                     p.sendMessage("§cDu kannst den Home Punkt nicht löschen!");
                 }
@@ -31,7 +31,5 @@ public class gilde_delhome extends JavaPlugin {
                 p.sendMessage("Du kannst diesen Befehl nicht benutzen!");
             }
             }
-
-
     }
 

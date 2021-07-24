@@ -20,7 +20,6 @@ public class gilden_chat
             pl.sendMessage("§cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
         } else {
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
-            
             if (playersinlist.contains(pl.getUniqueId().toString())) {
             	ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName()))));
                 //Creation of the Message
@@ -28,7 +27,6 @@ public class gilden_chat
                 for (int i = 1; i != args.length; i++) {
                     message += args[i] + " ";
                 }
-
                 //Sending Message
                 pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                 for (String all : playersofGilde) {

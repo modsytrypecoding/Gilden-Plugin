@@ -57,38 +57,38 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(rank_key +  "Failed-ChangeOwnRank", "§cDu kannst deinen eigenen Rang nicht ändern!");
         messagesfileConfiguration.set(rank_key +  "Failed-PlayerNotFound", "§cDer Spieler %target% ist nicht in deiner Gilde!");
         messagesfileConfiguration.set(rank_key +  "Failed-AsMitglied", "§cDein Rang erlaubt es dir nicht die Ränge anderer Gildenmitglieder zu ändern!");
-        messagesfileConfiguration.set(rank_key +  "Failed-WrongRanknames", "§cDer von dir eingegebene Rang funktioniert nicht! /nVerfügbare Ränge: /n-§6Gildenleiter /n§r-§6Forsitzender /n§r-§6Member");
-        messagesfileConfiguration.set(rank_key +  "Successfull-MemberToChairman-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Forsitzender befördert!");
-        messagesfileConfiguration.set(rank_key +  "Successfull-MemberToChairman-ToTarget", "§aDein Rang wurde von §6Member §aauf Rang §6Forsitzender §abefördert!");
-        messagesfileConfiguration.set(rank_key +  "Failed-AlreadyChairman", "Dieser Spieler ist bereits Forsitzender");
+        messagesfileConfiguration.set(rank_key +  "Failed-WrongRanknames", "§cDer von dir eingegebene Rang funktioniert nicht! /nVerfügbare Ränge: /n-§6Gildenleiter /n§r-§6Stellvertreter /n§r-§6Member");
+        messagesfileConfiguration.set(rank_key +  "Successfull-MemberToChairman-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Stellvertreter befördert!");
+        messagesfileConfiguration.set(rank_key +  "Successfull-MemberToChairman-ToTarget", "§aDein Rang wurde von §6Member §aauf Rang §6Stellvertreter §abefördert!");
+        messagesfileConfiguration.set(rank_key +  "Failed-AlreadyChairman", "Dieser Spieler ist bereits Stellvertreter");
         messagesfileConfiguration.set(rank_key +  "Failed-IsLeader", "§cDieser Spieler ist ein Leiter! Du kannst seinen Rang nicht verändern");
 
-        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToLeader-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Forsitzender auf Leiter befördert!");
-        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToLeader-ToTarget", "§aDein Rang wurde von §6Forsitzender §aauf Rang §6Leiter §abefördert!");
+        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToLeader-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Stellvertreter auf Leiter befördert!");
+        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToLeader-ToTarget", "§aDein Rang wurde von §6Stellvertreter §aauf Rang §6Leiter §abefördert!");
         messagesfileConfiguration.set(rank_key +  "Successfull-MemberToLeader-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Leiter befördert!");
         messagesfileConfiguration.set(rank_key +  "Successfull-MemberToLeader-ToTarget", "§aDein Rang wurde von §6Mitglied §aauf Rang §6Leiter §abefördert!");
 
-        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToMember-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Forsitzender auf Mitglied degradiert!");
-        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToMember-ToTarget", "§aDein Rang wurde von §6Forsitzender §aauf Rang §6Member §adegradiert!");
+        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToMember-ToExecutor", "§aDu hast den Rang des Spielers §6%target% §avon Stellvertreter auf Mitglied degradiert!");
+        messagesfileConfiguration.set(rank_key +  "Successfull-ChairmanToMember-ToTarget", "§aDein Rang wurde von §6Stellvertreter §aauf Rang §6Member §adegradiert!");
         messagesfileConfiguration.set(rank_key +  "Successfull-AlreadyMember", "§cDieser Spieler ist bereits ein Mitglied!");
 
         messagesfileConfiguration.set(rank_key +  "Failed-NotInAGilde", "§cDu kannst diesen Befehl nicht ausführen, da du dich in keiner Gilde befindest!");
             //Team
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToChairman-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Forsitzender befördert!");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToChairman-ToTarget", "§aEin Teammitglied hat deinen Rang von §6Member §aauf Rang §6Forsitzender §abefördert!");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-AlreadyChairman", "Dieser Spieler ist bereits Forsitzender");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-LeaderToChairman-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Leiter auf Forsitzender degradiert!");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-LeaderToChairman-ToTarget", "§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Forsitzender §cdegradiert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToChairman-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Stellvertreter befördert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToChairman-ToTarget", "§aEin Teammitglied hat deinen Rang von §6Member §aauf Rang §6Stellvertreter §abefördert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-AlreadyChairman", "Dieser Spieler ist bereits Stellvertreter");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-LeaderToChairman-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Leiter auf Stellvertreter degradiert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-LeaderToChairman-ToTarget", "§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Stellvertreter §cdegradiert!");
 
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToLeader-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Forsitzender auf Leiter befördert!");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToLeader-ToTarget", "§aEin Teammitglied hat deinen Rang von §6Forsitzender §aauf Rang §6Leiter §abefördert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToLeader-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Stellvertreter auf Leiter befördert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToLeader-ToTarget", "§aEin Teammitglied hat deinen Rang von §6Stellvertreter §aauf Rang §6Leiter §abefördert!");
 
         messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToLeader-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Mitglied auf Leiter befördert!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-MemberToLeader-ToTarget", "§aEin Teammitglied hat deinen Rang von §6Mitglied §aauf Rang §6Leiter §abefördert!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-AlreadyLeader", "§cDieser Spieler ist bereits ein Leiter");
 
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToMember-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Forsitzender auf Mitglied degradiert!");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToMember-ToTarget", "§cEin Teammitglied hat deinen Rang von §6Forsitzender §cauf Rang §6Member §cdegradiert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToMember-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Stellvertreter auf Mitglied degradiert!");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-ChairmanToMember-ToTarget", "§cEin Teammitglied hat deinen Rang von §6Stellvertreter §cauf Rang §6Member §cdegradiert!");
 
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-AlreadyMember", "§cDieser Spieler ist bereits ein Mitglied!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Successfull-LeaderToMember-ToTeammember", "§aDu hast den Rang des Spielers §6%target% §avon Leiter auf Mitglied degradiert!");
@@ -96,7 +96,7 @@ public class DefaultMessages extends JavaPlugin
 
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-PlayerNotInGilde", "§cDieser Spieler ist nicht in der von dir gewählten Gilde!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-GildeNotExisting", "§cDie von dir gewählte Gilde existiert nicht");
-        messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-WrongRanks", "Der von dir eingegebene Rang funktioniert nicht! \nVerfügbare Ränge: \n-§6Leiter \n§r-§6Forsitzender \n§r-§6Member");
+        messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-WrongRanks", "Der von dir eingegebene Rang funktioniert nicht! \nVerfügbare Ränge: \n-§6Leiter \n§r-§6Stellvertreter \n§r-§6Member");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-NoPerms", "§cDazu fehlen dir die Berechtigungen!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-ToManyArguments", "§cZuviele Args");
 

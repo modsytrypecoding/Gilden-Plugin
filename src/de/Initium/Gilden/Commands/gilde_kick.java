@@ -42,8 +42,8 @@ public class gilde_kick extends JavaPlugin{
 						}else {
 							p.sendMessage("§cDu kannst keine Leiter aus der Gilde kicken!");
 						}
-					}else if(ToolBox.getGildeRankByPlayer(gilde2, p.getUniqueId().toString()).equalsIgnoreCase("Forsitzender")) {
-						if(!(ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Forsitzender"))) {
+					}else if(ToolBox.getGildeRankByPlayer(gilde2, p.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
+						if(!(ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter"))) {
 							ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 							ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName()))));
 							p.sendMessage("Du hast den Spieler "+ t.getName() + " aus der Gilde entfernt!");

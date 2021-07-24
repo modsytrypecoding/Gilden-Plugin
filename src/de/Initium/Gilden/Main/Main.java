@@ -7,6 +7,7 @@ import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;
 import de.Initium.Gilden.NPCs.Listener.NPC_RightClick;
+import me.xanium.gemseconomy.GemsEconomy;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,6 +30,12 @@ public class Main extends JavaPlugin {
 	public static Economy eco = null;
 
 	public void onEnable() {
+
+		if(!setupEconomy()) {
+			Bukkit.getConsoleSender().sendMessage("Vault nicht gefunden!");
+			return;
+		}
+		Bukkit.getConsoleSender().sendMessage("Vault wurde initialisiert!");
 
 		plugin = this;
 		PluginManager pl = Bukkit.getPluginManager();
@@ -75,11 +82,7 @@ public class Main extends JavaPlugin {
 			}
 		}
 
-		if(setupEconomy()) {
-			Bukkit.getConsoleSender().sendMessage("Vault wurde initialisiert!");
-		}else {
-			Bukkit.getConsoleSender().sendMessage("Vault nicht gefunden!");
-		}
+
 	}
 	
 	public static Main getPlugin() {
@@ -132,7 +135,9 @@ public class Main extends JavaPlugin {
 		}
 		eco = rsp.getProvider();
 
-		return eco != null;
+		return (eco != null);
 	}
+
+
 
 }

@@ -20,10 +20,11 @@ public class gilde_SetHome extends JavaPlugin{
 		Player player = gilde_Main.getPlayer(nr);
 		String gilde = ToolBox.getGildeNameOfPlayer(player);
 		if(ToolBox.getallPlayers().contains(player.getUniqueId().toString())) {
+			//check Rank
 			if(ToolBox.getGildeRankByPlayer(gilde, player.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde, player.getUniqueId().toString()).equalsIgnoreCase("Fositzender")) {
+
+				//set the Location in the Config
 				FileConfiguration saves = Main.getSaves();
-				DecimalFormat f = new DecimalFormat();
-				f.setMaximumFractionDigits(2);
 				saves.set("gilden." + gilde + ".Information." + "HomeLocation." +"Home.World", player.getWorld().getName());
 				saves.set("gilden." + gilde + ".Information." + "HomeLocation." +"Home.X", (player.getLocation().getX()));
 				saves.set("gilden." + gilde + ".Information." + "HomeLocation." +"Home.Y", (player.getLocation().getY()));

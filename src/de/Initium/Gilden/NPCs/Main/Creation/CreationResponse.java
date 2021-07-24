@@ -44,7 +44,7 @@ public class CreationResponse extends JavaPlugin
 
         if(arg_0.equals("create-confirm"))
         {
-            ToolBox.createGilde(gildenname, pl.getUniqueId().toString());
+            ToolBox.createGilde(gildenname, pl.getUniqueId().toString(), pl.getPlayer());
             pl.sendMessage("TESTNACHRICHT. Erfolgreich Erstellt");
             Bukkit.getServer().broadcastMessage("TESTNACHRICHT. Die Gilde " + gildenname + " wurde erfolgreich von " + pl.getName() + " gegründet");
         }

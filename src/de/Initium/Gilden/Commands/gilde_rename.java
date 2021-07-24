@@ -8,6 +8,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class gilde_rename extends JavaPlugin {
 
     public static void execute(Integer nr, String[] Input)
@@ -16,20 +20,44 @@ public class gilde_rename extends JavaPlugin {
         if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
             String gilde = ToolBox.getGildeNameOfPlayer(p);
 
-                if(ToolBox.validateGildeName(Input[1])) {
-                    p.sendMessage("§cDieser Name ist nicht gültig!");
-                    return;
-                }
-                    FileConfiguration getConfig = Main.getSaves();
-                    for (String s : getConfig.getConfigurationSection("gilden").getKeys(false)) {
-                     getConfig.set("gilden."+ s, getConfig.get("gilden." + Input[1]));
-                     p.sendMessage("key " + s );
-                     Main.saveSaves();
-            }
-                p.sendMessage("§aDu hast deine Gilde erfolgreich umbenannt!");
+            if(gilde.equals(Input[1])) {
+                p.sendMessage("§cDeine Gilde hat bereits diesen Namen!");
+            }else {
+                if(ToolBox.getGildeRankByPlayer(gilde, p.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
+                    if(ToolBox.validateGildeName(Input[1])) {
+                        p.sendMessage("Der Gildenname \"" + gilde + "\" ist ungültig." +
+                                "Er muss folgende Kriterien erfüllen:\n" +
+                                "- Länge: Mindestens 3 Buchstaben\n" +
+                                "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
+                        return;
+                    }
 
-        }else {
+                    FileConfiguration config = Main.getSaves();
+                    Map<String, Object> vals = config.getConfigurationSection("gilden." + gilde).getValues(true);
+                    String toDot = ("gilden." + Input[1]).equals("") ? "" : ".";
+                    for (String s : vals.keySet()){
+                        System.out.println(s);
+                        Object val = vals.get(s);
+                        if (val instanceof List)
+                            val = new ArrayList<>((List)val);
+                        config.set("gilden." + Input[1] + toDot + s, val);
+                    }
+                    config.set("gilden." + gilde, null);
+                    Main.saveSaves();
+                    p.sendMessage("§aDu hast deine Gilde erfolgreich umbenannt!");
+                }else {
+                    p.sendMessage("§cDu darfst den Namen der Gilde nicht bearbeiten!");
+                }
+
+            }
+
+
+
+            }else {
             p.sendMessage("§cDu kannst diesen Befehl nicht ausführen, da du in keiner Gilde bist!");
         }
+
+
+        }
     }
-}
+

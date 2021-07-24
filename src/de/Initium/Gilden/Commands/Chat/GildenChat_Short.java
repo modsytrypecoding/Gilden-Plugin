@@ -20,13 +20,10 @@ public class GildenChat_Short implements CommandExecutor
         if(sender instanceof Player) {
             Player pl = (Player) sender;
             ArrayList<String> playersinlist = ToolBox.getallPlayers();
-            
             if (gilde_chat_join.watcher.contains(pl.getName())) {
                 pl.sendMessage("§cDu bist lediglich Zuschauer und kannst keine Nachrichten schreiben!");
             } else {
             	if(command.getName().equalsIgnoreCase("gctest")) {
-                    
-
                     if(playersinlist.contains(pl.getUniqueId().toString())) {
                     	ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName()))));
                         //Creation of the Message
@@ -34,7 +31,6 @@ public class GildenChat_Short implements CommandExecutor
                         for(int i = 0; i !=args.length; i++) {
                             message += args[i] + " ";
                         }
-
                         //Sending Message
                         pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
                         for(String all : playersofGilde) {

@@ -21,6 +21,7 @@ public class gilde_home extends JavaPlugin {
             String gilde = ToolBox.getGildeNameOfPlayer(p);
             if(Main.getSaves().get("gilden." + gilde + ".Information." + "hasSetHome").equals(true)) {
 
+                //setting variables
                 Double x = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.X").toString());
                 Double y = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Y").toString());
                 Double z = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Z").toString());
@@ -32,6 +33,7 @@ public class gilde_home extends JavaPlugin {
                     p.sendMessage("§cDer Gilden-Home ist besetzt.\nDu kannst nicht teleportiert werden!");
                     p.sendMessage("Der Home befindet sich in der Welt §6" + Main.getSaves().get("gilden." + gilde + ".Information." + "HomeLocation." +"Home.World"));
                     p.sendMessage("Der Home befindet sich bei folgenden Koordinate:");
+                    //fromating the given double
                     DecimalFormat f = new DecimalFormat();
                     f.setMaximumFractionDigits(2);
                     p.sendMessage("§6X§r: " + f.format(x));

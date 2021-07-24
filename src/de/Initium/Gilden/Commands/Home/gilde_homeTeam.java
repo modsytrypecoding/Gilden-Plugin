@@ -14,11 +14,17 @@ public class gilde_homeTeam extends JavaPlugin {
         Player p = gilde_Main.getPlayer(nr);
         if(p.hasPermission("gilde.Home.admin")) {
             String gildeTeam = args[1];
+
+            //returns != null
             if(ToolBox.checkGildeExists(args[1])) {
+
+                // check if Home already exists
                 if(Main.getSaves().get("gilden." + gildeTeam + ".Information." + "hasSetHome").equals(true)) {
                     if(ToolBox.getGildenHome(gildeTeam).getBlock().getType().equals(Material.AIR)) {
                         p.teleport(ToolBox.getGildenHome(gildeTeam));
                     }else {
+
+                        //check Gamemode
                         if(p.getGameMode().equals(GameMode.SPECTATOR) || p.getGameMode().equals(GameMode.CREATIVE)) {
                             p.teleport(ToolBox.getGildenHome(gildeTeam));
                             p.sendMessage("§aDu wurdest erfolgreich teleportiert!");

@@ -1,18 +1,15 @@
 package de.Initium.Gilden.Main;
-import com.mysql.fabric.xmlrpc.base.Value;
-import de.Initium.Gilden.Commands.gilde_BankHandler;
-import me.xanium.gemseconomy.GemsEconomy;
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -102,20 +99,34 @@ public class ToolBox extends JavaPlugin
     }
 
 
-    public static void createGilde(String gildenname, String gruender_UUID)
+    public static void createGilde(String gildenname, String gruender_UUID, Player p)
     {
         //Only execute this method if checked:
         // - Gildenname is not used yet
         // - Player is not in any Gilde
 
+            if(Main.eco == null) {
+                p.sendMessage("Vault ist lost");
+                return;
+            }
+             LocalDate Beitritt = LocalDate.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyy");
+            String now = dtf.format(Beitritt);
 
+            Date Uhrzeit =  new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String time = sdf.format(Uhrzeit);
+            
             ArrayList<String> temp = new ArrayList<>();
-            temp.add(gruender_UUID);
+            temp.add("Gründer " + gruender_UUID);
             Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Forsitzender", new ArrayList<String>());
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter." + gruender_UUID + ".Beitrittsdatum", now);
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter." + gruender_UUID + ".Beitrittsuhrzeit", time);
+            Main.getSaves().set("gilden." + gildenname + ".raenge.Stellvertreter", new ArrayList<String>());
             Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
             Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
             Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
+            Main.getSaves().set("gilden." + gildenname + ".Information." + "Bank-Wert", 0);
             Main.saveSaves();
 
 
@@ -123,16 +134,59 @@ public class ToolBox extends JavaPlugin
 
     }
 
+
+
     public static void addPlayertoGilde(String uuid, String gildenname, String rang)
     {
         //Only execute this method if checked:
         // - Gilde exists
         // - Player is not in Gilde
+        LocalDate Beitritt = LocalDate.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyy");
+        String now = dtf.format(Beitritt);
 
-        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
-        newList.add(uuid);
-        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-        Main.saveSaves();
+        Date Uhrzeit =  new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(Uhrzeit);
+
+
+        if(rang.equalsIgnoreCase("Leiter")) {
+            if(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter").size() == 3) {
+                return;
+            }else {
+                Object newList2 = Main.getSaves().get("gilden." + gildenname + ".raenge." + rang);
+                List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
+                Bukkit.getConsoleSender().sendMessage("List: " + newList);
+                Bukkit.getConsoleSender().sendMessage("List: " + newList2);
+                newList.add(uuid);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
+                Main.saveSaves();
+            }
+
+        }
+        if(rang.equalsIgnoreCase("Stellvertreter")) {
+            if(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Stellvertreter").size() == 3) {
+                return;
+            }else {
+                List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
+                newList.add(uuid);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
+                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
+                Main.saveSaves();
+            }
+        }
+        if(rang.equalsIgnoreCase("Mitglieder")) {
+            List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
+            newList.add(uuid);
+            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
+            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
+            Main.saveSaves();
+        }
+
     }
 
     public static void removePlayerfromGilde(String uuid, String gildenname)
@@ -144,8 +198,14 @@ public class ToolBox extends JavaPlugin
         String rang = getGildeRankByPlayer(gildenname, uuid);
         List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
         newList.remove(uuid);
-        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-        Main.saveSaves();
+
+        if(ToolBox.getallPlayersinGilde(gildenname).isEmpty()) {
+            Main.getSaves().set("gilden." + gildenname, null);
+        }else {
+            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+            Main.saveSaves();
+        }
+
     }
 
     public static ArrayList<String> getallPlayers()
@@ -157,7 +217,7 @@ public class ToolBox extends JavaPlugin
 
             String temp = "gilden." + key;
             //temp: gilden.gildenname.raenge.Leiter
-            //temp: gilden.gildenname.raenge.Forsitzender
+            //temp: gilden.gildenname.raenge.Stellvertreter
             //temp: gilden.gildenname.raenge.Mitglieder
         	Object test = Main.getSaves().getStringList(temp);
             allUUIDs.addAll((Collection<String>) test);
@@ -169,7 +229,7 @@ public class ToolBox extends JavaPlugin
     {
         ArrayList<ArrayList<String>> temp_return_list = new ArrayList<>();
         temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter")));
-        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Forsitzender")));
+        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Stellvertreter")));
         temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Mitglieder")));
         return temp_return_list;
     }
@@ -238,7 +298,7 @@ public class ToolBox extends JavaPlugin
 
         ArrayList<String> raenge = new ArrayList<>();
         raenge.add("Leiter");
-        raenge.add("Forsitzender");
+        raenge.add("Stellvertreter");
         raenge.add("Mitglieder");
         String rang_found = "";
 
@@ -305,5 +365,11 @@ public class ToolBox extends JavaPlugin
     public static void DelGildeToTag(String GildenName) {
         Main.getSaves().set("Tags." + "GildeToTag." + GildenName, null);
         Main.saveSaves();
+    }
+
+    public static String getBankValue(String GildenName) {
+        String Value = Main.getSaves().get("gilden." + GildenName + ".Information." + "Bank-Wert").toString();
+        return Value;
+
     }
 }
