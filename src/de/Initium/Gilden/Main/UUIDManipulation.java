@@ -1,5 +1,6 @@
 package de.Initium.Gilden.Main;
 
+import de.doppelkool.playerLogger.API.MainAPI;
 import jdk.nashorn.api.scripting.URLReader;
 import org.apache.logging.log4j.core.util.IOUtils;
 import org.bukkit.Bukkit;
@@ -17,19 +18,21 @@ import java.util.List;
 
 public class UUIDManipulation extends JavaPlugin
 {
+    static MainAPI.PlayerLogger pl;
+
     public static String getPlayernameByUUID(String UUID)
     {
         for(Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
             if(onlinePlayer.getUniqueId().toString().equals(UUID))
             {
-                return getOnlinePlayerByUUID(UUID);
+                return onlinePlayer.getName();
             }
         }
-        return getOfflinePlayerByUUID(UUID);
+        return getOfflinePlayernameByUUID_PlayerLogger(UUID);
     }
 
-    public static ArrayList<String> getPlayernameByUUID_1(ArrayList<String> UUIDs)
+    public static ArrayList<String> getPlayernameByUUID__LIST(ArrayList<String> UUIDs)
     {
         ArrayList<String> playernames = new ArrayList<>();
         for(String UUID : UUIDs)
@@ -39,20 +42,20 @@ public class UUIDManipulation extends JavaPlugin
             {
                 if(onlinePlayer.getUniqueId().toString().equals(UUID))
                 {
-                    playernames.add(getOnlinePlayerByUUID(UUID).toString());
+                    playernames.add(onlinePlayer.getName());
                     found = true;
                 }
             }
 
             if(!found)
             {
-                playernames.add(getOfflinePlayerByUUID(UUID).toString());
+                playernames.add(getOfflinePlayernameByUUID_PlayerLogger(UUID));
             }
         }
         return playernames;
     }
 
-    public static ArrayList<String> getPlayernameByUUID_2(ArrayList<ArrayList<String>> UUIDs)
+    public static ArrayList<String> getPlayernameByUUID__LIST_LIST(ArrayList<ArrayList<String>> UUIDs)
     {
         ArrayList<String> playernames = new ArrayList<>();
         for(List<String> asd : UUIDs)
@@ -64,14 +67,14 @@ public class UUIDManipulation extends JavaPlugin
                 {
                     if(onlinePlayer.getUniqueId().toString().equals(UUID))
                     {
-                        playernames.add(getOnlinePlayerByUUID(UUID).toString());
+                        playernames.add(onlinePlayer.getName());
                         found = true;
                     }
                 }
 
                 if(!found)
                 {
-                    playernames.add(getOfflinePlayerByUUID(UUID).toString());
+                    playernames.add(getOfflinePlayernameByUUID_PlayerLogger(UUID));
                 }
             }
         }
@@ -82,6 +85,20 @@ public class UUIDManipulation extends JavaPlugin
     {
         for(Player p : Main.getPlugin().getServer().getOnlinePlayers())
             if(p.getUniqueId().toString().equals(UUID)) return p.getName();
+        return "";
+    }
+
+    public static String getOfflinePlayernameByUUID_PlayerLogger(String UUID)
+    {
+        pl = new MainAPI.PlayerLogger();
+        if(pl.IsUUIDToPlayernameSet(UUID)) return pl.getPlayername(UUID);
+        return getOfflinePlayerByUUID(UUID);
+    }
+
+    public static String getOfflineUUIDByPlayername_PlayerLogger(String playername)
+    {
+        pl = new MainAPI.PlayerLogger();
+        if(pl.IsPlayernameToUUIDSet(playername)) return pl.getUUID(playername);
         return "";
     }
 

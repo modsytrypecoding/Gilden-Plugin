@@ -1,4 +1,4 @@
-package de.Initium.Gilden.MessageControlling;
+package de.Initium.Gilden.Main.MessageControlling;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,11 +34,14 @@ public class DefaultMessages extends JavaPlugin
 
     public static void set(YamlConfiguration messagesfileConfiguration)
     {
+        //region Basic
         messagesfileConfiguration.set(basic_key + "Prefix", "§7[§bGilde§7]§r ");
         messagesfileConfiguration.set(basic_key + "NoPerms", "§cDu hast keine Berechtigungen um diesen Befehl auszuführen!");
         messagesfileConfiguration.set(basic_key + "MainCMDasConsole", "§cDu kannst diesen Befehl nicht als Console ausführen!");
         messagesfileConfiguration.set(basic_key + "NoGilde", "§cDu kannst diesen Befehl nicht benutzen, da du in keiner Gilde bist!");
+        //endregion
 
+        //region Kick
         messagesfileConfiguration.set(kick_key + "Successfull-ToExecutor", "§aDu hast den Spieler %target% aus der Gilde entfernt!");
         messagesfileConfiguration.set(kick_key + "Successfull-ToTarget", "§cDu wurdest von dem Spieler %player% aus der Gilde entfernt!");
         messagesfileConfiguration.set(kick_key + "Successfull-ToGilde", "[§a %own-gilde% §r] §rDer Spieler %player% hat den Spieler %target% aus der Gilde geworfen!");
@@ -47,13 +50,17 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(kick_key + team_Ukey + "Failed-PlayerNotFound", "§cDer Spieler %target% ist nicht in der Gilde %target-gilde%!");
         messagesfileConfiguration.set(kick_key + team_Ukey + "Failed-GildeNotExisting", "§cDie Gilde %target-gilde% existiert nicht!");
         messagesfileConfiguration.set(kick_key + team_Ukey + "Failed-NoPerms", "§cDu hast keine Rechte Spieler aus fremden Gilden zu kicken!");
+        //endregion
 
+        //region Create
         messagesfileConfiguration.set(create_key +  "Failed-AlreadyInAGilde", "§cDu bist bereits in einer Gilde und kannst aufgrund dessen keine gründen!");
         messagesfileConfiguration.set(create_key +  "Failed-AlreadyExisting", "Die Gilde mit dem Namen %target-gilde% ist bereits vorhanden");
         messagesfileConfiguration.set(create_key +  "Failed-ConditionsNotMet", "Der Gildenname %target-gilde% ist ungültig!\nEr muss folgende Kriterien erfüllen:\n- Länge: Mindestens 3 Buchstaben\n- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
         messagesfileConfiguration.set(create_key +  "Successfull-ToExecutor", "Die Gilde wurde erfolgreich erstellt. Du bist der Gildenleiter von %own-gilde%");
         messagesfileConfiguration.set(create_key +  "Successfull-Broadcast", "Die Gilde %target-gilde% wurde erfolgreich von %player% gegründet!");
+        //endregion
 
+        //region Rank
         messagesfileConfiguration.set(rank_key +  "Failed-ChangeOwnRank", "§cDu kannst deinen eigenen Rang nicht ändern!");
         messagesfileConfiguration.set(rank_key +  "Failed-PlayerNotFound", "§cDer Spieler %target% ist nicht in deiner Gilde!");
         messagesfileConfiguration.set(rank_key +  "Failed-AsMitglied", "§cDein Rang erlaubt es dir nicht die Ränge anderer Gildenmitglieder zu ändern!");
@@ -99,9 +106,14 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-WrongRanks", "Der von dir eingegebene Rang funktioniert nicht! \nVerfügbare Ränge: \n-§6Leiter \n§r-§6Stellvertreter \n§r-§6Member");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-NoPerms", "§cDazu fehlen dir die Berechtigungen!");
         messagesfileConfiguration.set(rank_key + team_Ukey + "Failed-ToManyArguments", "§cZuviele Args");
+        //endregion
 
+        //region Top
         messagesfileConfiguration.set(top_key + "Failed-WrongPageNR", "§cDie eingegebene Seitenzahl muss eine Nummer über 0 sein");
         messagesfileConfiguration.set(top_key + "Successfull-Header", "§c====Gilde-Top===Seite %target-page%====\n");
+        //endregion
+
+        //region Chat
         //gilden_chat
         messagesfileConfiguration.set(chat_key + "Successfull-ToExecutor", "[§a %target-gilde% §r] §6 %player% §r: %msg%");
         messagesfileConfiguration.set(chat_key + "Successfull-ToGilde", "[§a %target-gilde% §r] §6 %player% §r: %msg%");
@@ -112,16 +124,22 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(chat_key + team_Ukey + "Failed-NoPerms", "§cDazu hast du keine Berechtigungen!");
         messagesfileConfiguration.set(chat_key + team_Ukey + "Successfull-WatcherActivated", "§aWatcher aktiviert\nDu liest jetzt den Gilden-Chat der Gilde %target-gilde% mit!");
         messagesfileConfiguration.set(chat_key + team_Ukey + "Successfull-WatcherDeactivated", "§cWatcher deaktiviert!");
+        //endregion
 
+        //region Show
         messagesfileConfiguration.set(show_key + "Failed-NotInAGilde", "§cDu kannst dir deine eigene Gilde nicht anzeigen, da du in keiner bist!");
         messagesfileConfiguration.set(show_key + "Failed-GildeNotExisting", "§cDie Gilde %target-gilde% existiert nicht!");
         messagesfileConfiguration.set(show_key + "Successfull-Header", "====Gilde %target-gilde%====");
+        //endregion
 
+        //region Home
         messagesfileConfiguration.set(home_key + set_Ukey + "Successfull-ToExecutor", "§aDu hast dein Gilden-Home erfolgreich gesetzt!");
         messagesfileConfiguration.set(home_key + set_Ukey + "Failed-AsMitglied", "§cDu kannst kein Gilden-Home setzten!");
         messagesfileConfiguration.set(home_key + set_Ukey + "Failed-NotInAGilde", "§cDu kannst diesen Befehl nicht nutzen da du in keiner Gilde bist!");
+        //endregion
 
-        //Invitation(gilde_invite + Timer)
+        //region Invitation
+        //Invitation(gilde_invite + Invitation_Response(Timer))
         messagesfileConfiguration.set(invite_key + "Failed-RunningOut-ToExecutor", "§cDeine Gildenanfrage an %target% ist ausgelaufen!");
         messagesfileConfiguration.set(invite_key + "Failed-RunningOut-ToTarget", "§cDie Gildenanfrage von %target-gilde% ist ausgelaufen!");
         messagesfileConfiguration.set(invite_key + "Failed-RemainingTime", "§cDu kannst erst wieder in %remaining-time% Sekunden eine weitere Anfrage schicken!");
@@ -138,7 +156,10 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(invite_key + "AcceptInvitation-HoverText", "Du nimmst diese Einladung an!");
         messagesfileConfiguration.set(invite_key + "DenyInvitation-ClickText", "Ablehnen!");
         messagesfileConfiguration.set(invite_key + "DenyInvitation-HoverText", "Du lehnst diese Einladung ab!");
-        //gilde_response
+        //endregion
+
+        //region Response
+        // gilde_response
         messagesfileConfiguration.set(response_key + "Failed-NoInvitation", "Du hast keine Einladung von dieser Gilde erhalten");
         messagesfileConfiguration.set(response_key + "Failed-AlreadyReplied", "Du hast bereits eine Antwort zu dieser Einladung gegeben.");
         messagesfileConfiguration.set(response_key + "Successfull-Acceptance-ToPlayer", "Der eingeladenen Spieler %target% hat deine Einladung angenommen");
@@ -149,6 +170,7 @@ public class DefaultMessages extends JavaPlugin
         messagesfileConfiguration.set(response_key + "Successfull-Acceptance-ToGilde", "Der Spieler %target% ist der Gilde beigetreten.");
         messagesfileConfiguration.set(response_key + "Successfull-Denial-ToTarget", "§4Du hast die Einladung von der Gilde §n%target-gilde%§r§4 erfolgreich abgelehnt");
         messagesfileConfiguration.set(response_key + "Successfull-Denial-ToExecutor", "§4Der eingeladenen Spieler §n%target%§r§4 hat die Einladung abgelehnt");
+        //endregion
 
         //NPC-MSGs
     }

@@ -1,4 +1,4 @@
-package de.Initium.Gilden.MessageControlling;
+package de.Initium.Gilden.Main.MessageControlling;
 
 import de.Initium.Gilden.Main.Main;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -306,7 +306,7 @@ public class MessageMapping extends JavaPlugin
             //endregion
             //========================================================================================================================
             default:
-                return "Es wurde kein Message-Key gefunden. Prüfen sie die jeweiligen Dateien nach fehlern!";
+                return "Es wurde kein Message-Key gefunden. Prüfen sie die jeweiligen Dateien nach Fehlern!";
         }
         return getPrefix() + returnMSG;
     }

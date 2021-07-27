@@ -11,9 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CreationResponse extends JavaPlugin
 {
-    public static void execute(Integer nr, String arg_0, String arg_1)
+    public static void execute(Integer nr, String[] args)
     {
         Player pl = gilde_Main.getPlayer(nr);
+        String arg_0 = args[0];
+        String arg_1 = args[1];
 
         String playername = "";
         String gildenname = "";

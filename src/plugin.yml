@@ -9,10 +9,11 @@ depend:
   - Citizens
   - Vault
   - GemsEconomy
+  - PlayerLogger
 website: https://initium-novum.net/
 commands:
   gilde:
-    usage: /<command> [top|chat|create|invite|accept|deny|setnpc|chat-join]
+    usage: /<command>
     description: Main Command to the plugin
   gctest:
     usage: /<command>

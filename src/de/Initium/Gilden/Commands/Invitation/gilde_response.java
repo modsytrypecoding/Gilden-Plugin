@@ -52,7 +52,7 @@ public class gilde_response extends JavaPlugin
                     " hat deine Einladung angenommen";
 
             String in_gilde_MSG = "Der Spieler " + executor.getName() + " ist der Gilde beigetreten.";
-            for(String temp : UUIDManipulation.getPlayernameByUUID_2(ToolBox.getallPlayersinGilde(involved_gilde)))
+            for(String temp : UUIDManipulation.getPlayernameByUUID__LIST_LIST(ToolBox.getallPlayersinGilde(involved_gilde)))
             {
                 Player in_gilde = Bukkit.getPlayer(temp);
                 if(in_gilde == gilde_exponent) continue;

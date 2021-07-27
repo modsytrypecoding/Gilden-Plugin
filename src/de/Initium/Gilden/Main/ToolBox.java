@@ -76,6 +76,26 @@ public class ToolBox extends JavaPlugin
         return "_";
     }
 
+    public static String getGildeNameOfPlayer(String uuid)
+    {
+        if(!(getallPlayers().contains(uuid))) return "";
+
+        for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
+        {
+            if(key.contains(".raenge.")) continue;
+            //key: <gildenname.>raenge.Leiter/Mitglieder/Fositzender
+            ArrayList<ArrayList<String>> temp = getallPlayersinGilde(key);
+            for(ArrayList<String> temp_2 : temp)
+            {
+                if(temp_2.contains(uuid))
+                {
+                    return key;
+                }
+            }
+        }
+        return "_";
+    }
+
     public static String getgildebyTag(String Tag)
     {
         String key = Main.getSaves().get("Tags." + "TagToGilde." + Tag).toString();
@@ -105,33 +125,30 @@ public class ToolBox extends JavaPlugin
         // - Gildenname is not used yet
         // - Player is not in any Gilde
 
-            if(Main.eco == null) {
-                p.sendMessage("Vault ist lost");
-                return;
-            }
-             LocalDate Beitritt = LocalDate.now();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyy");
-            String now = dtf.format(Beitritt);
+        //Only execute this method if checked:
+        // - Gildenname is not used yet
+        // - Player is not in any Gilde
 
-            Date Uhrzeit =  new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            String time = sdf.format(Uhrzeit);
-            
-            ArrayList<String> temp = new ArrayList<>();
-            temp.add("Gründer " + gruender_UUID);
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter." + gruender_UUID + ".Beitrittsdatum", now);
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter." + gruender_UUID + ".Beitrittsuhrzeit", time);
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Stellvertreter", new ArrayList<String>());
-            Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
-            Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
-            Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
-            Main.getSaves().set("gilden." + gildenname + ".Information." + "Bank-Wert", 0);
-            Main.saveSaves();
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(gruender_UUID);
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Stellvertreter", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
 
 
+        LocalDate Beitritt = LocalDate.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyy");
+        String now = dtf.format(Beitritt);
 
+        Date Uhrzeit = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(Uhrzeit);
 
+        Main.getSaves().set("Playerdaten." + gruender_UUID + ".Beitrittsdatum", now);
+        Main.getSaves().set("Playerdaten." + gruender_UUID + ".Beitrittsuhrzeit", time);
+        Main.saveSaves();
     }
 
 

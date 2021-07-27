@@ -2,17 +2,14 @@ package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
-import de.Initium.Gilden.MessageControlling.DefaultMessages;
+import de.Initium.Gilden.Main.MessageControlling.DefaultMessages;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;
 import de.Initium.Gilden.NPCs.Listener.NPC_RightClick;
-import me.xanium.gemseconomy.GemsEconomy;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -21,21 +18,13 @@ import java.io.IOException;
 public class Main extends JavaPlugin {
 	private static Main plugin;
 	private static final File savesfile = new File("plugins//Gilde-Plugin//saves.yml");
-	private static final YamlConfiguration savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
+	private static YamlConfiguration savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
 	private static final File configfile = new File("plugins//Gilde-Plugin//config.yml");
-	private static final YamlConfiguration configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
+	private static YamlConfiguration configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
 	private static final File messagefile = new File("plugins//Gilde-Plugin//messages.yml");
-	private static final YamlConfiguration messagefileConfiguration = YamlConfiguration.loadConfiguration(messagefile);
-
-	public static Economy eco = null;
+	private static YamlConfiguration messagefileConfiguration = YamlConfiguration.loadConfiguration(messagefile);
 
 	public void onEnable() {
-
-		if(!setupEconomy()) {
-			Bukkit.getConsoleSender().sendMessage("Vault nicht gefunden!");
-			return;
-		}
-		Bukkit.getConsoleSender().sendMessage("Vault wurde initialisiert!");
 
 		plugin = this;
 		PluginManager pl = Bukkit.getPluginManager();
@@ -51,38 +40,20 @@ public class Main extends JavaPlugin {
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {
 			savefileConfiguration.createSection("gilden");
-
-			try {
-				savefileConfiguration.save(savesfile);
-			} catch (IOException e) {
-				getLogger().info("Fehler beim Erstellen der saves.yml: " + e);
-			}
+			saveSaves();
 		}
 		//Creation of the config.yml
 		if(!configfile.exists() || !configfileConfiguration.isSet("settings")) {
 			configfileConfiguration.createSection("settings");
 			configfileConfiguration.set("settings.NPC_NAME", "&bTest");
-
-			try {
-				configfileConfiguration.save(configfile);
-			} catch (IOException e) {
-				getLogger().info("Fehler beim Erstellen der config.yml: " + e);
-			}
+			saveConfiguration();
 		}
 
 		//Creation of the messages.yml
 		if(!messagefile.exists() || !messagefileConfiguration.isSet("settings")) {
 			DefaultMessages.set(messagefileConfiguration);
-
-			try {
-				messagefileConfiguration.save(messagefile);
-				return;
-			} catch (IOException e) {
-				getLogger().info("Fehler beim Erstellen der messages.yml: " + e);
-			}
+			saveMessages();
 		}
-
-
 	}
 	
 	public static Main getPlugin() {
@@ -95,6 +66,7 @@ public class Main extends JavaPlugin {
 	{
 		try {
 			savefileConfiguration.save(savesfile);
+			savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
 		} catch (IOException e) {
 			getPlugin().getLogger().info("Fehler beim Speichern der saves.yml: " + e);
 		}
@@ -106,6 +78,7 @@ public class Main extends JavaPlugin {
 	{
 		try {
 			configfileConfiguration.save(configfile);
+			configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
 		} catch (IOException e) {
 			getPlugin().getLogger().info("Fehler beim Speichern der config.yml: " + e);
 		}
@@ -117,27 +90,9 @@ public class Main extends JavaPlugin {
 	public static void saveMessages() {
 		try {
 			messagefileConfiguration.save(messagefile);
+			messagefileConfiguration = YamlConfiguration.loadConfiguration(messagefile);
 		} catch (IOException e) {
 			getPlugin().getLogger().info("Fehler beim Speichern der messages.yml: " + e);
 		}
 	}
-
-	private boolean setupEconomy() {
-		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			Bukkit.getConsoleSender().sendMessage("Fehler 0");
-			return false;
-		}
-
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-		if (rsp == null) {
-			Bukkit.getConsoleSender().sendMessage("Fehler 1");
-			return false;
-		}
-		eco = rsp.getProvider();
-
-		return (eco != null);
-	}
-
-
-
 }

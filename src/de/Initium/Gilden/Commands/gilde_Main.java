@@ -23,7 +23,7 @@ public class gilde_Main implements CommandExecutor
         Player pl = (Player) sender;
         if(!(pl.hasPermission("gilde.CMD.main")) /* /gilde */)
         {
-            pl.sendMessage("Keine Perms");
+            pl.sendMessage("");
             return true;
         }
 
@@ -40,7 +40,6 @@ public class gilde_Main implements CommandExecutor
     public static Player getPlayer(Integer nr)
     {
         ArrayList<Object> temp_list = hm.get(nr);
-
         return (Player) temp_list.get(0);
     }
 }

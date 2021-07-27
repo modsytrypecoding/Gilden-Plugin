@@ -19,6 +19,6 @@
     <orderEntry type="library" name="Citizens-2.0.28-b2333" level="project" />
     <orderEntry type="library" name="GemsEconomy-4.9.2" level="project" />
     <orderEntry type="library" name="spigot-1.16.5" level="project" />
-    <orderEntry type="library" name="Vault" level="project" />
+    <orderEntry type="library" name="PlayerLogger" level="project" />
   </component>
 </module>

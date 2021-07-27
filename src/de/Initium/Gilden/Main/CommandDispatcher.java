@@ -72,12 +72,6 @@ public class CommandDispatcher extends JavaPlugin
                 gilde_delTag.execute(nr);
                 break;
 
-
-
-
-            //case ...:
-
-
             //Fremde Gilde anzeigen
             default:
                 if(arg.length() >= 4) {
@@ -85,18 +79,13 @@ public class CommandDispatcher extends JavaPlugin
                 }else if(arg.length() == 3) {
                     gilde_tag.execute(nr, arg);
                 }
-
-
-
                 break;
-
         }
     }
 
     public static void dispatch(Integer nr, String[] args)
     {
         switch(args[0]) {
-            //TEMP: Gilde Erstellen
             case "create":
                 gilde_create.execute(nr, args[1]);
                 break;
@@ -153,7 +142,10 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "create-confirm":
             case "create-quit":
-                CreationResponse.execute(nr, args[0], args[1]);
+                CreationResponse.execute(nr, args);
+                break;
+            case "check":
+                gilde_check.execute(nr, args[1]);
                 break;
         }
     }

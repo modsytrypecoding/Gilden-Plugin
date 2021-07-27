@@ -12,8 +12,14 @@ import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
 
-public class gilde_kick extends JavaPlugin{
-	
+public class gilde_kick extends JavaPlugin
+{
+	public static void execute(String GildenName, String PlayerUUID) {
+		ToolBox.removePlayerfromGilde(PlayerUUID, GildenName);
+		Main.getSaves().set("Playerdaten." + PlayerUUID, null);
+		Main.saveSaves();
+	}
+
 	public static void execute(Integer nr, String[] args ) {
 		Player p = gilde_Main.getPlayer(nr);
 		Player t = Bukkit.getPlayer(args[1]);
@@ -84,28 +90,13 @@ public class gilde_kick extends JavaPlugin{
 					}else {
 						p.sendMessage("§cDer Spieler ist nicht in der von dir angegebenen Gilde!");
 					}
-					
-					
 				}else {
 					p.sendMessage("§cDie Gilde §6" + args[0] + " §cexistiert nicht!");
 				}
-				
 			}else {
 				p.sendMessage("§cDu hast keine Rechte Spieler aus fremden Gilden zu kicken");
 			}
-			
-			
 		}
-		
-		
-						
-					
-				
-			
-		
-	
-			
-		
 	}
 }
 

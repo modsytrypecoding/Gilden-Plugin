@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="Vault">
+  <library name="PlayerLogger">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Dependencies/Vault.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Dependencies/PlayerLogger.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

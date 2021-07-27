@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,17 +33,15 @@ public class gilde_rename extends JavaPlugin {
                         return;
                     }
 
-                    FileConfiguration config = Main.getSaves();
-                    Map<String, Object> vals = config.getConfigurationSection("gilden." + gilde).getValues(true);
+                    Map<String, Object> vals = Main.getSaves().getConfigurationSection("gilden." + gilde).getValues(true);
                     String toDot = ("gilden." + Input[1]).equals("") ? "" : ".";
                     for (String s : vals.keySet()){
-                        System.out.println(s);
                         Object val = vals.get(s);
                         if (val instanceof List)
                             val = new ArrayList<>((List)val);
-                        config.set("gilden." + Input[1] + toDot + s, val);
+                        Main.getSaves().set("gilden." + Input[1] + toDot + s, val);
                     }
-                    config.set("gilden." + gilde, null);
+                    Main.getSaves().set("gilden." + gilde, null);
                     Main.saveSaves();
                     p.sendMessage("§aDu hast deine Gilde erfolgreich umbenannt!");
                 }else {

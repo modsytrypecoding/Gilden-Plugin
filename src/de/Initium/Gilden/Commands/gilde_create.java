@@ -9,8 +9,6 @@ public class gilde_create extends JavaPlugin
 {
     public static void execute(Integer nr, String temp_gilden_name)
     {
-
-
         Player pl = gilde_Main.getPlayer(nr);
 
         if(!(ToolBox.getGildeNameOfPlayer(pl).equals("")))

@@ -31,7 +31,7 @@ public class gilde_rank extends JavaPlugin{
 								if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
 
 									if(Main.getSaves().getStringList("gilden." + gilde + ".raenge.Stellvertreter").size() == 3) {
-										p.sendMessage("§cDie Maximale Anzahl an Forsitzenden ist erreicht!");
+										p.sendMessage("§cDie Maximale Anzahl an Stellvertretern ist erreicht!");
 									}else {
 										ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 										ToolBox.addPlayertoGilde(t.getUniqueId().toString(), gilde, "Stellvertreter");
@@ -50,7 +50,7 @@ public class gilde_rank extends JavaPlugin{
 								if(ToolBox.getGildeRankByPlayer(gilde, t.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
 
 									if(Main.getSaves().getStringList("gilden." + gilde + ".raenge.Leiter").size() == 3) {
-										p.sendMessage("§cDie Maximale Anzahl an Forsitzenden ist erreicht!");
+										p.sendMessage("§cDie Maximale Anzahl an Stellvertretern ist erreicht!");
 									}else {
 										ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 										ToolBox.addPlayertoGilde(t.getUniqueId().toString(), gilde, "Leiter");
