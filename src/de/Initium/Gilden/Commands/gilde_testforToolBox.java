@@ -11,6 +11,6 @@ public class gilde_testforToolBox extends JavaPlugin {
         Player p = gilde_Main.getPlayer(nr);
         Player t = Bukkit.getPlayer(args[1]);
 
-        gilde_kick.execute(args[1], p.getUniqueId().toString());
+        ToolBox.addPlayertoGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p),"Mitglieder");
     }
 }

@@ -2,6 +2,8 @@ package de.Initium.Gilden.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -134,8 +136,12 @@ public class ToolBox extends JavaPlugin
         Main.getSaves().set("gilden." + gildenname + ".raenge.Leiter", temp);
         Main.getSaves().set("gilden." + gildenname + ".raenge.Stellvertreter", new ArrayList<String>());
         Main.getSaves().set("gilden." + gildenname + ".raenge.Mitglieder", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".raenge.Watcher", new ArrayList<String>());
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtHome", false);
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtTag", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "Bank-Wert", 0);
 
 
         LocalDate Beitritt = LocalDate.now();
@@ -167,18 +173,15 @@ public class ToolBox extends JavaPlugin
         String time = sdf.format(Uhrzeit);
 
 
+
         if(rang.equalsIgnoreCase("Leiter")) {
             if(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter").size() == 3) {
                 return;
             }else {
                 Object newList2 = Main.getSaves().get("gilden." + gildenname + ".raenge." + rang);
                 List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
-                Bukkit.getConsoleSender().sendMessage("List: " + newList);
-                Bukkit.getConsoleSender().sendMessage("List: " + newList2);
                 newList.add(uuid);
                 Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
-                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
                 Main.saveSaves();
             }
 
@@ -190,8 +193,6 @@ public class ToolBox extends JavaPlugin
                 List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
                 newList.add(uuid);
                 Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
-                Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
                 Main.saveSaves();
             }
         }
@@ -199,10 +200,14 @@ public class ToolBox extends JavaPlugin
             List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
             newList.add(uuid);
             Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsdatum", now);
-            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang + "." + uuid + ".Beitrittsuhrzeit", time);
             Main.saveSaves();
         }
+        if(rang.equalsIgnoreCase("Watcher")) {
+        List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
+        newList.add(uuid);
+        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+        Main.saveSaves();
+    }
 
     }
 
@@ -248,7 +253,18 @@ public class ToolBox extends JavaPlugin
         temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter")));
         temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Stellvertreter")));
         temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Mitglieder")));
+        temp_return_list.add(new ArrayList<>(Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Watcher")));
         return temp_return_list;
+    }
+
+    public static Integer getPlayerNumber(String gildenname) {
+       Integer one = Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Leiter").size();
+       Integer two = Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Stellvertreter").size();
+       Integer three = Main.getSaves().getStringList("gilden." + gildenname + ".raenge.Mitglieder").size();
+       Integer Number = one + two + three;
+
+       return Number;
+
     }
 
     public static ArrayList<String> unserializeArrayList(ArrayList<ArrayList<String>> temp)
@@ -317,6 +333,7 @@ public class ToolBox extends JavaPlugin
         raenge.add("Leiter");
         raenge.add("Stellvertreter");
         raenge.add("Mitglieder");
+        raenge.add("Watcher");
         String rang_found = "";
 
         for(String Rang : raenge)

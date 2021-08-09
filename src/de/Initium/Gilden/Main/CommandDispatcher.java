@@ -147,6 +147,9 @@ public class CommandDispatcher extends JavaPlugin
             case "check":
                 gilde_check.execute(nr, args[1]);
                 break;
+            case "request":
+                gilde_request.execute(nr, args);
+                break;
         }
     }
 }

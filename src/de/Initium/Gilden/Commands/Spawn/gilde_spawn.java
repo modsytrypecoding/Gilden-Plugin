@@ -26,7 +26,7 @@ public class gilde_spawn extends JavaPlugin {
                 Double y = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Y").toString());
                 Double z = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Z").toString());
 
-                if(ToolBox.getGildenSpawn(gilde).getBlock().getType().equals(Material.AIR)) {
+                if(ToolBox.getGildenSpawn(gilde).getBlock().getType().isTransparent()) {
                     p.teleport(ToolBox.getGildenSpawn(gilde));
                     p.sendMessage("§aDu wurdest zum Gilden-Spawn teleportiert!");
                 }else {

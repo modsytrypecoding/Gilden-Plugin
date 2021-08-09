@@ -22,11 +22,11 @@ public class gilde_home extends JavaPlugin {
             if(Main.getSaves().get("gilden." + gilde + ".Information." + "hasSetHome").equals(true)) {
 
                 //setting variables
-                Double x = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.X").toString());
-                Double y = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Y").toString());
-                Double z = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Z").toString());
+                Double x = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "HomeLocation." + "Home.X").toString());
+                Double y = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "HomeLocation." + "Home.Y").toString());
+                Double z = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "HomeLocation." + "Home.Z").toString());
 
-                if(ToolBox.getGildenHome(gilde).getBlock().getType().equals(Material.AIR)) {
+                if(ToolBox.getGildenHome(gilde).getBlock().getType().isTransparent()) {
                     p.teleport(ToolBox.getGildenHome(gilde));
                     p.sendMessage("§aDu hast dich zu deinem Gilden Home teleportiert!");
                 }else {

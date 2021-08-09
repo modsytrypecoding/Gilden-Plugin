@@ -18,7 +18,7 @@ public class NPC_RightClick implements Listener
         clickedNPC = e.getNPC();
         Player pl = e.getClicker();
 
-        String expected_npc_name = Main.getConfiguration().getString("settings.NPC_NAME");
+        String expected_npc_name = Main.getConfiguration().getString("settings.NPC.NPC_NAME");
         if(!clickedNPC.getName().equals(expected_npc_name)) return;
 
         InventoryDispatcher.caseDecision(pl, clickedNPC);

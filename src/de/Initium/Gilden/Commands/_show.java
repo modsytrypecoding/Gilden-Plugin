@@ -45,8 +45,9 @@ public class _show extends JavaPlugin
                     else if(i==2 && temp.indexOf(playername) == 0) MSG += "\nMitglieder:";
                     MSG += "\n- " + playername;
                 }
+
             }
-            pl.sendMessage(MSG /*+ "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen"*/);
+            pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
         }else {
             String MSG = "Gilde " + gilde_name + " (" + ToolBox.getTagbyGilde(gilde_name) + ")" + ":";
             for(int i = 0; i < 3; i++)
@@ -56,11 +57,11 @@ public class _show extends JavaPlugin
                 {
                     if(i==0 && temp.indexOf(playername) == 0) MSG += "\nLeiter:";
                     else if(i==1 && temp.indexOf(playername) == 0) MSG += "\nStellvertreter:";
-                    else if(temp.indexOf(playername) == 0) MSG += "\nMitglieder:";
+                    else if(i == 2 && temp.indexOf(playername) == 0) MSG += "\nMitglieder:";
                     MSG += "\n- " + playername;
                 }
             }
-            pl.sendMessage(MSG /*+ "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen"*/);
+            pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
         }
         /*
         *

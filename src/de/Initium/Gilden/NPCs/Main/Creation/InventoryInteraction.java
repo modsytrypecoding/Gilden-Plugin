@@ -1,6 +1,11 @@
 package de.Initium.Gilden.NPCs.Main.Creation;
 
+import de.Initium.Gilden.Commands.Home.gilde_SetHome;
+import de.Initium.Gilden.Commands.gilde_Main;
+import de.Initium.Gilden.Commands.gilde_leave;
+import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
+import de.Initium.Gilden.NPCs.Main.InventoryDispatcher;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -26,6 +31,30 @@ public class InventoryInteraction extends JavaPlugin
         {
             case DIAMOND:
                 diamondClicked((Player) e.getWhoClicked());
+                break;
+            case NAME_TAG:
+                Player p = (Player) e.getWhoClicked();
+                TagClick(p, ToolBox.getGildeNameOfPlayer(p));
+                CreationResponse.cleanup(p);
+                break;
+            case GRASS_BLOCK:
+                Player p1 = (Player) e.getWhoClicked();
+                GrassClick(p1, ToolBox.getGildeNameOfPlayer(p1));
+                CreationResponse.cleanup(p1);
+                break;
+            case BARRIER:
+                Player p2 = (Player) e.getWhoClicked();
+                p2.closeInventory();
+                CreationResponse.cleanup(p2);
+                break;
+            case IRON_DOOR:
+                Player p3 = (Player) e.getWhoClicked();
+                ToolBox.removePlayerfromGilde(p3.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p3));
+                p3.sendMessage("§aDu hast die Gilde erfolgreich verlassen");
+                CreationResponse.cleanup(p3);
+                p3.closeInventory();
+                break;
+
             default:
                 return;
         }
@@ -38,11 +67,61 @@ public class InventoryInteraction extends JavaPlugin
         pl.sendMessage("Gebe den Namen deiner neuen Gilde ein:");
         awaitingNewGildename.add(pl);
     }
+    public static void TagClick(Player pl, String gildenname) {
+        Integer Cost = Integer.parseInt(Main.getConfiguration().get("settings.Gilden.TagCost").toString());
+        Double Purse = Double.parseDouble(Main.getSaves().get("gilden." + gildenname + ".Information.Bank-Wert").toString());
+
+        if(Main.getSaves().getBoolean("gilden." + gildenname + ".Information.hasBoughtTag")) {
+            pl.sendMessage("§cDeine Gilde hat bereits Tag-Rechte!");
+            pl.closeInventory();
+        }else {
+            if(ToolBox.getPlayerNumber(gildenname) >= Integer.parseInt(Main.getConfiguration().get("settings.Gilden.MinPlayersForTag").toString())) {
+                if(Purse >= Cost) {
+                    Double newPurse = Purse - Cost;
+                    Main.getSaves().set("gilden." + gildenname + ".Information.Bank-Wert", newPurse);
+                    Main.saveSaves();
+                    pl.closeInventory();
+                    pl.sendMessage("Du kannst jetzt einen Tag für deine Gilde setzen!");
+                    Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtTag", true);
+                    Main.saveSaves();
+                }else {
+                    pl.sendMessage("§cDer Gilden-Wert deiner Gilde ist zu niedrig!\nPreis: " + Cost + " Kronen\nGilden-Wert: " + Purse + " Kronen");
+                    pl.closeInventory();
+                }
+            }else {
+                pl.sendMessage("Deine Gilde hat zu wenig Mitglieder!\nBenötigte Mitgliederanzahl: "  + Main.getConfiguration().get("settings.Gilden.MinPlayersForTag").toString() + "\nMomentane Mitgliederanzahl: " + ToolBox.getPlayerNumber(gildenname));
+                pl.closeInventory();
+            }
+        }
+    }
+
+    public static void GrassClick(Player pl, String gildenname) {
+        Integer Cost = Integer.parseInt(Main.getConfiguration().get("settings.Gilden.HomePunktCost").toString());
+        Double Purse = Double.parseDouble(Main.getSaves().get("gilden." + gildenname + ".Information.Bank-Wert").toString());
+        if(Main.getSaves().getBoolean("gilden." + gildenname + ".Information.hasBoughtHome")) {
+            pl.sendMessage("§cDeine Gilde hat bereits Home-Rechte!");
+            pl.closeInventory();
+        }else {
+            if(Purse >= Cost) {
+                Double newPurse = Purse - Cost;
+                Main.getSaves().set("gilden." + gildenname + ".Information.Bank-Wert", newPurse);
+                Main.saveSaves();
+                pl.closeInventory();
+                pl.sendMessage("Du kannst jetzt einen Home-Punkt für deine Gilde setzten!");
+                Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtHome", true);
+                Main.saveSaves();
+            }else {
+                pl.sendMessage("§cDer Gilden-Wert deiner Gilde ist zu niedrig!\nPreis: " + Cost + " Kronen\nGilden-Wert: " + Purse + " Kronen");
+            }
+        }
+    }
+
+
 
     public static void diamondClicked(Player pl, String MSG)
     {
         //"".equalsIgnoreCase("");
-        if(!ToolBox.validateGildeName(MSG))
+        if(ToolBox.validateGildeName(MSG))
         {
             pl.sendMessage(
                     "Der Gildenname \"" + MSG + "\" ist ungültig." +

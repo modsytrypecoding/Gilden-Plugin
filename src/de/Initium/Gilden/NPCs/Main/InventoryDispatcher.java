@@ -58,7 +58,11 @@ public class InventoryDispatcher extends JavaPlugin
                 //Spielerzahl >= 10 -> Kauf einer großen Insel möglich
 
             //Leave-Barrier (Last-Slot)
-            showInv.setItem(9*6-1, ItemStackManipulation.getLeaveBarrier());
+            showInv.setItem(9*6-1, ItemStackManipulation.getCloseBarrier());
+            showInv.setItem(20, ItemStackManipulation.getTagItem(ToolBox.getGildeNameOfPlayer(ex)));
+            showInv.setItem(22, ItemStackManipulation.getLeaveDoor());
+            showInv.setItem(24, ItemStackManipulation.getHomeItem(ToolBox.getGildeNameOfPlayer(ex)));
+
         }
         else
         {

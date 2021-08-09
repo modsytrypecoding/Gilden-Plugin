@@ -24,7 +24,7 @@ public class gilde_chat_join extends JavaPlugin{
 				if(!watcher.contains(pl.getName())) {
 					watcher.add(pl.getName());
 					pl.sendMessage("§aWatcher aktiviert!");
-					ToolBox.addPlayertoGilde(pl.getUniqueId().toString(), args[1], "Mitglieder");
+					ToolBox.addPlayertoGilde(pl.getUniqueId().toString(), args[1], "Watcher");
 					pl.sendMessage("Du liest jetzt den Gilden-Chat der Gilde §6" + args[1] + " §rmit!");
 				}else {
 					watcher.remove(pl.getName());

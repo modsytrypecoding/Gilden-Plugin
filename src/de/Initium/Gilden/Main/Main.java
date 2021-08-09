@@ -1,7 +1,10 @@
 package de.Initium.Gilden.Main;
 
+import de.Initium.Gilden.Commands.Home.gilde_SetHome;
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
+import de.Initium.Gilden.Listener.gilde_JoinListener;
+import de.Initium.Gilden.Listener.gilde_QuitListener;
 import de.Initium.Gilden.Main.MessageControlling.DefaultMessages;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
 import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
@@ -25,17 +28,20 @@ public class Main extends JavaPlugin {
 	private static YamlConfiguration messagefileConfiguration = YamlConfiguration.loadConfiguration(messagefile);
 
 	public void onEnable() {
-
 		plugin = this;
 		PluginManager pl = Bukkit.getPluginManager();
+
 
 		pl.registerEvents(new NPC_RightClick(), this);
 		pl.registerEvents(new Bukkit_InteractInventory(), this);
 		pl.registerEvents(new Bukkit_ChatEvent(), this);
 		pl.registerEvents(new Bukkit_JoinLeave(), this);
+		pl.registerEvents(new gilde_JoinListener(), this);
+		pl.registerEvents(new gilde_QuitListener(), this);
 
 		getCommand("gilde").setExecutor(new gilde_Main());
 		getCommand("gctest").setExecutor(new GildenChat_Short());
+		getCommand("gilde").setTabCompleter(new gilde_Main());
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {
@@ -45,7 +51,14 @@ public class Main extends JavaPlugin {
 		//Creation of the config.yml
 		if(!configfile.exists() || !configfileConfiguration.isSet("settings")) {
 			configfileConfiguration.createSection("settings");
-			configfileConfiguration.set("settings.NPC_NAME", "&bTest");
+			configfileConfiguration.createSection("settings.NPC");
+			configfileConfiguration.set("settings.NPC.NPC_NAME", "&bTest");
+			configfileConfiguration.createSection("settings.Gilden");
+			configfileConfiguration.set("settings.Gilden.MaxPlayer", 10);
+			configfileConfiguration.set("settings.Gilden.HomePunktCost", 1000);
+			configfileConfiguration.set("settings.Gilden.TagCost", 1000);
+			configfileConfiguration.set("settings.Gilden.MinPlayersForTag", 3);
+
 			saveConfiguration();
 		}
 
