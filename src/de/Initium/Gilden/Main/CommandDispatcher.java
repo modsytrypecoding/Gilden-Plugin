@@ -9,6 +9,7 @@ import de.Initium.Gilden.Commands.Home.gilde_home;
 import de.Initium.Gilden.Commands.Home.gilde_homeTeam;
 import de.Initium.Gilden.Commands.Invitation.gilde_invite;
 import de.Initium.Gilden.Commands.Invitation.gilde_response;
+import de.Initium.Gilden.Commands.Request.gilde_request;
 import de.Initium.Gilden.Commands.Spawn.gilde_setspawn;
 import de.Initium.Gilden.Commands.Spawn.gilde_spawn;
 import de.Initium.Gilden.Commands.Tag.*;

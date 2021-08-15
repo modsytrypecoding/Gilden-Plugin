@@ -10,6 +10,7 @@ depends:
   - Vault
   - GemsEconomy
   - PlayerLogger
+  - Insel
 website: https://initium-novum.net/
 commands:
   gilde:
@@ -18,3 +19,7 @@ commands:
   gctest:
     usage: /<command>
     description: Test-Gilde-Chat-CMD
+  confirm:
+    description: Plugin-Extension
+  deny:
+    description: Plugin-Extension

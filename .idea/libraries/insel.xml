@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="insel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Dependencies/insel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/Dependencies/insel.jar!/" />
+    </SOURCES>
+  </library>
+</component>

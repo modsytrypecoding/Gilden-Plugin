@@ -3,6 +3,7 @@ package de.Initium.Gilden.Commands;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
+import de.malteee.inselshopsystem.core.KleineInselnPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,8 @@ public class _show extends JavaPlugin
     public static void execute(Integer nr, String gilde_name)
     {
         Player pl = gilde_Main.getPlayer(nr);
+
+        KleineInselnPlugin api = new KleineInselnPlugin();
 
         if(!ToolBox.checkGildeExists(gilde_name))
         {

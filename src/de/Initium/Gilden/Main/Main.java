@@ -1,6 +1,8 @@
 package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.Home.gilde_SetHome;
+import de.Initium.Gilden.Commands.Request.confirm;
+import de.Initium.Gilden.Commands.Request.deny;
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
 import de.Initium.Gilden.Listener.gilde_JoinListener;
@@ -42,6 +44,9 @@ public class Main extends JavaPlugin {
 		getCommand("gilde").setExecutor(new gilde_Main());
 		getCommand("gctest").setExecutor(new GildenChat_Short());
 		getCommand("gilde").setTabCompleter(new gilde_Main());
+		getCommand("confirm").setExecutor(new confirm());
+		getCommand("deny").setExecutor(new deny());
+
 
 		//Creation of the saves.yml
 		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {

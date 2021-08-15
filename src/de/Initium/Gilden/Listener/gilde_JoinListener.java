@@ -35,7 +35,7 @@ public class gilde_JoinListener implements Listener {
                     LocalDate now = LocalDate.now();
                     //check if 83 Days have pasted
                     if(now.isEqual(timeQUit.plusDays(83))) {
-                        p.sendMessage("§cDer Leiter deiner Gilde ist seit 83 Tagen inaktiv!\nKommt er innerhalb der nächsten 7 Tage nicht zurück,\nwird die Gilde aufgelöst, da kein Forsitzender in der Gilde gefunden werden konnte!");
+                        p.sendMessage("§cDer Leiter deiner Gilde ist seit 83 Tagen inaktiv!\nKommt er innerhalb der nächsten 7 Tage nicht zurück,\nwird die Gilde aufgelöst, da kein Stellvertreter in der Gilde gefunden werden konnte!");
                     }else if(now.isEqual(timeQUit.plusDays(90))) {
                         ToolBox.DelTag(ToolBox.getTagbyGilde(gilde));
                         ToolBox.DelGildeToTag(gilde);

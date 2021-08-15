@@ -20,5 +20,6 @@
     <orderEntry type="library" name="GemsEconomy-4.9.2" level="project" />
     <orderEntry type="library" name="spigot-1.16.5" level="project" />
     <orderEntry type="library" name="PlayerLogger" level="project" />
+    <orderEntry type="library" name="insel" level="project" />
   </component>
 </module>

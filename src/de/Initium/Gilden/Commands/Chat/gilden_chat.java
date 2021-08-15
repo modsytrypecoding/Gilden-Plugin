@@ -28,12 +28,30 @@ public class gilden_chat
                     message += args[i] + " ";
                 }
                 //Sending Message
-                pl.sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
+                String gilde = ToolBox.getGildeNameOfPlayer(pl);
+                if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
+                    pl.sendMessage("§6[GC] [L] §f" + pl.getName() + ": §6" + message);
+                }
+                if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
+                    pl.sendMessage("§6[GC] [S] §f" + pl.getName() + ": §6" + message);
+                }
+                if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
+                    pl.sendMessage("§6[GC] §f" + pl.getName() + ": §6" + message);
+                }
                 for (String all : playersofGilde) {
                     if (!(pl.getUniqueId().toString().equals(all))) {
                         String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                         if (!(temp.equals(""))) {
-                            (Bukkit.getPlayerExact(temp)).sendMessage("[§a" + ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(pl.getName())) + "§r] §6" + pl.getName() + "§r: " + message);
+                            if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
+                                (Bukkit.getPlayerExact(temp)).sendMessage("§6[GC] [L] §f" + pl.getName() + ": §6" + message);
+                            }
+                            if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
+                                (Bukkit.getPlayerExact(temp)).sendMessage("§6[GC] [S] §f" + pl.getName() + ": §6" + message);
+                            }
+                            if(ToolBox.getGildeRankByPlayer(gilde, pl.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
+                                (Bukkit.getPlayerExact(temp)).sendMessage("§6[GC] §f" + pl.getName() + ": §6" + message);
+                            }
+
                         }
                     }
                 }

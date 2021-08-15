@@ -182,6 +182,8 @@ public class ToolBox extends JavaPlugin
                 List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
                 newList.add(uuid);
                 Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+                Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsdatum", now);
+                Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsuhrzeit", time);
                 Main.saveSaves();
             }
 
@@ -193,6 +195,8 @@ public class ToolBox extends JavaPlugin
                 List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
                 newList.add(uuid);
                 Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+                Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsdatum", now);
+                Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsuhrzeit", time);
                 Main.saveSaves();
             }
         }
@@ -200,6 +204,8 @@ public class ToolBox extends JavaPlugin
             List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
             newList.add(uuid);
             Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+            Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsdatum", now);
+            Main.getSaves().set("PlayerDaten." + uuid + ".Beitrittsuhrzeit", time);
             Main.saveSaves();
         }
         if(rang.equalsIgnoreCase("Watcher")) {
