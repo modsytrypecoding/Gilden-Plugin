@@ -8,10 +8,7 @@ import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
 import de.Initium.Gilden.Listener.gilde_JoinListener;
 import de.Initium.Gilden.Listener.gilde_QuitListener;
 import de.Initium.Gilden.Main.MessageControlling.DefaultMessages;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;
-import de.Initium.Gilden.NPCs.Listener.NPC_RightClick;
+import de.Initium.Gilden.NPCs.Listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -33,11 +30,11 @@ public class Main extends JavaPlugin {
 		plugin = this;
 		PluginManager pl = Bukkit.getPluginManager();
 
-
 		pl.registerEvents(new NPC_RightClick(), this);
 		pl.registerEvents(new Bukkit_InteractInventory(), this);
 		pl.registerEvents(new Bukkit_ChatEvent(), this);
 		pl.registerEvents(new Bukkit_JoinLeave(), this);
+		pl.registerEvents(new Bukkit_InventoryClose(), this);
 		pl.registerEvents(new gilde_JoinListener(), this);
 		pl.registerEvents(new gilde_QuitListener(), this);
 
@@ -80,8 +77,7 @@ public class Main extends JavaPlugin {
 	public static YamlConfiguration getSaves() {
 		return savefileConfiguration;
 	}
-	public static void saveSaves()
-	{
+	public static void saveSaves() {
 		try {
 			savefileConfiguration.save(savesfile);
 			savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
@@ -92,8 +88,7 @@ public class Main extends JavaPlugin {
 	public static YamlConfiguration getConfiguration() {
 		return configfileConfiguration;
 	}
-	public static void saveConfiguration()
-	{
+	public static void saveConfiguration() {
 		try {
 			configfileConfiguration.save(configfile);
 			configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
@@ -101,7 +96,6 @@ public class Main extends JavaPlugin {
 			getPlugin().getLogger().info("Fehler beim Speichern der config.yml: " + e);
 		}
 	}
-
 	public static YamlConfiguration getMessages() {
 		return messagefileConfiguration;
 	}

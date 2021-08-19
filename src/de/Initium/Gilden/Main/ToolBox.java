@@ -292,7 +292,6 @@ public class ToolBox extends JavaPlugin
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
             if(key.contains("raenge")) continue;
-            Bukkit.getServer().getConsoleSender().sendMessage("DU MICH AUCH: " + key);
             temp_storage.add(key.replace("gilden.", ""));
         }
         return temp_storage;

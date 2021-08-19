@@ -13,10 +13,13 @@ public class Bukkit_InteractInventory implements Listener
     public static void onInteract(InventoryClickEvent e)
     {
         Player pl = (Player) e.getWhoClicked();
-        if(e.getCurrentItem() != null && InventoryDispatcher.getActivePlayers().contains(pl))
+        if(e.getCurrentItem() != null &&
+                InventoryDispatcher.getActivePlayers().contains(pl) &&
+                    InventoryDispatcher.getInInventory().containsKey(pl))
         {
             e.setCancelled(true);
-            InventoryInteraction.clickedItemDecision(e);
+            if(e.getClickedInventory().getSize() == 9*3)
+                InventoryInteraction.clickedItemDecision(e);
         }
     }
 }
