@@ -36,28 +36,8 @@ public class InventoryDispatcher extends JavaPlugin
         Inventory showInv;
         if(Case)
         {
-            //Check Rank of Player in Gilde
-            //return if not Leiter
 
             showInv = Bukkit.createInventory(null, 9*6, ChatColor.AQUA + "Gilden");
-
-            //IF HOMEPUNKT      -> Item mit Koordinaten des Homepunkts
-            //IF NO HOMEPUNKT   -> Kaufmöglichkeit für einen Homepunkt
-
-            //IF TAG            -> Item mit TAG Ändern (Countdown = Config)
-            //IF NO TAG         -> Kaufmöglichkeit für einen TAG (Preis = Config)
-
-            //IF Gildeninsel    ->
-                //Mittlere Insel ->
-                    //Spielerzahl >= 10 -> Kaufmöglichkeit große Insel
-                    //else Kauf gesperrt
-                //Große Insel    -> Größte Insel erreicht (Kein Upgrade möglich)
-                //Kleine Insel (bereits vorhanden, nichts tun)
-            //IF NO Gildeninsel -> Kaufmenü
-                //Kaufmenü:
-                //Spielerzahl < 7 -> Kauf einer Mittleren Insel gesperrt
-                //Spielerzahl >= 7 -> Kauf einer mittleren Insel möglich
-                //Spielerzahl >= 10 -> Kauf einer großen Insel möglich
 
             //Leave-Barrier (Last-Slot)
             showInv.setItem(9*6-1, ItemStackManipulation.getCloseBarrier());

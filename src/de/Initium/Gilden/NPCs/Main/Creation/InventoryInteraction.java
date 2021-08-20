@@ -13,6 +13,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
+import de.Initium.Gilden.NPCs.Main.InventoryDispatcher;
 import de.Initium.Gilden.NPCs.Main.ItemStackManipulation;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -39,7 +40,6 @@ public class InventoryInteraction extends JavaPlugin
 {
     static ArrayList<Player> awaitingNewGildename = new ArrayList<>();
     static HashMap<Player, String> awaitingConfirmation = new HashMap<>();
-    public static HashMap<Player, String> awaiting = new HashMap<>();
 
     public static void clickedItemDecision(InventoryClickEvent e)
     {
@@ -51,13 +51,7 @@ public class InventoryInteraction extends JavaPlugin
                     Main.saveSaves();
                     e.getInventory().setItem(4, null);
                 }
-
-
-
         }
-
-
-
         if(e.getView().getTitle().equalsIgnoreCase("Gilde-Liste")) {
             if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
                 Player p4 = (Player) e.getWhoClicked();
@@ -66,7 +60,6 @@ public class InventoryInteraction extends JavaPlugin
 
             }
         }
-
         if(e.getClickedInventory() != null) {
             if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
                 if(e.getCurrentItem() != null) {

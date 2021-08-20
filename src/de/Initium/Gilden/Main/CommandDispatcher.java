@@ -59,6 +59,9 @@ public class CommandDispatcher extends JavaPlugin
             case "spawn":
                 gilde_spawn.execute(nr);
                 break;
+            case "setspawn":
+                gilde_setspawn.execute(nr);
+                break;
             case "leave":
                 gilde_leave.execute(nr);
                 break;

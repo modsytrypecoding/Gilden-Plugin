@@ -22,9 +22,8 @@ import java.util.ArrayList;
 
 public class gilde_setspawn extends JavaPlugin {
 
-    public static void execute(Integer nr, String[] args) {
+    public static void execute(Integer nr) {
         Player player = gilde_Main.getPlayer(nr);
-        if (args.length == 1) {
             if (ToolBox.getallPlayers().contains(player.getUniqueId().toString())) {
                 String gilde = ToolBox.getGildeNameOfPlayer(player);
                 if (ToolBox.getGildeRankByPlayer(gilde, player.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde, player.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
@@ -123,7 +122,11 @@ public class gilde_setspawn extends JavaPlugin {
             } else {
                 player.sendMessage("§cDu kannst diesen Befehl nicht nutzen da du in keiner Gilde bist!");
             }
-        }
+
+    }
+
+    public static void execute(Integer nr, String[] args) {
+        Player player = gilde_Main.getPlayer(nr);
         if (args.length == 2) {
             String gilde = args[1];
             if(ToolBox.checkGildeExists(args[1])) {
