@@ -366,6 +366,7 @@ public class InventoryInteraction extends JavaPlugin
     public static void diamondClicked(Player pl)
     {
         pl.closeInventory();
+        InventoryDispatcher.getInInventory().remove(pl);
         pl.sendMessage("Gebe den Namen deiner neuen Gilde ein:");
         awaitingNewGildename.add(pl);
     }

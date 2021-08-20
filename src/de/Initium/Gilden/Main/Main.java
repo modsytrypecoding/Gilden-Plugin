@@ -9,10 +9,7 @@ import de.Initium.Gilden.Listener.InventoryClick;
 import de.Initium.Gilden.Listener.gilde_JoinListener;
 import de.Initium.Gilden.Listener.gilde_QuitListener;
 import de.Initium.Gilden.Main.MessageControlling.DefaultMessages;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_ChatEvent;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_InteractInventory;
-import de.Initium.Gilden.NPCs.Listener.Bukkit_JoinLeave;
-import de.Initium.Gilden.NPCs.Listener.NPC_RightClick;
+import de.Initium.Gilden.NPCs.Listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -36,11 +33,11 @@ public class Main extends JavaPlugin {
 		plugin = this;
 		PluginManager pl = Bukkit.getPluginManager();
 
-
 		pl.registerEvents(new NPC_RightClick(), this);
 		pl.registerEvents(new Bukkit_InteractInventory(), this);
 		pl.registerEvents(new Bukkit_ChatEvent(), this);
 		pl.registerEvents(new Bukkit_JoinLeave(), this);
+		pl.registerEvents(new Bukkit_InventoryClose(), this);
 		pl.registerEvents(new gilde_JoinListener(), this);
 		pl.registerEvents(new gilde_QuitListener(), this);
 		pl.registerEvents(new CloseEvent(), this);
@@ -54,12 +51,12 @@ public class Main extends JavaPlugin {
 
 
 		//Creation of the saves.yml
-		if(!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {
+		if (!savesfile.exists() || !savefileConfiguration.isSet("gilden")) {
 			savefileConfiguration.createSection("gilden");
 			saveSaves();
 		}
 		//Creation of the config.yml
-		if(!configfile.exists() || !configfileConfiguration.isSet("settings")) {
+		if (!configfile.exists() || !configfileConfiguration.isSet("settings")) {
 			configfileConfiguration.createSection("settings");
 			configfileConfiguration.createSection("settings.NPC");
 			configfileConfiguration.set("settings.NPC.NPC_NAME", "&bTest");
@@ -77,7 +74,7 @@ public class Main extends JavaPlugin {
 			saveConfiguration();
 		}
 
-		if(!inselfile.exists() || !inselfileConfiguration.isSet("Inseln")) {
+		if (!inselfile.exists() || !inselfileConfiguration.isSet("Inseln")) {
 			inselfileConfiguration.createSection("Inseln");
 			inselfileConfiguration.createSection("Inseln.Mittel");
 			inselfileConfiguration.createSection("Inseln.Mittel.8");
@@ -122,15 +119,16 @@ public class Main extends JavaPlugin {
 		}
 
 		//Creation of the messages.yml
-		if(!messagefile.exists() || !messagefileConfiguration.isSet("settings")) {
+		if (!messagefile.exists() || !messagefileConfiguration.isSet("settings")) {
 			DefaultMessages.set(messagefileConfiguration);
 			saveMessages();
 		}
 	}
-	
+
 	public static Main getPlugin() {
 		return plugin;
 	}
+
 	public static YamlConfiguration getSaves() {
 		return savefileConfiguration;
 	}
@@ -138,29 +136,33 @@ public class Main extends JavaPlugin {
 	public static YamlConfiguration getInselConfig() {
 		return inselfileConfiguration;
 	}
-	public static void saveSaves()
-	{
+
+	public static void saveSaves() {
+
 		try {
 			savefileConfiguration.save(savesfile);
 			savefileConfiguration = YamlConfiguration.loadConfiguration(savesfile);
 		} catch (IOException e) {
 			getPlugin().getLogger().info("Fehler beim Speichern der saves.yml: " + e);
 		}
+
 	}
+
 
 	public static void saveInselConfig() {
 		try {
 			inselfileConfiguration.save(inselfile);
 			inselfileConfiguration = YamlConfiguration.loadConfiguration(inselfile);
-		}catch (IOException e) {
+		} catch (IOException e) {
 			getPlugin().getLogger().info("Fehler beim Speichern der InselConfig" + e);
 		}
 	}
+
 	public static YamlConfiguration getConfiguration() {
 		return configfileConfiguration;
 	}
-	public static void saveConfiguration()
-	{
+
+	public static void saveConfiguration() {
 		try {
 			configfileConfiguration.save(configfile);
 			configfileConfiguration = YamlConfiguration.loadConfiguration(configfile);
@@ -172,6 +174,7 @@ public class Main extends JavaPlugin {
 	public static YamlConfiguration getMessages() {
 		return messagefileConfiguration;
 	}
+
 	public static void saveMessages() {
 		try {
 			messagefileConfiguration.save(messagefile);
@@ -181,3 +184,5 @@ public class Main extends JavaPlugin {
 		}
 	}
 }
+
+

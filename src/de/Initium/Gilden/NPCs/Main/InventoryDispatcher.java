@@ -11,10 +11,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InventoryDispatcher extends JavaPlugin
 {
     static ArrayList<Player> executors = new ArrayList<>();
+    static HashMap<Player, Boolean> inInventory = new HashMap<>();
 
     public static void caseDecision(Player ex, NPC npc)
     {
@@ -65,7 +67,6 @@ public class InventoryDispatcher extends JavaPlugin
             showInv.setItem(38, ItemStackManipulation.getRequestSeeItem());
             showInv.setItem(40, ItemStackManipulation.InselShop());
             showInv.setItem(42, ItemStackManipulation.ChooseGuiItem(ToolBox.getGildeNameOfPlayer(ex)));
-
         }
         else
         {
@@ -86,7 +87,9 @@ public class InventoryDispatcher extends JavaPlugin
                 showInv.setItem(i, placeholder);
         }
         ex.openInventory(showInv);
+        inInventory.put(ex, true);
     }
 
     public static ArrayList<Player> getActivePlayers() { return executors; }
+    public static HashMap<Player, Boolean> getInInventory() { return inInventory; }
 }

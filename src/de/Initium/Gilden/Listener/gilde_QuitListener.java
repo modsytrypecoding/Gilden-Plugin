@@ -17,8 +17,6 @@ public class gilde_QuitListener implements Listener {
     public static void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
-        Bukkit.broadcastMessage("Test");
-
         LocalDate Beitritt = LocalDate.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyy");
         String now = dtf.format(Beitritt);

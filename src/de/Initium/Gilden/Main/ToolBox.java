@@ -301,6 +301,7 @@ public class ToolBox extends JavaPlugin
         {
             if(key.contains("raenge")) continue;
             if(key.contains("Information")) continue;
+
             temp_storage.add(key.replace("gilden.", ""));
         }
         return temp_storage;

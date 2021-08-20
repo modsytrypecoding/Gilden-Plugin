@@ -4,16 +4,16 @@ import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
 import org.bukkit.Bukkit;
+import de.Initium.Gilden.NPCs.Main.Creation.InventoryInteraction;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-public class MainAPI extends JavaPlugin
+public class GildeAPI
 {
-    public static class Gilde
+    public static class MainAPI
     {
         public void removePlayerNameFromGilde(String GildenName, String PlayerName)
         {
@@ -41,10 +41,19 @@ public class MainAPI extends JavaPlugin
             String QuitDate = Main.getSaves().get("PlayerDaten." + UUID + "QuitDate").toString();
             return QuitDate;
         }
-        public String getGildenNameofPlayer(Player p)
-        {
+        public String getGildenNameofPlayer(Player p) {
             String gilde = ToolBox.getGildeNameOfPlayer(p);
             return gilde;
+        }
+
+        public boolean awaitingResponse(Player pl)
+        {
+            return InventoryInteraction.getAwaitingNewGildename().contains(pl);
+        }
+
+        public boolean awaitingConfirmation(Player pl)
+        {
+            return InventoryInteraction.getAwaitingConfirmation().containsKey(pl);
         }
     }
 }

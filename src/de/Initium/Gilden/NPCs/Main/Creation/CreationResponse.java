@@ -62,5 +62,6 @@ public class CreationResponse extends JavaPlugin
         InventoryInteraction.getAwaitingNewGildename().remove(pl);
         InventoryInteraction.getAwaitingConfirmation().remove(pl);
         InventoryDispatcher.getActivePlayers().remove(pl);
+        InventoryDispatcher.getInInventory().remove(pl);
     }
 }
