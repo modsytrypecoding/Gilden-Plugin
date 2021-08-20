@@ -20,6 +20,13 @@ public class gilde_JoinListener implements Listener {
     public static void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
+        if(Main.getSaves().get("PlayerDaten." + p.getUniqueId().toString() + ".WaitingForReturn") != null) {
+            p.sendMessage(Main.getSaves().get("PlayerDaten." + p.getUniqueId().toString() + ".WaitingForReturn").toString());
+            Main.getSaves().set("PlayerDaten." + p.getUniqueId().toString() + ".WaitingForReturn", null);
+            Main.saveSaves();
+
+        }
+
         //check if Player is in Gilde
         if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
             String gilde = ToolBox.getGildeNameOfPlayer(p);

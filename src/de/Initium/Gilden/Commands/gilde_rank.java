@@ -115,68 +115,73 @@ public class gilde_rank extends JavaPlugin{
 		if(p.hasPermission("gilde.rank.admin")) {
 			if(args[3].equalsIgnoreCase("Leiter") || args[3].equalsIgnoreCase("Stellvertreter") || args[3].equalsIgnoreCase("Mitglied")) {
 				if(ToolBox.checkGildeExists(gilde2)) {
-					if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(gilde2)).contains(t2.getUniqueId().toString())) {
-						if(args[3].equalsIgnoreCase("Stellvertreter")) {
-							if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
-								ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-								ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Stellvertreter");
-								Main.saveSaves();
-								p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Mitglied auf Stellvertreter befördert!");
-								t2.sendMessage("§aEin Teammitglied hat deinen Rang von §6Member §aauf Rang §6Stellvertreter §abefördert!");
-							}else if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")){
-								p.sendMessage("Dieser Spieler ist bereits Stellvertreter");
-							}else {
-								ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-								ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Stellvertreter");
-								p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Leiter auf Stellvertreter degradiert!");
-								t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Stellvertreter §cdegradiert!");
+					if(t2 == null) {
+						if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(gilde2)).contains(t2.getUniqueId().toString())) {
+							if(args[3].equalsIgnoreCase("Stellvertreter")) {
+								if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
+									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Stellvertreter");
+									Main.saveSaves();
+									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Mitglied auf Stellvertreter befördert!");
+									t2.sendMessage("§aEin Teammitglied hat deinen Rang von §6Member §aauf Rang §6Stellvertreter §abefördert!");
+								}else if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")){
+									p.sendMessage("Dieser Spieler ist bereits Stellvertreter");
+								}else {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
+									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Stellvertreter");
+									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Leiter auf Stellvertreter degradiert!");
+									t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Stellvertreter §cdegradiert!");
+								}
 							}
-					}
-						
-						if(args[3].equalsIgnoreCase("Leiter")) {
-							if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
-								ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
+
+							if(args[3].equalsIgnoreCase("Leiter")) {
+								if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
 									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Leiter");
 									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Stellvertreter auf Leiter befördert!");
 									t2.sendMessage("§aEin Teammitglied hat deinen Rang von §6Stellvertreter §aauf Rang §6Leiter §abefördert!");
-								
-								
-								
-								
-								
-							}else if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
-								ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-								ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Leiter");
-								t2.sendMessage("§aEin Teammitglied hat deinen Rang von §6Mitglied §aauf Rang §6Leiter §abefördert!");
-								p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Mitglied auf Leiter befördert!");
-							}else {
-								p.sendMessage("§c Dieser Spieler ist bereits ein Leiter");
+
+
+
+
+
+								}else if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
+									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Leiter");
+									t2.sendMessage("§aEin Teammitglied hat deinen Rang von §6Mitglied §aauf Rang §6Leiter §abefördert!");
+									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Mitglied auf Leiter befördert!");
+								}else {
+									p.sendMessage("§c Dieser Spieler ist bereits ein Leiter");
+								}
 							}
-						}
-						
-					if(args[3].equalsIgnoreCase("Mitglied")) {
-						if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
-							ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-								ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Mitglieder");
-								p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Stellvertreter auf Mitglied degradiert!");
-								t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Stellvertreter §cauf Rang §6Member §cdegradiert!");
-							
-							
-							
-							
-							
-						}else if(ToolBox.getGildeRankByPlayer(gilde, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
-							p.sendMessage("§cDieser Spieler ist bereits ein Mitglied!");
+
+							if(args[3].equalsIgnoreCase("Mitglied")) {
+								if(ToolBox.getGildeRankByPlayer(gilde2, t2.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
+									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Mitglieder");
+									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Stellvertreter auf Mitglied degradiert!");
+									t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Stellvertreter §cauf Rang §6Member §cdegradiert!");
+
+
+
+
+
+								}else if(ToolBox.getGildeRankByPlayer(gilde, t2.getUniqueId().toString()).equalsIgnoreCase("Mitglieder")) {
+									p.sendMessage("§cDieser Spieler ist bereits ein Mitglied!");
+								}else {
+									ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), gilde2);
+									ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Mitglieder");
+									p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Leiter auf Mitglied degradiert!");
+									t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Mitglied §cdegradiert!");
+								}
+							}
 						}else {
-							ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
-							ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), gilde2, "Stellvertreter");
-							p.sendMessage("§aDu hast den Rang des Spielers §6" + t2.getName() + " §avon Leiter auf Mitglied degradiert!");
-							t2.sendMessage("§cEin Teammitglied hat deinen Rang von §6Leiter §cauf Rang §6Mitglied §cdegradiert!");
+							p.sendMessage("§cDieser Spieler ist nicht in der von dir gewählten Gilde!");
 						}
+					}else {
+						p.sendMessage("Der Spieler " + t2.getName() + " ist momentan nicht online!");
 					}
-				}else {
-					p.sendMessage("§cDieser Spieler ist nicht in der von dir gewählten Gilde!");
-				}
+
 				}else {
 					p.sendMessage("§cDie von dir gewählte Gilde existiert nicht");
 				}
@@ -188,8 +193,6 @@ public class gilde_rank extends JavaPlugin{
 		}else {
 			p.sendMessage("§cDazu fehlen dir die Berechtigungen!");
 		}
-	}else {
-		p.sendMessage("§cZuviele Args");
 	}
  
 }

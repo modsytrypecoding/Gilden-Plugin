@@ -1,6 +1,7 @@
 package de.Initium.Gilden.NPCs.Main;
 
 import de.Initium.Gilden.Main.Main;
+import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,6 +34,18 @@ public class ItemStackManipulation extends JavaPlugin
     {
         ItemStack placeholder = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
         placeholder.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1);
+
+        ItemMeta placeholder_meta = placeholder.getItemMeta();
+        placeholder_meta.setDisplayName(" ");
+        placeholder_meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        placeholder_meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        placeholder.setItemMeta(placeholder_meta);
+
+        return placeholder;
+    }
+    public static ItemStack getPlaceholder2()
+    {
+        ItemStack placeholder = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
         ItemMeta placeholder_meta = placeholder.getItemMeta();
         placeholder_meta.setDisplayName(" ");
@@ -111,5 +124,73 @@ public class ItemStackManipulation extends JavaPlugin
             return Grass;
 
 
+    }
+    public static ItemStack getRequestItem() {
+        ItemStack Book = new ItemStack(Material.WRITABLE_BOOK);
+        ItemMeta bm = Book.getItemMeta();
+
+        bm.setDisplayName("Gilden");
+        bm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("Sehe eine Liste aller Gilden die Anfragen erlauben.");
+        bm.setLore(lore);
+
+        Book.setItemMeta(bm);
+        return Book;
+
+    }
+
+    public static ItemStack getRequestSeeItem() {
+        ItemStack Book = new ItemStack(Material.BOOK);
+        ItemMeta bm = Book.getItemMeta();
+
+        bm.setDisplayName("Gilden-Anfragen");
+        bm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("Eine Liste der noch offenstehenden Anfragen.");
+        bm.setLore(lore);
+
+        Book.setItemMeta(bm);
+        return Book;
+
+    }
+
+    public static ItemStack ChooseGuiItem(String gilde) {
+        ItemStack chest = new ItemStack(Material.CHEST);
+        ItemMeta cm = chest.getItemMeta();
+
+        if(Main.getSaves().get("gilden." + gilde + ".Information." + "hasBoughtItemSelect").equals(false)) {
+            cm.setDisplayName("AnfragenItemAuswahl");
+            cm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add("Kaufe diese Option und erhalte die Möglichkeit deiner Gilde ein Anfrage-Item auszuwählen");
+            cm.setLore(lore);
+
+            chest.setItemMeta(cm);
+            return  chest;
+        }
+            cm.setDisplayName("AnfragenItemAuswahl");
+            cm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add("Wähle ein Item aus welches deine Gilde im Anfragen-Menu repräsentiert!");
+            cm.setLore(lore);
+
+            chest.setItemMeta(cm);
+            return  chest;
+
+    }
+
+    public static ItemStack InselShop() {
+        HeadDatabaseAPI api = new HeadDatabaseAPI();
+        ItemStack CustomHead = api.getItemHead("2669");
+        ItemMeta cm = CustomHead.getItemMeta();
+        cm.setDisplayName("§fInsel-Shop");
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("Shop für mittlere und große Inseln");
+        cm.setLore(lore);
+
+        CustomHead.setItemMeta(cm);
+        return   CustomHead;
     }
 }

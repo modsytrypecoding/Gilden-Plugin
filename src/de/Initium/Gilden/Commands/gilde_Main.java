@@ -23,7 +23,7 @@ public class gilde_Main implements CommandExecutor, TabCompleter {
         }
         Player pl = (Player) sender;
         if (!(pl.hasPermission("gilde.CMD.main")) /* /gilde */) {
-            pl.sendMessage("");
+            pl.sendMessage("Fehlende Permission (Gilde.CMD.Main)");
             return true;
         }
 
@@ -46,6 +46,7 @@ public class gilde_Main implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("gilde.admin")) {
             commands.add("top");
             commands.add("chat");
+            commands.add("create");
             commands.add("chat-join");
             commands.add("kick");
             commands.add("rank");
@@ -62,6 +63,7 @@ public class gilde_Main implements CommandExecutor, TabCompleter {
             commands.add("renameTag");
             commands.add("delTag");
             commands.add("leave");
+            commands.add("toggleRequest");
             if (s.equalsIgnoreCase("gilde")) {
                 List<String> afterCommands = commands;
                 for (String autocomplete : afterCommands) {
@@ -91,7 +93,9 @@ public class gilde_Main implements CommandExecutor, TabCompleter {
             commands.add("setTag");
             commands.add("reTag");
             commands.add("renameTag");
+            commands.add("toggleRequest");
             commands.add("delTag");
+            commands.add("create");
             commands.add("leave");
 
             if (s.equalsIgnoreCase("gilde")) {

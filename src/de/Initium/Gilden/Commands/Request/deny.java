@@ -11,31 +11,24 @@ import java.util.ArrayList;
 
 public class deny implements CommandExecutor {
     public static ArrayList<Player> hasDenied = new ArrayList<>();
+    public static ArrayList<Player> hasCanceled = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if(!hasDenied.contains(p.getPlayer())) {
-                if(!confirm.hasconfirmed.contains(p.getPlayer())) {
-                    if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
-                        Player t = Bukkit.getPlayer(args[0]);
-
-                        t.sendMessage("Deine Anfrage wurde abgelehnt!");
-                        p.sendMessage("Du hast die Anfrage von " + t.getName() + " erfolgreich abgelehnt!");
-                        gilde_request.awaiting.remove(t.getPlayer());
-                        hasDenied.add(p.getPlayer());
+            if (args.length == 0) {
+                if (ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
+                    if (hasCanceled.contains(p.getPlayer())) {
+                        p.sendMessage("Du hast diesen Vorgang bereits abgebrochen!");
+                    } else {
+                        p.sendMessage("§cAbbruch!");
+                        hasCanceled.add(p.getPlayer());
                     }
-                }else {
-                    p.sendMessage("Du hast diesen Spieler bereits angenommen!");
                 }
-
-            }else {
-                p.sendMessage("Du hast diesen Anfrage bereits abgelehnt!");
             }
 
         }
-
         return false;
     }
 }

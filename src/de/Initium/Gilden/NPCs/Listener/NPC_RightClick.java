@@ -1,6 +1,7 @@
 package de.Initium.Gilden.NPCs.Listener;
 
 import de.Initium.Gilden.Main.Main;
+import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.NPCs.Main.InventoryDispatcher;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
@@ -20,7 +21,14 @@ public class NPC_RightClick implements Listener
 
         String expected_npc_name = Main.getConfiguration().getString("settings.NPC.NPC_NAME");
         if(!clickedNPC.getName().equals(expected_npc_name)) return;
-
+        if(ToolBox.getallPlayers().contains(pl.getUniqueId().toString())) {
+            if(ToolBox.getGildeRankByPlayer(ToolBox.getGildeNameOfPlayer(pl), pl.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
+                InventoryDispatcher.caseDecision(pl, clickedNPC);
+            }else {
+                pl.sendMessage("§cDu bist kein Leiter");
+            }
+        }
         InventoryDispatcher.caseDecision(pl, clickedNPC);
+
     }
 }

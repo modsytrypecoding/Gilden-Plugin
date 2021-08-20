@@ -1,62 +1,364 @@
 package de.Initium.Gilden.NPCs.Main.Creation;
 
-import de.Initium.Gilden.Commands.Home.gilde_SetHome;
-import de.Initium.Gilden.Commands.gilde_Main;
-import de.Initium.Gilden.Commands.gilde_leave;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
-import de.Initium.Gilden.NPCs.Main.InventoryDispatcher;
+import de.Initium.Gilden.Main.UUIDManipulation;
+import de.Initium.Gilden.NPCs.Main.ItemStackManipulation;
+import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class InventoryInteraction extends JavaPlugin
 {
     static ArrayList<Player> awaitingNewGildename = new ArrayList<>();
     static HashMap<Player, String> awaitingConfirmation = new HashMap<>();
+    public static HashMap<Player, String> awaiting = new HashMap<>();
 
     public static void clickedItemDecision(InventoryClickEvent e)
     {
-        switch (e.getCurrentItem().getType())
-        {
-            case DIAMOND:
-                diamondClicked((Player) e.getWhoClicked());
-                break;
-            case NAME_TAG:
-                Player p = (Player) e.getWhoClicked();
-                TagClick(p, ToolBox.getGildeNameOfPlayer(p));
-                CreationResponse.cleanup(p);
-                break;
-            case GRASS_BLOCK:
-                Player p1 = (Player) e.getWhoClicked();
-                GrassClick(p1, ToolBox.getGildeNameOfPlayer(p1));
-                CreationResponse.cleanup(p1);
-                break;
-            case BARRIER:
-                Player p2 = (Player) e.getWhoClicked();
-                p2.closeInventory();
-                CreationResponse.cleanup(p2);
-                break;
-            case IRON_DOOR:
-                Player p3 = (Player) e.getWhoClicked();
-                ToolBox.removePlayerfromGilde(p3.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p3));
-                p3.sendMessage("ßaDu hast die Gilde erfolgreich verlassen");
-                CreationResponse.cleanup(p3);
-                p3.closeInventory();
-                break;
+        if(e.getView().getTitle().equalsIgnoreCase("Item-Auswahl")) {
+                if(e.getView().getTopInventory().getItem(4) == null) {
+                    e.getInventory().setItem(4, e.getCurrentItem());
+                }else {
+                    Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock", null);
+                    Main.saveSaves();
+                    e.getInventory().setItem(4, null);
+                }
 
-            default:
-                return;
+
+
+        }
+
+
+
+        if(e.getView().getTitle().equalsIgnoreCase("Gilde-Liste")) {
+            if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
+                Player p4 = (Player) e.getWhoClicked();
+                Request((Player) e.getWhoClicked(), e.getCurrentItem().getItemMeta().getDisplayName());
+                p4.closeInventory();
+
+            }
+        }
+
+        if(e.getClickedInventory() != null) {
+            if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
+                if(e.getCurrentItem() != null) {
+                    if(!e.getView().getTitle().equalsIgnoreCase("Gilde-Liste")) {
+                        switch (e.getCurrentItem().getType()) {
+                            case DIAMOND:
+                                diamondClicked((Player) e.getWhoClicked());
+                                break;
+                            case NAME_TAG:
+                                Player p = (Player) e.getWhoClicked();
+                                TagClick(p, ToolBox.getGildeNameOfPlayer(p));
+                                CreationResponse.cleanup(p);
+                                break;
+                            case GRASS_BLOCK:
+                                Player p1 = (Player) e.getWhoClicked();
+                                GrassClick(p1, ToolBox.getGildeNameOfPlayer(p1));
+                                CreationResponse.cleanup(p1);
+                                break;
+                            case BARRIER:
+                                Player p2 = (Player) e.getWhoClicked();
+                                p2.closeInventory();
+                                CreationResponse.cleanup(p2);
+                                break;
+                            case IRON_DOOR:
+                                Player p3 = (Player) e.getWhoClicked();
+                                ToolBox.removePlayerfromGilde(p3.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p3));
+                                p3.sendMessage("ßaDu hast die Gilde erfolgreich verlassen");
+                                CreationResponse.cleanup(p3);
+                                p3.closeInventory();
+                                break;
+                            case WRITABLE_BOOK:
+                                WrittenBookClick((Player) e.getWhoClicked());
+                                break;
+                            case LIGHT_GRAY_STAINED_GLASS_PANE:
+                                e.setCancelled(true);
+                                break;
+                            case GRAY_STAINED_GLASS_PANE:
+                                e.setCancelled(true);
+                                break;
+                            case BOOK:
+                                BookClick((Player) e.getWhoClicked(), ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()));
+                                break;
+                            case PLAYER_HEAD:
+                                if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfInsel-Shop")) {
+                                    if(ToolBox.hasInsel().contains(ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()))) {
+                                        e.getWhoClicked().sendMessage("ßcDeine Gilde hat bereits eine Insel");
+                                        e.getWhoClicked().closeInventory();
+                                    }else {
+                                        clickedGlobe((Player) e.getWhoClicked());
+                                    }
+
+                                }
+                                if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfMittlere Insel")) {
+
+                                    Integer needed = Integer.parseInt(Main.getConfiguration().get("settings.Inseln.Groﬂ").toString());
+                                    Double Purse = Double.parseDouble(ToolBox.getBankValue(ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked())));
+
+
+                                    RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                                    RegionManager regions = container.get(BukkitAdapter.adapt(e.getWhoClicked().getWorld()));
+
+
+                                    if(ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked())) >=7) {
+                                    if(Purse >= needed) {
+                                        double remaining = Purse - needed;
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information." + "Bank-Wert", remaining);
+                                        Main.saveSaves();
+                                        Random r = new Random();
+                                        int Inselgrˆﬂe = 22;
+
+                                        int i = r.nextInt(Inselgrˆﬂe);
+                                        ToolBox.getFreeMittel().get(i);
+
+                                        Main.getInselConfig().set("Inseln.Mittel." + ToolBox.getFreeMittel().get(i) + ".owner", ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()));
+                                        Main.saveInselConfig();
+                                        e.getWhoClicked().closeInventory();
+
+                                        TextComponent tc = new TextComponent();
+                                        TextComponent tc2 = new TextComponent();
+
+                                        tc.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
+                                        tc2.setText("[Klick]");
+                                        tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeMittel().get(i)));
+                                        ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getFreeMittel().get(i));
+                                        DefaultDomain regionOwner = region.getOwners();
+                                        regionOwner.addPlayer(WorldGuardPlugin.inst().wrapPlayer((Player) e.getWhoClicked()));
+                                        region.setOwners(regionOwner);
+                                        e.getWhoClicked().spigot().sendMessage(tc, tc2);
+                                    }else {
+                                        e.getWhoClicked().sendMessage("Deine Gilde hat zu wenig Kronen!");
+                                    }
+
+                                    }else {
+                                        e.getWhoClicked().sendMessage("Du kannst noch keine Mittlere Insel Kaufen!");
+                                    }
+
+
+
+                                }
+                                if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfGroﬂe Insel")) {
+                                    if(ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked())) >=10) {
+                                        Integer needed = Integer.parseInt(Main.getConfiguration().get("settings.Inseln.Groﬂ").toString());
+                                        Double Purse = Double.parseDouble(ToolBox.getBankValue(ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked())));
+
+                                        if(Purse >= needed) {
+                                            double remaining = Purse - needed;
+                                            Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information." + "Bank-Wert", remaining);
+                                            Main.saveSaves();
+                                            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                                            RegionManager regions = container.get(BukkitAdapter.adapt(e.getWhoClicked().getWorld()));
+                                            Random r = new Random();
+                                            int Inselgrˆﬂe = 10;
+
+                                            int i = r.nextInt(Inselgrˆﬂe);
+                                            ToolBox.getFreeGross().get(i);
+
+                                            Main.getInselConfig().set("Inseln.Groﬂ." + ToolBox.getFreeGross().get(i) + ".owner", ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()));
+                                            Main.saveInselConfig();
+                                            e.getWhoClicked().closeInventory();
+
+                                            TextComponent tc = new TextComponent();
+                                            TextComponent tc2 = new TextComponent();
+
+                                            tc.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
+                                            tc2.setText("[Klick]");
+                                            tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeGross().get(i)));
+                                            ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getFreeMittel().get(i));
+                                            DefaultDomain regionOwner = region.getOwners();
+                                            regionOwner.addPlayer(WorldGuardPlugin.inst().wrapPlayer((Player) e.getWhoClicked()));
+                                            region.setOwners(regionOwner);
+                                            e.getWhoClicked().spigot().sendMessage(tc, tc2);
+                                        }else {
+                                            e.getWhoClicked().sendMessage("Deine Gilde hat zu wenig Kronen!");
+                                        }
+
+                                    }else {
+                                        e.getWhoClicked().sendMessage("Du kannst noch keine Groﬂe Insel Kaufen!");
+                                    }
+
+                                }
+                                if(e.getView().getTitle().equals("Gilde-Anfragen")) {
+                                    Player p5 = (Player) e.getWhoClicked();
+                                    Inventory inv = Bukkit.createInventory(null, 9, e.getCurrentItem().getItemMeta().getDisplayName());
+
+                                    ItemStack green = new ItemStack(Material.GREEN_WOOL);
+                                    ItemMeta gm = green.getItemMeta();
+
+                                    gm.setDisplayName("ßaAnfrage annehmen");
+
+
+                                    green.setItemMeta(gm);
+
+                                    ItemStack red = new ItemStack(Material.RED_WOOL);
+                                    ItemMeta rm = red.getItemMeta();
+
+                                    rm.setDisplayName("ßcAnfrage ablehnen");
+
+                                    red.setItemMeta(rm);
+                                    inv.setItem(0, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(1, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(2, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(3, green);
+                                    inv.setItem(4, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(5, red);
+                                    inv.setItem(6, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(7, ItemStackManipulation.getPlaceholder2());
+                                    inv.setItem(8, ItemStackManipulation.getPlaceholder2());
+                                    p5.openInventory(inv);
+                                }
+
+                                break;
+                            case RED_WOOL:
+                                OfflinePlayer t = Bukkit.getOfflinePlayer(e.getView().getTitle());
+
+                                if (!t.isOnline()) {
+                                    e.getWhoClicked().sendMessage("Du hast den Spieler erfolgreich abgelehnt!");
+                                    Main.getSaves().set("PlayerDaten." + t.getUniqueId().toString() + ".RequestDate", null);
+                                    Main.getSaves().set("PlayerDaten." + t.getUniqueId().toString() + ".RequestTime", null);
+                                    Main.getSaves().set("PlayerDaten." + t.getUniqueId().toString() + ".WaitingForReturn", "Deine Anfrage an die Gilde  " + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + " wurde abgelehnt!");
+                                    List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                    newList.remove(t.getUniqueId().toString());
+                                    Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest", newList);
+                                    Main.saveSaves();
+
+                                } else {
+
+                                    Player online = t.getPlayer();
+                                    Main.getSaves().set("PlayerDaten." + online.getUniqueId().toString() + ".RequestDate", null);
+                                    Main.getSaves().set("PlayerDaten." + online.getUniqueId().toString() + ".RequestTime", null);
+                                    e.getWhoClicked().sendMessage("Du hast den Spieler erfolgreich abgelehnt!");
+                                    online.sendMessage("ßcDeine Anfrage an die Gilde ßr" + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + " ßcwurde abgelehnt!");
+                                    List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                    newList.remove(online.getUniqueId().toString());
+                                    Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest" , newList);
+                                    Main.saveSaves();
+
+                                }
+                                e.getWhoClicked().closeInventory();
+                                break;
+                            case GREEN_WOOL:
+                                OfflinePlayer t2 = Bukkit.getOfflinePlayer(e.getView().getTitle());
+
+                                if (!t2.isOnline()) {
+                                    if(!ToolBox.getallPlayers().contains(t2.getUniqueId().toString())) {
+                                        e.getWhoClicked().sendMessage("Du hast den Spieler erfolgreich angenommen!");
+                                        Main.getSaves().set("PlayerDaten." + t2.getUniqueId().toString() + ".RequestDate", null);
+                                        Main.getSaves().set("PlayerDaten." + t2.getUniqueId().toString() + ".RequestTime", null);
+                                        Main.getSaves().set("PlayerDaten." + t2.getUniqueId().toString() + ".WaitingForReturn", "Deine Anfrage an die Gilde  " + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + " wurde angenommen!");
+                                        ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()), "Mitglieder");
+                                        List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                        newList.remove(t2.getUniqueId().toString());
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest", newList);
+                                        Main.saveSaves();
+                                    }else {
+                                        e.getWhoClicked().sendMessage("Dieser Spieler ist bereits in einer Gilde");
+                                        List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                        newList.remove(t2.getUniqueId().toString());
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest", newList);
+                                        Main.saveSaves();
+                                    }
+
+                                } else {
+                                    Player online = t2.getPlayer();
+                                    if(!ToolBox.getallPlayers().contains(online.getUniqueId().toString())) {
+                                        Main.getSaves().set("PlayerDaten." + online.getUniqueId().toString() + ".RequestDate", null);
+                                        Main.getSaves().set("PlayerDaten." + online.getUniqueId().toString() + ".RequestTime", null);
+                                        e.getWhoClicked().sendMessage("Du hast den Spieler erfolgreich angenommen!");
+                                        ToolBox.addPlayertoGilde(t2.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()), "Mitglieder");
+                                        online.sendMessage("ßaDeine Anfrage an die Gilde ßr" + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + " ßawurde angenommen!");
+                                        List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                        newList.remove(online.getUniqueId().toString());
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest", newList);
+                                        Main.saveSaves();
+                                    }else  {
+                                        e.getWhoClicked().sendMessage("Dieser Spieler ist bereits in einer Gilde");
+                                        List<String> newList = Main.getSaves().getStringList("gilden." + e.getCurrentItem().getItemMeta().getDisplayName() + ".OpenRequest");
+                                        newList.remove(online.getUniqueId().toString());
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".OpenRequest" , newList);
+                                        Main.saveSaves();
+                                    }
+
+                                }
+                                e.getWhoClicked().closeInventory();
+                                break;
+
+                            case CHEST:
+                                if(Main.getSaves().get("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information." + "hasBoughtItemSelect").equals(false)) {
+                                    Integer Cost = Integer.parseInt(Main.getConfiguration().get("settings.Gilden.TagCost").toString());
+                                    Double Purse = Double.parseDouble(Main.getSaves().get("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.Bank-Wert").toString());
+
+                                    if(Purse >= Cost) {
+                                        double remaining = Purse - Cost;
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.Bank-Wert", remaining);
+                                        Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information." + "hasBoughtItemSelect", true);
+                                        Main.getSaves();
+                                        e.getWhoClicked().closeInventory();
+                                        e.getWhoClicked().sendMessage("Du kannst deiner Gilde nun ein Item ausw‰hlen!");
+
+
+                                    }else {
+                                        e.getWhoClicked().closeInventory();
+                                        e.getWhoClicked().sendMessage("Der Wert deiner Gilden-Kasse ist zu niedrig!");
+                                    }
+                                }else {
+                                    Inventory inv2 = Bukkit.createInventory(null, 9, "Item-Auswahl");
+                                    inv2.setItem(0, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(1, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(2, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(3, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(5, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(6, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(7, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(8, ItemStackManipulation.getPlaceholder2());
+
+                                    if(Main.getSaves().get("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock") != null) {
+                                        inv2.setItem(4, Main.getSaves().getItemStack("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock"));
+                                    }
+
+                                    e.getWhoClicked().openInventory(inv2);
+
+                                }
+                                break;
+
+
+                            default:
+
+                        }
+                    }
+
+                }
+
+            }
         }
     }
 
@@ -67,6 +369,127 @@ public class InventoryInteraction extends JavaPlugin
         pl.sendMessage("Gebe den Namen deiner neuen Gilde ein:");
         awaitingNewGildename.add(pl);
     }
+
+    public static void Request(Player p, String Input) {
+
+        if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
+            p.sendMessage("ßcDu kannst diesen Befehel nicht nutzen!");
+        }else {
+            String gilde = Input;
+            if(ToolBox.checkGildeExists(gilde)) {
+                if(!(Main.getSaves().getStringList("gilden." + gilde + ".OpenRequest").contains(p.getUniqueId().toString()))) {
+                    for (String allLeiter : Main.getSaves().getStringList("gilden." + gilde + ".raenge.Leiter")) {
+                        p.sendMessage("Deine Anfrage wurde erfolgreich gestellt!");
+                        List<String> newList = Main.getSaves().getStringList("gilden." + gilde + ".OpenRequest");
+                        newList.add(p.getUniqueId().toString());
+                        Main.getSaves().set("gilden." + gilde + ".OpenRequest", newList);
+                        DateTimeFormatter dtF = DateTimeFormatter.ofPattern("dd.MM.yyy");
+                        String Date = dtF.format(LocalDate.now());
+                        java.util.Date Uhrzeit = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                        String time = sdf.format(Uhrzeit);
+                        Main.getSaves().set("PlayerDaten." + p.getUniqueId().toString() + ".RequestDate", Date);
+                        Main.getSaves().set("PlayerDaten." + p.getUniqueId().toString() + ".RequestTime", time);
+                        Main.saveSaves();
+                        OfflinePlayer Leiteroff = Bukkit.getOfflinePlayer(UUIDManipulation.getPlayernameByUUID(allLeiter));
+                        if (Leiteroff.isOnline()) {
+                            TextComponent tc = new TextComponent();
+                            TextComponent t2 = new TextComponent();
+
+
+                            Player Leiter = Leiteroff.getPlayer();
+                            tc.setText("Der Spieler ß6" + p.getName() + " ßrhat deiner Gilde\neine Beitrittsanfrage gestellt.\nUm das Anfrage-Menu zu ˆffnen klicke ");
+                            t2.setText("ßc[Hier]");
+                            t2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("ßaAnfrage-Menu")));
+                            t2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gilde Requests"));
+
+                            Leiter.spigot().sendMessage(tc, t2);
+                        } else {
+                            for (String allStellvertreter : Main.getSaves().getStringList("gilden." + gilde + ".raenge.Stellvertreter")) {
+                                OfflinePlayer Stellvertreteroff = Bukkit.getOfflinePlayer(UUIDManipulation.getPlayernameByUUID(allStellvertreter));
+                                if (Stellvertreteroff.isOnline()) {
+                                    Player Stellvertreter = Stellvertreteroff.getPlayer();
+                                    TextComponent tc = new TextComponent();
+                                    TextComponent t2 = new TextComponent();
+                                    tc.setText("Der Spieler ß6" + p.getName() + " ßrhat deiner Gilde eine Beitrittsanfrage gestellt.\nUm das Anfrage-Menu zu ˆffnen klicke ");
+                                    t2.setText("ßc[Hier]");
+                                    t2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("ßaAnfrage-Menu")));
+                                    t2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gilde Requests"));
+
+                                    Stellvertreter.spigot().sendMessage(tc, t2);
+
+                                }
+                            }
+                        }
+
+                    }
+                } else {
+                    p.sendMessage("Du hast dieser Gilde bereits eine Anfrage gestellt!");
+                }
+
+
+            }else {
+                p.sendMessage("Die von dir angegebene Gilde existiert nicht!");
+            }
+        }
+
+    }
+
+    public static void clickedGlobe(Player p) {
+        Inventory inv = Bukkit.createInventory(null, 9, "Insel-Shop");
+        HeadDatabaseAPI api = new HeadDatabaseAPI();
+        if(ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer(p)) >= 7) {
+            ItemStack Mittel = api.getItemHead("17006");
+            ItemMeta m = Mittel.getItemMeta();
+            m.setDisplayName("ßfMittlere Insel");
+            ArrayList<String> Lore = new ArrayList<>();
+            Lore.add("ßfKaufe eine Mittlere Insel f¸r deine Gilde");
+            Integer needed = Integer.parseInt(Main.getConfiguration().get("settings.Inseln.Mittel").toString());
+            Lore.add("ßaPreis: ß6" + needed.toString() + " ßaKronen");
+            m.setLore(Lore);
+            Mittel.setItemMeta(m);
+            inv.setItem(3, Mittel);
+        }else {
+            ItemStack Mittel = api.getItemHead("17006");
+            ItemMeta m = Mittel.getItemMeta();
+            m.setDisplayName("ßfMittlere Insel");
+            ArrayList<String> Lore = new ArrayList<>();
+            Integer missing = 7 - ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer(p));
+            Lore.add("ßcKaufe Gesperrt!");
+            Lore.add("ßcFehlende Mitglieder: ß6" + missing);
+            m.setLore(Lore);
+            Mittel.setItemMeta(m);
+            inv.setItem(3, Mittel);
+        }
+
+        if(ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer(p)) >= 10) {
+            ItemStack Groﬂ = api.getItemHead("25842");
+            ItemMeta g = Groﬂ.getItemMeta();
+            g.setDisplayName("ßfGroﬂe Insel");
+            ArrayList<String> Lore2 = new ArrayList<>();
+            Lore2.add("ßfKaufe eine Groﬂe Insel f¸r deine Gilde");
+            Integer needed = Integer.parseInt(Main.getConfiguration().get("settings.Inseln.Groﬂ").toString());
+            Lore2.add("ßaPreis: ß6" + needed.toString() + " ßaKronen");
+            g.setLore(Lore2);
+            Groﬂ.setItemMeta(g);
+            inv.setItem(5, Groﬂ);
+
+        }else {
+            ItemStack Groﬂ = api.getItemHead("25842");
+            ItemMeta g = Groﬂ.getItemMeta();
+            g.setDisplayName("ßfGroﬂe Insel");
+            ArrayList<String> Lore2 = new ArrayList<>();
+            Integer missing = 10 - ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer(p));
+            Lore2.add("ßcKaufe Gesperrt!");
+            Lore2.add("ßcFehlende Mitglieder: ß6" + missing);
+            g.setLore(Lore2);
+            Groﬂ.setItemMeta(g);
+            inv.setItem(5, Groﬂ);
+        }
+        p.openInventory(inv);
+
+    }
+
     public static void TagClick(Player pl, String gildenname) {
         Integer Cost = Integer.parseInt(Main.getConfiguration().get("settings.Gilden.TagCost").toString());
         Double Purse = Double.parseDouble(Main.getSaves().get("gilden." + gildenname + ".Information.Bank-Wert").toString());
@@ -115,10 +538,73 @@ public class InventoryInteraction extends JavaPlugin
             }
         }
     }
+    public static void WrittenBookClick(Player p) {
+        Inventory inv = Bukkit.createInventory(null, 9*4, "Gilde-Liste");
+
+        for(String allGilden : ToolBox.getAllGildennamen()) {
+            if(Main.getSaves().getBoolean("gilden." + allGilden + ".Information.RequestOn")) {
+                if(Main.getSaves().get("gilden." + allGilden + ".Information.GuiBlock") == null) {
+                    String s1 = Main.getConfiguration().get("settings.Gilden.defaultGuiBlock").toString();
+                    Material m1 = Material.matchMaterial(s1);
+                    ItemStack item = new ItemStack(m1);
+                    ItemMeta im = item.getItemMeta();
+                    im.setDisplayName(allGilden);
+                    im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    item.setItemMeta(im);
+                    inv.addItem(item);
+
+                }else {
+                    ItemStack item = Main.getSaves().getItemStack("gilden." + allGilden + ".Information.GuiBlock");
+                    ItemMeta im = item.getItemMeta();
+
+                    im.setDisplayName(allGilden);
+
+                    item.setItemMeta(im);
+
+                    inv.addItem(item);
+                }
+            }
+        }
+        p.openInventory(inv);
+    }
+    public static void BookClick(Player p, String gildenname) {
+        Inventory inv = Bukkit.createInventory(null, 9*4, "Gilde-Anfragen");
+
+        for (String all : Main.getSaves().getStringList("gilden." + gildenname + ".OpenRequest")) {
+            OfflinePlayer offline = Bukkit.getOfflinePlayer(UUIDManipulation.getPlayernameByUUID(all));
+            if(!offline.isOnline()) {
+                ItemStack Skull = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta sm = (SkullMeta) Skull.getItemMeta();
+
+                sm.setDisplayName(offline.getName());
+                sm.setOwningPlayer(offline);
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add("ßfAnfrageDatum: ß6" + Main.getSaves().get("PlayerDaten." + offline.getUniqueId().toString() + ".RequestDate"));
+                lore.add("ßfAnrfrageZeitPunkt: ß6" + Main.getSaves().get("PlayerDaten." + offline.getUniqueId().toString() + ".RequestTime"));
+                sm.setLore(lore);
+                Skull.setItemMeta(sm);
+                inv.addItem(Skull);
+            }else {
+                Player online = offline.getPlayer();
+                ItemStack Skull = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta sm = (SkullMeta) Skull.getItemMeta();
+
+                sm.setDisplayName(online.getName());
+                sm.setOwningPlayer(online);
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add("ßfAnfrageDatum: ß6" + Main.getSaves().get("PlayerDaten." + online.getUniqueId().toString() + ".RequestDate"));
+                lore.add("ßfAnfrageZeitPunkt: ß6" + Main.getSaves().get("PlayerDaten." + online.getUniqueId().toString() + ".RequestTime"));
+                sm.setLore(lore);
 
 
+                Skull.setItemMeta(sm);
+                inv.addItem(Skull);
+            }
+        }
+        p.openInventory(inv);
+    }
 
-    public static void diamondClicked(Player pl, String MSG)
+ public static void diamondClicked(Player pl, String MSG)
     {
         //"".equalsIgnoreCase("");
         if(ToolBox.validateGildeName(MSG))

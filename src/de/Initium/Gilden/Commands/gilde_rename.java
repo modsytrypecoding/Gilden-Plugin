@@ -110,18 +110,23 @@ public class gilde_rename extends JavaPlugin {
                                 "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
                         return;
                     }
-
-                    Map<String, Object> vals = Main.getSaves().getConfigurationSection("gilden." + Input[1]).getValues(true);
-                    String toDot = ("gilden." + Input[2]).equals("") ? "" : ".";
-                    for (String s : vals.keySet()) {
-                        Object val = vals.get(s);
-                        if (val instanceof List)
-                            val = new ArrayList<>((List) val);
-                        Main.getSaves().set("gilden." + Input[2] + toDot + s, val);
+                    if(Input[1].equals(Input[2])) {
+                        p.sendMessage("§cDer neue Name darf nicht dem alten entsprechen!");
+                    }else {
+                        Map<String, Object> vals = Main.getSaves().getConfigurationSection("gilden." + Input[1]).getValues(true);
+                        String toDot = ("gilden." + Input[2]).equals("") ? "" : ".";
+                        for (String s : vals.keySet()) {
+                            Object val = vals.get(s);
+                            if (val instanceof List)
+                                val = new ArrayList<>((List) val);
+                            Main.getSaves().set("gilden." + Input[2] + toDot + s, val);
+                        }
+                        Main.getSaves().set("gilden." + Input[1], null);
+                        Main.saveSaves();
+                        p.sendMessage("§aDu hast die Gilde erfolgreich umbenannt!");
                     }
-                    Main.getSaves().set("gilden." + Input[1], null);
-                    Main.saveSaves();
-                    p.sendMessage("§aDu hast die Gilde erfolgreich umbenannt!");
+
+
                 } else {
                     p.sendMessage("§cDie von dir gewählte Gilde existiert nicht!");
                 }

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FastAsyncWorldEdit-Bukkit-1.16-669">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Dependencies/FastAsyncWorldEdit-Bukkit-1.16-669.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

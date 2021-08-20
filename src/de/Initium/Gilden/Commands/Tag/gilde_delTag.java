@@ -23,6 +23,9 @@ public class gilde_delTag extends JavaPlugin {
             if(ToolBox.getGildeRankByPlayer(gilde, p.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
 
                     if(ToolBox.checkTagExists(ToolBox.getTagbyGilde(gilde))) {
+                            if(response.responsecancel.contains(p)) {
+                                response.responsecancel.remove(p);
+                            }
 
                             p.sendMessage("Wenn du deinen Tag löscht wirst du erst in 30 Tagen\neinen neuen Tag setzten können!");
                             p.sendMessage("Bist du dir sicher das du deinen Tag §clöschen §rwillst?");

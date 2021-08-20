@@ -27,7 +27,6 @@ public class _show extends JavaPlugin
     {
         Player pl = gilde_Main.getPlayer(nr);
 
-        KleineInselnPlugin api = new KleineInselnPlugin();
 
         if(!ToolBox.checkGildeExists(gilde_name))
         {
@@ -50,7 +49,11 @@ public class _show extends JavaPlugin
                 }
 
             }
-            pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+            if(ToolBox.hasInsel().contains(gilde_name)) {
+                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+            }else {
+                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+            }
         }else {
             String MSG = "Gilde " + gilde_name + " (" + ToolBox.getTagbyGilde(gilde_name) + ")" + ":";
             for(int i = 0; i < 3; i++)
@@ -64,7 +67,12 @@ public class _show extends JavaPlugin
                     MSG += "\n- " + playername;
                 }
             }
-            pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+            if(ToolBox.hasInsel().contains(gilde_name)) {
+                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+            }else {
+                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+            }
+
         }
         /*
         *

@@ -11,6 +11,10 @@ depends:
   - GemsEconomy
   - PlayerLogger
   - Insel
+  - WorldGuard
+  - FastAsyncWorldEdit
+  - WorldEdit
+  - HeadDatabase
 website: https://initium-novum.net/
 commands:
   gilde:
@@ -23,3 +27,5 @@ commands:
     description: Plugin-Extension
   deny:
     description: Plugin-Extension
+  insel:
+    description: Main InselCMD

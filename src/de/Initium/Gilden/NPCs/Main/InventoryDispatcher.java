@@ -53,7 +53,7 @@ public class InventoryDispatcher extends JavaPlugin
                 //Kleine Insel (bereits vorhanden, nichts tun)
             //IF NO Gildeninsel -> Kaufmenü
                 //Kaufmenü:
-                //Spielerzahl < 7 -> Kauf einer kleinen Insel gesperrt
+                //Spielerzahl < 7 -> Kauf einer Mittleren Insel gesperrt
                 //Spielerzahl >= 7 -> Kauf einer mittleren Insel möglich
                 //Spielerzahl >= 10 -> Kauf einer großen Insel möglich
 
@@ -62,6 +62,9 @@ public class InventoryDispatcher extends JavaPlugin
             showInv.setItem(20, ItemStackManipulation.getTagItem(ToolBox.getGildeNameOfPlayer(ex)));
             showInv.setItem(22, ItemStackManipulation.getLeaveDoor());
             showInv.setItem(24, ItemStackManipulation.getHomeItem(ToolBox.getGildeNameOfPlayer(ex)));
+            showInv.setItem(38, ItemStackManipulation.getRequestSeeItem());
+            showInv.setItem(40, ItemStackManipulation.InselShop());
+            showInv.setItem(42, ItemStackManipulation.ChooseGuiItem(ToolBox.getGildeNameOfPlayer(ex)));
 
         }
         else
@@ -70,7 +73,10 @@ public class InventoryDispatcher extends JavaPlugin
             showInv = Bukkit.createInventory(null, 9*3, ChatColor.AQUA + "Gilden");
 
             //Buy-Diamond
-            showInv.setItem(9*3/2, ItemStackManipulation.getCreatGildeDiamond());
+            showInv.setItem(12, ItemStackManipulation.getCreatGildeDiamond());
+
+            //Request-Item
+            showInv.setItem(14, ItemStackManipulation.getRequestItem());
 
             //Placeholders
             ItemStack placeholder = ItemStackManipulation.getPlaceholder();

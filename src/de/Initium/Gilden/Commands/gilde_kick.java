@@ -30,6 +30,7 @@ public class gilde_kick extends JavaPlugin
 				if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(p))).contains(t.getUniqueId().toString())) {
 					if(ToolBox.getGildeRankByPlayer(gilde2, p.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
 						if(!(ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Leiter"))) {
+							ToolBox.removeWorldGuardPerms(t);
 							ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 							ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName()))));
 							p.sendMessage("Du hast den Spieler "+ t.getName() + " aus der Gilde entfernt!");
@@ -50,6 +51,7 @@ public class gilde_kick extends JavaPlugin
 						}
 					}else if(ToolBox.getGildeRankByPlayer(gilde2, p.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter")) {
 						if(!(ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Leiter") || ToolBox.getGildeRankByPlayer(gilde2, t.getUniqueId().toString()).equalsIgnoreCase("Stellvertreter"))) {
+							ToolBox.removeWorldGuardPerms(t);
 							ToolBox.removePlayerfromGilde(t.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p));
 							ArrayList<String> playersofGilde = ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(ToolBox.getGildeNameOfPlayer(Bukkit.getPlayerExact(p.getName()))));
 							p.sendMessage("Du hast den Spieler "+ t.getName() + " aus der Gilde entfernt!");
@@ -81,10 +83,9 @@ public class gilde_kick extends JavaPlugin
 		if(args.length == 3) {
 			if(p.hasPermission("Gilde.Kick.team")) {
 				if(ToolBox.checkGildeExists(args[0])) {
-					p.sendMessage("Test1");
 					Player t2 = Bukkit.getPlayer(args[2]);
 					if(ToolBox.unserializeArrayList(ToolBox.getallPlayersinGilde(args[0])).contains(t.getUniqueId().toString())) {
-						p.sendMessage("Test2");
+						ToolBox.removeWorldGuardPerms(t2);
 						ToolBox.removePlayerfromGilde(t2.getUniqueId().toString(), args[0]);
 						p.sendMessage("§a Der Spieler §6" + args[1] + " §awurde erfolgreich aus der Gilde entfernt!");
 					}else {

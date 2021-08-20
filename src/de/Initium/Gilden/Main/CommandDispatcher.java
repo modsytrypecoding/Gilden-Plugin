@@ -47,12 +47,12 @@ public class CommandDispatcher extends JavaPlugin
             case "top":
                 gilde_top.execute(nr);
                 break;
+            case "Requests":
+                gilde_request.execute(nr);
+                break;
             case "setHome":
             	gilde_SetHome.execute(nr);
             	break;
-            case "setspawn":
-                gilde_setspawn.execute(nr);
-                break;
             case "home":
                 gilde_home.execute(nr);
                 break;
@@ -71,6 +71,9 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "delTag":
                 gilde_delTag.execute(nr);
+                break;
+            case "toggleRequest":
+                toggleRequest.execute(nr);
                 break;
 
             //Fremde Gilde anzeigen
@@ -93,6 +96,9 @@ public class CommandDispatcher extends JavaPlugin
             case "chat":
             	gilden_chat.execute(nr, args);
             	break;
+            case "setspawn":
+                gilde_setspawn.execute(nr, args);
+                break;
             case "chat-join":
             	gilde_chat_join.execute(nr, args);
             	break;
@@ -147,9 +153,6 @@ public class CommandDispatcher extends JavaPlugin
                 break;
             case "check":
                 gilde_check.execute(nr, args[1]);
-                break;
-            case "request":
-                gilde_request.execute(nr, args);
                 break;
         }
     }

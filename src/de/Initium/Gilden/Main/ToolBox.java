@@ -1,4 +1,11 @@
 package de.Initium.Gilden.Main;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -8,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.RegEx;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -139,9 +147,12 @@ public class ToolBox extends JavaPlugin
         Main.getSaves().set("gilden." + gildenname + ".raenge.Watcher", new ArrayList<String>());
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtHome", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtTag", false);
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "hasBoughtItemSelect", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetHome", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "hasSetSpawn", false);
         Main.getSaves().set("gilden." + gildenname + ".Information." + "Bank-Wert", 0);
+        Main.getSaves().set("gilden." + gildenname + ".Information." + "RequestOn", true);
+        Main.getSaves().set("gilden." + gildenname + ".OpenRequest", new ArrayList<String>());
 
 
         LocalDate Beitritt = LocalDate.now();
@@ -223,16 +234,13 @@ public class ToolBox extends JavaPlugin
         // - Gilde exists
         // - Player is not in Gilde
 
+
         String rang = getGildeRankByPlayer(gildenname, uuid);
         List<String> newList = Main.getSaves().getStringList("gilden." + gildenname + ".raenge." + rang);
         newList.remove(uuid);
+        Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
+        Main.saveSaves();
 
-        if(ToolBox.getallPlayersinGilde(gildenname).isEmpty()) {
-            Main.getSaves().set("gilden." + gildenname, null);
-        }else {
-            Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
-            Main.saveSaves();
-        }
 
     }
 
@@ -292,7 +300,7 @@ public class ToolBox extends JavaPlugin
         for(String key : Main.getSaves().getConfigurationSection("gilden").getKeys(true))
         {
             if(key.contains("raenge")) continue;
-            Bukkit.getServer().getConsoleSender().sendMessage("DU MICH AUCH: " + key);
+            if(key.contains("Information")) continue;
             temp_storage.add(key.replace("gilden.", ""));
         }
         return temp_storage;
@@ -371,17 +379,19 @@ public class ToolBox extends JavaPlugin
     	
     }
 
-    public static Location getGildenSpawn(String gildenName)
+    public static Location getInselSpawn(String gildenName)
     {
         //Check if Gilde exists
         //First check if Main.getSaves().getBoolean("gilden." + gildenName + ".Information." + "hasSetSpawn") == true
-        FileConfiguration save = Main.getSaves();
-        World world = Bukkit.getWorld(save.getString("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.World"));
-        double x = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.X");
-        double y = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Y");
-        double z = save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Z");
-        float yaw = (float) save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Yaw");
-        float pitch = (float) save.getDouble("gilden." + gildenName + ".Information." + "SpawnLocation." +"Spawn.Pitch");
+        Integer id = Integer.parseInt(ToolBox.getGildenInselID(gildenName));
+        String type = ToolBox.getInselType(id);
+        FileConfiguration insel = Main.getInselConfig();
+        World world = Bukkit.getWorld(insel.getString("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.World"));
+        double x = insel.getDouble("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.X");
+        double y = insel.getDouble("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Y");
+        double z = insel.getDouble("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Z");
+        float yaw = (float) insel.getDouble("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Yaw");
+        float pitch = (float) insel.getDouble("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Pitch");
         Location location = new Location(world, x, y, z, yaw, pitch);
         return location;
 
@@ -412,4 +422,135 @@ public class ToolBox extends JavaPlugin
         return Value;
 
     }
+    public static ArrayList getFreeMittel() {
+        ArrayList<String> temp_storage = new ArrayList<>();
+        for( String key : Main.getInselConfig().getConfigurationSection("Inseln.Mittel").getKeys(true)) {
+            if(key.contains(".owner")) continue;
+            temp_storage.add(key);
+        }
+        return temp_storage;
+    }
+
+
+    public static ArrayList getFreeGross() {
+        ArrayList<String> temp_storage = new ArrayList<>();
+        for( String key : Main.getInselConfig().getConfigurationSection("Inseln.Groﬂ").getKeys(true)) {
+            if(key.contains(".owner")) continue;
+            temp_storage.add(key);
+        }
+        return temp_storage;
+    }
+
+    public static ArrayList<String> hasInsel() {
+        ArrayList<String> Inseln = new ArrayList<>();
+        for(String key : Main.getInselConfig().getConfigurationSection("Inseln.Mittel").getKeys(true)) {
+            if(!key.contains(".owner")) continue;
+
+
+            String Owner = Main.getInselConfig().get("Inseln.Mittel." + key).toString();
+            Inseln.add(Owner);
+
+
+        }
+        for(String key : Main.getInselConfig().getConfigurationSection("Inseln.Groﬂ").getKeys(true)) {
+            if(!key.contains(".owner")) continue;
+
+            String Owner = Main.getInselConfig().get("Inseln.Groﬂ." + key).toString();
+            Inseln.add(Owner);
+
+        }
+
+        return Inseln;
+    }
+
+    public static String getGildenInselID(String gilde) {
+        if(!(ToolBox.hasInsel().contains(gilde))) return "ßcKeine Insel";
+
+        for(String key : Main.getInselConfig().getConfigurationSection("Inseln.Mittel").getKeys(true)) {
+            if(!key.contains(".owner")) continue;
+
+            if(gilde.equals(Main.getInselConfig().get("Inseln.Mittel." + key).toString())) {
+
+                return  key.replace(".owner", "");
+
+            }
+        }
+        for(String key : Main.getInselConfig().getConfigurationSection("Inseln.Groﬂ").getKeys(true)) {
+            if(!key.contains(".owner")) continue;
+
+            if(gilde.equals(Main.getInselConfig().get("Inseln.Groﬂ." + key).toString())) {
+
+                return  key.replace(".owner", "");
+            }
+        }
+        return "Fehler";
+    }
+
+    public static String getInselType(Integer i) {
+        ArrayList<Integer> Mittel = new ArrayList<>();
+         Mittel.add(15);
+         Mittel.add(18);
+         Mittel.add(28);
+         Mittel.add(38);
+         Mittel.add(43);
+         Mittel.add(56);
+         Mittel.add(60);
+         Mittel.add(66);
+         Mittel.add(68);
+         Mittel.add(78);
+         Mittel.add(89);
+         Mittel.add(98);
+         Mittel.add(108);
+         Mittel.add(110);
+         Mittel.add(117);
+         Mittel.add(132);
+         Mittel.add(163);
+         Mittel.add(169);
+         Mittel.add(173);
+         Mittel.add(178);
+         Mittel.add(204);
+         Mittel.add(220);
+
+        ArrayList<Integer> Groﬂ = new ArrayList<>();
+        Groﬂ.add(6);
+        Groﬂ.add(20);
+        Groﬂ.add(31);
+        Groﬂ.add(52);
+        Groﬂ.add(74);
+        Groﬂ.add(96);
+        Groﬂ.add(123);
+        Groﬂ.add(142);
+        Groﬂ.add(154);
+        Groﬂ.add(188);
+        Groﬂ.add(209);
+
+         if(Mittel.contains(i)) {
+             return "Mittel";
+         }
+         if(Groﬂ.contains(i)) {
+             return "Groﬂ";
+         }
+
+
+        return "Fehler";
+    }
+
+    public static void removeWorldGuardPerms(Player p) {
+        //Check if Player is in Gilde
+        //Check if Gilde has an Island
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionManager regions = container.get(BukkitAdapter.adapt(p.getWorld()));
+        ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getGildenInselID(ToolBox.getGildeNameOfPlayer(p)));
+        if(ToolBox.getGildeRankByPlayer(ToolBox.getGildeNameOfPlayer(p), p.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
+            DefaultDomain regionOwner = region.getOwners();
+            regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
+            region.setOwners(regionOwner);
+        }else {
+            DefaultDomain regionOwner = region.getMembers();
+            regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
+            region.setMembers(regionOwner);
+        }
+
+    }
+
 }

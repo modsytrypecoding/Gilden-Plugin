@@ -21,14 +21,16 @@ public class gilde_spawn extends JavaPlugin {
         if(ToolBox.getallPlayers().contains(p.getUniqueId().toString())) {
             String gilde = ToolBox.getGildeNameOfPlayer(p);
             if(Main.getSaves().get("gilden." + gilde + ".Information." + "hasSetSpawn").equals(true)) {
+                Integer id = Integer.parseInt(ToolBox.getGildenInselID(gilde));
+                String type = ToolBox.getInselType(id);
 
-                Double x = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.X").toString());
-                Double y = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Y").toString());
-                Double z = Double.parseDouble(Main.getSaves().get("gilden." + gilde + ".Information." + "SpawnLocation." + "Spawn.Z").toString());
+                Double x = Double.parseDouble(Main.getInselConfig().get("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.X").toString());
+                Double y = Double.parseDouble(Main.getInselConfig().get("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Y").toString());
+                Double z = Double.parseDouble(Main.getInselConfig().get("Inseln." + type + "." + id + ".InselSpawnLocation." +"Spawn.Z").toString());
 
-                if(ToolBox.getGildenSpawn(gilde).getBlock().getType().isTransparent()) {
-                    p.teleport(ToolBox.getGildenSpawn(gilde));
-                    p.sendMessage("§aDu wurdest zum Gilden-Spawn teleportiert!");
+                if(ToolBox.getInselSpawn(gilde).getBlock().getType().isTransparent()) {
+                    p.teleport(ToolBox.getInselSpawn(gilde));
+                    p.sendMessage("Du wurdest erfolgreich zu deiner Insel teleportiert");
                 }else {
                     p.sendMessage("§cDer Gilden-Spawn ist besetzt.\nDu kannst nicht teleportiert werden!");
                     p.sendMessage("Der Spawn befindet sich bei folgenden Koordinate:");
