@@ -539,17 +539,25 @@ public class ToolBox extends JavaPlugin
     public static void removeWorldGuardPerms(Player p) {
         //Check if Player is in Gilde
         //Check if Gilde has an Island
+        p.sendMessage("In");
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionManager regions = container.get(BukkitAdapter.adapt(p.getWorld()));
         ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getGildenInselID(ToolBox.getGildeNameOfPlayer(p)));
         if(ToolBox.getGildeRankByPlayer(ToolBox.getGildeNameOfPlayer(p), p.getUniqueId().toString()).equalsIgnoreCase("Leiter")) {
-            DefaultDomain regionOwner = region.getOwners();
-            regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
-            region.setOwners(regionOwner);
+            if(region != null) {
+                DefaultDomain regionOwner = region.getOwners();
+                regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
+                region.setOwners(regionOwner);
+
+            }
         }else {
-            DefaultDomain regionOwner = region.getMembers();
-            regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
-            region.setMembers(regionOwner);
+            if(region != null) {
+                DefaultDomain regionOwner = region.getMembers();
+                regionOwner.removePlayer(WorldGuardPlugin.inst().wrapPlayer((p)));
+                region.setMembers(regionOwner);
+                p.sendMessage("No Success");
+            }
+
         }
 
     }

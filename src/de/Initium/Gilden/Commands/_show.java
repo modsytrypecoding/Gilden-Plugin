@@ -1,5 +1,10 @@
 package de.Initium.Gilden.Commands;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
 import de.Initium.Gilden.Main.UUIDManipulation;
@@ -35,6 +40,7 @@ public class _show extends JavaPlugin
         }
 
         ArrayList<ArrayList<String>> UUIDs = ToolBox.getallPlayersinGilde(gilde_name);
+
         if(Main.getSaves().get("Tags." + "GildeToTag." + gilde_name) == null) {
             String MSG = "Gilde " + gilde_name + ":";
             for(int i = 0; i < 3; i++)
@@ -50,9 +56,31 @@ public class _show extends JavaPlugin
 
             }
             if(ToolBox.hasInsel().contains(gilde_name)) {
-                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+                RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionManager regions = container.get(BukkitAdapter.adapt(pl.getWorld()));
+                ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getGildenInselID(gilde_name));
+                if(pl.hasPermission("Gilde.show")) {
+                    pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name) + "\nRegionen-Name: insel-" + ToolBox.getGildenInselID(gilde_name));
+                }else {
+                    if(gilde_name.equalsIgnoreCase(ToolBox.getGildeNameOfPlayer(pl))) {
+                        pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+                    }else {
+                        pl.sendMessage(MSG + "\nInsel-Status: Ja");
+                    }
+
+                }
+
             }else {
-                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+                if(pl.hasPermission("Gilde.show")) {
+                    pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-Status: Nein");
+                }else {
+                    if(gilde_name.equalsIgnoreCase(ToolBox.getGildeNameOfPlayer(pl))) {
+                        pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-Status: Nein");
+                    }else {
+                        pl.sendMessage(MSG + "\nInsel-Status: Nein");
+                    }
+
+                }
             }
         }else {
             String MSG = "Gilde " + gilde_name + " (" + ToolBox.getTagbyGilde(gilde_name) + ")" + ":";
@@ -68,9 +96,30 @@ public class _show extends JavaPlugin
                 }
             }
             if(ToolBox.hasInsel().contains(gilde_name)) {
-                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+                RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionManager regions = container.get(BukkitAdapter.adapt(pl.getWorld()));
+                ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getGildenInselID(gilde_name));
+                if(pl.hasPermission("Gilde.show")) {
+                    pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name) + "\nRegionen-Name: insel-" + ToolBox.getGildenInselID(gilde_name));
+                }else {
+                    if(gilde_name.equalsIgnoreCase(ToolBox.getGildeNameOfPlayer(pl))) {
+                        pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-ID: " + ToolBox.getGildenInselID(gilde_name));
+                    }else {
+                        pl.sendMessage(MSG + "\nInsel-Status: Ja");
+                    }
+
+                }
             }else {
-                pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen");
+                if(pl.hasPermission("Gilde.show")) {
+                    pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-Status: Nein");
+                }else {
+                    if(gilde_name.equalsIgnoreCase(ToolBox.getGildeNameOfPlayer(pl))) {
+                        pl.sendMessage(MSG + "\nGildenWert: " + ToolBox.getBankValue(gilde_name) + " Kronen" + "\nInsel-Status: Nein");
+                    }else {
+                        pl.sendMessage(MSG + "\nInsel-Status: Nein");
+                    }
+
+                }
             }
 
         }

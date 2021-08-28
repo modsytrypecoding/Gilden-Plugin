@@ -131,7 +131,6 @@ public class InventoryInteraction extends JavaPlugin
                                         int Inselgröße = 22;
 
                                         int i = r.nextInt(Inselgröße);
-                                        ToolBox.getFreeMittel().get(i);
 
                                         Main.getInselConfig().set("Inseln.Mittel." + ToolBox.getFreeMittel().get(i) + ".owner", ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()));
                                         Main.saveInselConfig();
@@ -144,10 +143,21 @@ public class InventoryInteraction extends JavaPlugin
                                         tc2.setText("[Klick]");
                                         tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeMittel().get(i)));
                                         ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getFreeMittel().get(i));
-                                        DefaultDomain regionOwner = region.getOwners();
-                                        regionOwner.addPlayer(WorldGuardPlugin.inst().wrapPlayer((Player) e.getWhoClicked()));
-                                        region.setOwners(regionOwner);
-                                        e.getWhoClicked().spigot().sendMessage(tc, tc2);
+                                        if(region != null) {
+                                            DefaultDomain regionOwner = region.getOwners();
+                                            regionOwner.addPlayer(e.getWhoClicked().getName());
+                                            region.setOwners(regionOwner);
+                                            e.getWhoClicked().spigot().sendMessage(tc, tc2);
+
+                                            DefaultDomain regionMember = region.getMembers();
+                                            for(String s  : Main.getSaves().getStringList("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".raenge.Mitglieder")) {
+                                               Player pl = Bukkit.getPlayer(UUIDManipulation.getPlayernameByUUID(s));
+                                               regionMember.addPlayer(pl.getName());
+                                               region.setMembers(regionMember);
+                                               break;
+                                            }
+                                        }
+
                                     }else {
                                         e.getWhoClicked().sendMessage("Deine Gilde hat zu wenig Kronen!");
                                     }
@@ -228,6 +238,9 @@ public class InventoryInteraction extends JavaPlugin
                                     inv.setItem(7, ItemStackManipulation.getPlaceholder2());
                                     inv.setItem(8, ItemStackManipulation.getPlaceholder2());
                                     p5.openInventory(inv);
+
+                                    InventoryDispatcher.getInInventory().put(p5, true);
+                                    InventoryDispatcher.getActivePlayers().add(p5);
                                 }
 
                                 break;

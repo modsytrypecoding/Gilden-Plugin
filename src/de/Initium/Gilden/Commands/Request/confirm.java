@@ -1,5 +1,10 @@
 package de.Initium.Gilden.Commands.Request;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.Initium.Gilden.Commands.gilde_remove;
 import de.Initium.Gilden.Main.Main;
 import de.Initium.Gilden.Main.ToolBox;
@@ -30,21 +35,26 @@ public class confirm implements CommandExecutor {
                                         String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                                         if (!(temp.equals(""))) {
                                             (Bukkit.getPlayerExact(temp)).sendMessage("§6[GC] §6Der Leiter hat die Gilde verlassen!\nDie Gilde wurde aufgelöst");
+                                            break;
                                                                           }
                                     }
                                 }
                                 p.sendMessage("§aDu hast die Gilde erfolgreich verlassen");
+
+
                             }else {
                                 for (String all : playersofGilde) {
                                     if (!(p.getUniqueId().toString().equals(all))) {
                                         String temp = UUIDManipulation.getOnlinePlayerByUUID(all);
                                         if (!(temp.equals(""))) {
                                             (Bukkit.getPlayerExact(temp)).sendMessage("§6[GC] §6Der Leiter hat die Gilde verlassen!\nDie Gilde wurde aufgelöst");
+                                            break;
 
                                         }
                                     }
                                 }
                                 p.sendMessage("§aDu hast die Gilde erfolgreich verlassen");
+                                ToolBox.removeWorldGuardPerms(p);
                                 ToolBox.DelGildeToTag(ToolBox.getGildeNameOfPlayer(p));
                                 ToolBox.DelTag(ToolBox.getTagbyGilde(ToolBox.getGildeNameOfPlayer(p)));
                                 ToolBox.DelGilde(ToolBox.getGildeNameOfPlayer(p));

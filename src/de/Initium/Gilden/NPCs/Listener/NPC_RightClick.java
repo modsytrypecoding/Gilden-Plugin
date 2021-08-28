@@ -27,8 +27,9 @@ public class NPC_RightClick implements Listener
             }else {
                 pl.sendMessage("§cDu bist kein Leiter");
             }
+        }else {
+            InventoryDispatcher.caseDecision(pl, clickedNPC);
         }
-        InventoryDispatcher.caseDecision(pl, clickedNPC);
 
     }
 }

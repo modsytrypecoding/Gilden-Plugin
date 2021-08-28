@@ -47,9 +47,7 @@ public class InventoryDispatcher extends JavaPlugin
             showInv.setItem(38, ItemStackManipulation.getRequestSeeItem());
             showInv.setItem(40, ItemStackManipulation.InselShop());
             showInv.setItem(42, ItemStackManipulation.ChooseGuiItem(ToolBox.getGildeNameOfPlayer(ex)));
-        }
-        else
-        {
+        } else {
             //Set the ItemStack into the Inv
             showInv = Bukkit.createInventory(null, 9*3, ChatColor.AQUA + "Gilden");
 

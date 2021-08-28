@@ -17,7 +17,6 @@ public class Bukkit_InteractInventory implements Listener
                 InventoryDispatcher.getActivePlayers().contains(pl) &&
                     InventoryDispatcher.getInInventory().containsKey(pl))
         {
-
             InventoryInteraction.clickedItemDecision(e);
             e.setCancelled(true);
         }

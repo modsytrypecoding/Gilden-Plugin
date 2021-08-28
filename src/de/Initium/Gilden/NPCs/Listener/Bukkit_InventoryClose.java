@@ -16,7 +16,7 @@ public class Bukkit_InventoryClose implements Listener {
         ArrayList<Player> active = InventoryDispatcher.getActivePlayers();
         HashMap<Player, Boolean> inInv = InventoryDispatcher.getInInventory();
 
-        if(active.contains(pl) && inInv.containsKey(pl))
+        if(active.contains(pl) && inInv.containsKey(pl) && !e.getView().getTitle().equals("§bGilden"))
         {
             active.remove(pl);
             inInv.remove(pl);

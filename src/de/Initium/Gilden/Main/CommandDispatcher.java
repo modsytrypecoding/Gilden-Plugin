@@ -47,8 +47,11 @@ public class CommandDispatcher extends JavaPlugin
             case "top":
                 gilde_top.execute(nr);
                 break;
-            case "Requests":
+            case "requests":
                 gilde_request.execute(nr);
+                break;
+            case "test":
+                gilde_testforToolBox.execute(nr);
                 break;
             case "setHome":
             	gilde_SetHome.execute(nr);
