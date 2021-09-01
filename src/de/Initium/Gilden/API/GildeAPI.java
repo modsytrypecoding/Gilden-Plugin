@@ -45,6 +45,10 @@ public class GildeAPI
             String gilde = ToolBox.getGildeNameOfPlayer(p);
             return gilde;
         }
+        public String getGildenNameofPlayer(String player_uuid) {
+            String gilde = ToolBox.getGildeNameOfPlayer(player_uuid);
+            return gilde;
+        }
 
         public boolean awaitingResponse(Player pl)
         {

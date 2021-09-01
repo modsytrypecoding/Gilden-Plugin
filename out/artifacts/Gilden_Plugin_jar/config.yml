@@ -1,0 +1,8 @@
+settings:
+  NPC:
+    NPC_NAME: '&bTest'
+  Gilden:
+    MaxPlayer: 10
+    HomePunktCost: 1000
+    TagCost: 1000
+    MinPlayersForTag: 3
