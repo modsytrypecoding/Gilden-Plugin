@@ -21,8 +21,8 @@
     <orderEntry type="library" name="spigot-1.16.5" level="project" />
     <orderEntry type="library" name="PlayerLogger" level="project" />
     <orderEntry type="library" name="insel" level="project" />
-    <orderEntry type="library" name="HeadDatabase-4.13.0" level="project" />
     <orderEntry type="library" name="worldguard-bukkit-7.0.4" level="project" />
     <orderEntry type="library" name="FastAsyncWorldEdit-Bukkit-1.16-669" level="project" />
+    <orderEntry type="library" name="HeadDatabase-4.13.0" level="project" />
   </component>
 </module>

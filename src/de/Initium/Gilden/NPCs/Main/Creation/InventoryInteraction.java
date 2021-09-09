@@ -403,7 +403,7 @@ public class InventoryInteraction extends JavaPlugin
 
 
                             default:
-
+                                e.getWhoClicked().sendMessage("HIER NICHT");
                         }
                     }
 
@@ -661,15 +661,15 @@ public class InventoryInteraction extends JavaPlugin
         p.openInventory(inv);
     }
 
- public static void diamondClicked(Player pl, String MSG)
+    public static void diamondClicked(Player pl, String MSG)
     {
         //"".equalsIgnoreCase("");
         if(ToolBox.validateGildeName(MSG))
         {
             pl.sendMessage(
-                    "Der Gildenname \"" + MSG + "\" ist ungültig." +
+                    "Der Gildenname \"" + MSG + "\" ist ungültig.\n" +
                             "Er muss folgende Kriterien erfüllen:\n" +
-                            "- Länge: Mindestens 3 Buchstaben\n" +
+                            "- Länge: Mindestens 4 Buchstaben\n" +
                             "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
             pl.sendMessage(ChatColor.RED + "Versuche es erneut");
             return;

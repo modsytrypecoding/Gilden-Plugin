@@ -10,7 +10,6 @@ depends:
   - Vault
   - GemsEconomy
   - PlayerLogger
-  - Insel
   - WorldGuard
   - FastAsyncWorldEdit
   - WorldEdit

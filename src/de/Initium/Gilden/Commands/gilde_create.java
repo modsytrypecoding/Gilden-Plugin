@@ -28,9 +28,9 @@ public class gilde_create extends JavaPlugin
         if(ToolBox.validateGildeName(temp_gilden_name))
         {
             pl.sendMessage(
-                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungültig." +
+                    "Der Gildenname \"" + temp_gilden_name + "\" ist ungültig.\n" +
                     "Er muss folgende Kriterien erfüllen:\n" +
-                    "- Länge: Mindestens 3 Buchstaben\n" +
+                    "- Länge: Mindestens 4 Buchstaben\n" +
                     "- Nur folgender Character dürfen enthalten sein: [A-Z], [a-z]");
             return;
         }
