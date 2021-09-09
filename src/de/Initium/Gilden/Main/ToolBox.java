@@ -6,6 +6,8 @@ import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import de.Initium.Gilden.NPCs.Listener.Bukkit_InventoryClose;
+import me.xanium.gemseconomy.api.GemsEconomyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,6 +15,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.RegEx;
@@ -240,6 +243,25 @@ public class ToolBox extends JavaPlugin
         newList.remove(uuid);
         Main.getSaves().set("gilden." + gildenname + ".raenge." + rang, newList);
         Main.saveSaves();
+        if(ToolBox.getPlayerNumber(gildenname) == 1) {
+            GemsEconomyAPI api = new GemsEconomyAPI();
+           Double Value = Double.parseDouble(ToolBox.getBankValue(gildenname));
+           Double Purse = api.getBalance(UUID.fromString(uuid));
+
+           api.deposit(UUID.fromString(uuid), Purse + Value);
+           Bukkit.broadcastMessage("Test");
+           if(Main.getSaves().get("Tags." + "GildeToTag." +  gildenname)!= null) {
+               ToolBox.DelGilde(gildenname);
+               ToolBox.DelGildeToTag(gildenname);
+               ToolBox.DelTag(ToolBox.getTagbyGilde(gildenname));
+           }else {
+               ToolBox.DelGilde(gildenname);
+           }
+
+
+        }else {
+            Bukkit.broadcastMessage("Test2");
+        }
 
 
     }
@@ -560,6 +582,11 @@ public class ToolBox extends JavaPlugin
 
         }
 
+    }
+
+    public static Inventory getLastInv(Player p) {
+      Inventory inv = Bukkit_InventoryClose.lastInv.get(p);
+      return inv;
     }
 
 }

@@ -1,7 +1,6 @@
 package de.Initium.Gilden.Commands.Request;
 
 import de.Initium.Gilden.Main.ToolBox;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,9 +8,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class deny implements CommandExecutor {
+public class denyClick implements CommandExecutor {
     public static ArrayList<Player> hasCanceled = new ArrayList<>();
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {

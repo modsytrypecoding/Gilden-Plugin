@@ -1,7 +1,9 @@
 package de.Initium.Gilden.Main;
 
 import de.Initium.Gilden.Commands.Request.confirm;
+import de.Initium.Gilden.Commands.Request.confirmClick;
 import de.Initium.Gilden.Commands.Request.deny;
+import de.Initium.Gilden.Commands.Request.denyClick;
 import de.Initium.Gilden.Commands.gilde_Main;
 import de.Initium.Gilden.Commands.Chat.GildenChat_Short;
 import de.Initium.Gilden.Listener.CloseEvent;
@@ -48,6 +50,8 @@ public class Main extends JavaPlugin {
 		getCommand("gilde").setTabCompleter(new gilde_Main());
 		getCommand("confirm").setExecutor(new confirm());
 		getCommand("deny").setExecutor(new deny());
+		getCommand("confirmClick").setExecutor(new confirmClick());
+		getCommand("denyClick").setExecutor(new denyClick());
 
 
 		//Creation of the saves.yml

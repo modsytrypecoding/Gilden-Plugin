@@ -43,9 +43,25 @@ public class InventoryInteraction extends JavaPlugin
 
     public static void clickedItemDecision(InventoryClickEvent e)
     {
+
+        if(e.getCursor().equals(ItemStackManipulation.BackArrow())) {
+            Player player = (Player) e.getWhoClicked();
+            player.openInventory(ToolBox.getLastInv(player));
+        }
         if(e.getView().getTitle().equalsIgnoreCase("Item-Auswahl")) {
                 if(e.getView().getTopInventory().getItem(4) == null) {
-                    e.getInventory().setItem(4, e.getCurrentItem());
+                    if(!(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(" ")))   {
+                        if(!(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfZur¸ck"))) {
+                            e.getInventory().setItem(4, e.getCurrentItem());
+                            e.getInventory().getItem(4).setAmount(1);
+                        }else {
+                            Player player = (Player) e.getWhoClicked();
+                            player.openInventory(ToolBox.getLastInv(player));
+                        }
+                    }else {
+                        e.setCancelled(true);
+                    }
+
                 }else {
                     Main.getSaves().set("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock", null);
                     Main.saveSaves();
@@ -55,10 +71,16 @@ public class InventoryInteraction extends JavaPlugin
         if(e.getView().getTitle().equalsIgnoreCase("Gilde-Liste")) {
             if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
                 Player p4 = (Player) e.getWhoClicked();
-                Request((Player) e.getWhoClicked(), e.getCurrentItem().getItemMeta().getDisplayName());
-                p4.closeInventory();
+                if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfZur¸ck")) {
+                    Player player = (Player) e.getWhoClicked();
+                    player.openInventory(ToolBox.getLastInv(player));
+                }else {
+                    Request((Player) e.getWhoClicked(), e.getCurrentItem().getItemMeta().getDisplayName());
+                    p4.closeInventory();
+                }
 
             }
+
         }
         if(e.getClickedInventory() != null) {
             if (e.getClickedInventory().equals(e.getView().getTopInventory())) {
@@ -85,10 +107,20 @@ public class InventoryInteraction extends JavaPlugin
                                 break;
                             case IRON_DOOR:
                                 Player p3 = (Player) e.getWhoClicked();
-                                ToolBox.removePlayerfromGilde(p3.getUniqueId().toString(), ToolBox.getGildeNameOfPlayer(p3));
-                                p3.sendMessage("ßaDu hast die Gilde erfolgreich verlassen");
-                                CreationResponse.cleanup(p3);
                                 p3.closeInventory();
+                                p3.sendMessage("Willst du die Gilde wirklich verlassen?");
+                                TextComponent tc = new TextComponent();
+                                TextComponent tc2 = new TextComponent();
+                                tc.setText("ß7[ßcJaß7] ");
+                                tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/confirmClick"));
+                                tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("ßcBest‰tigen")));
+
+                                tc2.setText("ß7[ßaNeinß7] ");
+                                tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/denyClick"));
+                                tc2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("ßaAbbrechen")));
+                                p3.spigot().sendMessage(tc, tc2);
+                                CreationResponse.cleanup(p3);
+
                                 break;
                             case WRITABLE_BOOK:
                                 WrittenBookClick((Player) e.getWhoClicked());
@@ -111,6 +143,10 @@ public class InventoryInteraction extends JavaPlugin
                                         clickedGlobe((Player) e.getWhoClicked());
                                     }
 
+                                }
+                                if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfZur¸ck")) {
+                                    Player player = (Player) e.getWhoClicked();
+                                    player.openInventory(ToolBox.getLastInv(player));
                                 }
                                 if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("ßfMittlere Insel")) {
 
@@ -136,18 +172,18 @@ public class InventoryInteraction extends JavaPlugin
                                         Main.saveInselConfig();
                                         e.getWhoClicked().closeInventory();
 
-                                        TextComponent tc = new TextComponent();
-                                        TextComponent tc2 = new TextComponent();
+                                        TextComponent tcr = new TextComponent();
+                                        TextComponent tcr2 = new TextComponent();
 
-                                        tc.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
-                                        tc2.setText("[Klick]");
-                                        tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeMittel().get(i)));
+                                        tcr.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
+                                        tcr2.setText("[Klick]");
+                                        tcr2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeMittel().get(i)));
                                         ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getFreeMittel().get(i));
                                         if(region != null) {
                                             DefaultDomain regionOwner = region.getOwners();
                                             regionOwner.addPlayer(e.getWhoClicked().getName());
                                             region.setOwners(regionOwner);
-                                            e.getWhoClicked().spigot().sendMessage(tc, tc2);
+                                            e.getWhoClicked().spigot().sendMessage(tcr, tcr2);
 
                                             DefaultDomain regionMember = region.getMembers();
                                             for(String s  : Main.getSaves().getStringList("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".raenge.Mitglieder")) {
@@ -190,17 +226,17 @@ public class InventoryInteraction extends JavaPlugin
                                             Main.saveInselConfig();
                                             e.getWhoClicked().closeInventory();
 
-                                            TextComponent tc = new TextComponent();
-                                            TextComponent tc2 = new TextComponent();
+                                            TextComponent tc0 = new TextComponent();
+                                            TextComponent tc3 = new TextComponent();
 
-                                            tc.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
-                                            tc2.setText("[Klick]");
-                                            tc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeGross().get(i)));
+                                            tc0.setText("Der Kauf war erfolgreich!\nKlicke hier um der neuen Insel deiner Gilde zu teleportieren ");
+                                            tc3.setText("[Klick]");
+                                            tc3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/region tp insel-" + ToolBox.getFreeGross().get(i)));
                                             ProtectedRegion region = regions.getRegion("insel-" + ToolBox.getFreeMittel().get(i));
                                             DefaultDomain regionOwner = region.getOwners();
                                             regionOwner.addPlayer(WorldGuardPlugin.inst().wrapPlayer((Player) e.getWhoClicked()));
                                             region.setOwners(regionOwner);
-                                            e.getWhoClicked().spigot().sendMessage(tc, tc2);
+                                            e.getWhoClicked().spigot().sendMessage(tc0, tc3);
                                         }else {
                                             e.getWhoClicked().sendMessage("Deine Gilde hat zu wenig Kronen!");
                                         }
@@ -337,7 +373,7 @@ public class InventoryInteraction extends JavaPlugin
                                         e.getWhoClicked().sendMessage("Der Wert deiner Gilden-Kasse ist zu niedrig!");
                                     }
                                 }else {
-                                    Inventory inv2 = Bukkit.createInventory(null, 9, "Item-Auswahl");
+                                    Inventory inv2 = Bukkit.createInventory(null, 9*2, "Item-Auswahl");
                                     inv2.setItem(0, ItemStackManipulation.getPlaceholder2());
                                     inv2.setItem(1, ItemStackManipulation.getPlaceholder2());
                                     inv2.setItem(2, ItemStackManipulation.getPlaceholder2());
@@ -346,6 +382,15 @@ public class InventoryInteraction extends JavaPlugin
                                     inv2.setItem(6, ItemStackManipulation.getPlaceholder2());
                                     inv2.setItem(7, ItemStackManipulation.getPlaceholder2());
                                     inv2.setItem(8, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(13, ItemStackManipulation.BackArrow());
+                                    inv2.setItem(9, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(10, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(11, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(12, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(14, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(15, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(16, ItemStackManipulation.getPlaceholder2());
+                                    inv2.setItem(17, ItemStackManipulation.getPlaceholder2());
 
                                     if(Main.getSaves().get("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock") != null) {
                                         inv2.setItem(4, Main.getSaves().getItemStack("gilden." + ToolBox.getGildeNameOfPlayer((Player) e.getWhoClicked()) + ".Information.GuiBlock"));
@@ -443,7 +488,7 @@ public class InventoryInteraction extends JavaPlugin
     }
 
     public static void clickedGlobe(Player p) {
-        Inventory inv = Bukkit.createInventory(null, 9, "Insel-Shop");
+        Inventory inv = Bukkit.createInventory(null, 9*3, "Insel-Shop");
         HeadDatabaseAPI api = new HeadDatabaseAPI();
         if(ToolBox.getPlayerNumber(ToolBox.getGildeNameOfPlayer(p)) >= 7) {
             ItemStack Mittel = api.getItemHead("17006");
@@ -493,6 +538,7 @@ public class InventoryInteraction extends JavaPlugin
             Groﬂ.setItemMeta(g);
             inv.setItem(5, Groﬂ);
         }
+        inv.setItem(22, ItemStackManipulation.BackArrow());
         p.openInventory(inv);
 
     }
@@ -568,10 +614,12 @@ public class InventoryInteraction extends JavaPlugin
 
                     item.setItemMeta(im);
 
+
                     inv.addItem(item);
                 }
             }
         }
+        inv.setItem(35, ItemStackManipulation.BackArrow());
         p.openInventory(inv);
     }
     public static void BookClick(Player p, String gildenname) {
@@ -605,9 +653,11 @@ public class InventoryInteraction extends JavaPlugin
 
 
                 Skull.setItemMeta(sm);
+
                 inv.addItem(Skull);
             }
         }
+        inv.setItem(35, ItemStackManipulation.BackArrow());
         p.openInventory(inv);
     }
 

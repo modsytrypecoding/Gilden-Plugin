@@ -132,7 +132,8 @@ public class ItemStackManipulation extends JavaPlugin
         bm.setDisplayName("Gilden");
         bm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("Sehe eine Liste aller Gilden die Anfragen erlauben.");
+        lore.add("Sehe eine Liste aller Gilden,");
+        lore.add("die Anfragen erlauben.");
         bm.setLore(lore);
 
         Book.setItemMeta(bm);
@@ -193,4 +194,14 @@ public class ItemStackManipulation extends JavaPlugin
         CustomHead.setItemMeta(cm);
         return   CustomHead;
     }
+
+    public static ItemStack BackArrow()  {
+        HeadDatabaseAPI api = new HeadDatabaseAPI();
+        ItemStack back = api.getItemHead("8790");
+        ItemMeta bm = back.getItemMeta();
+        bm.setDisplayName("§fZurück");
+        back.setItemMeta(bm);
+        return back;
+    }
+
 }

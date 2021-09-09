@@ -27,5 +27,9 @@ commands:
     description: Plugin-Extension
   deny:
     description: Plugin-Extension
+  confirmClick:
+    description: For clicked Conformation
+  denyClick:
+    description: For clicked deny
   insel:
     description: Main InselCMD
